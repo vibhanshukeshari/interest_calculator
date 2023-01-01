@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:forceDarkAllowed="false"
+    android:background="@color/light_blue"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CalculatorFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#39434d"
+        android:orientation="horizontal"
+        android:paddingTop="0.2dp" />
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:nestedScrollingEnabled="false"-->
+<!--        android:id="@+id/recyclerViewAsia">-->
+
+
+
+<!--    </androidx.recyclerview.widget.RecyclerView>-->
+</FrameLayout>
+
