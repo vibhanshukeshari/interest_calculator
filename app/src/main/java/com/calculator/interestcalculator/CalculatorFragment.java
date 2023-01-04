@@ -9,11 +9,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
-public class CalculatorFragment extends Fragment {
+public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     RecyclerView recyclerView;
     View view;
+    String[] rateType = { "Yearly", "Monthly","Quarterly","Bi-Annually"};
 
 
 
@@ -28,6 +33,16 @@ public class CalculatorFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view =   inflater.inflate(R.layout.fragment_calculator, container, false);
+
+        Spinner spin = view.findViewById(R.id.spinner);
+        spin.setOnItemSelectedListener(this);
+
+        //Creating the ArrayAdapter instance having the country list
+        ArrayAdapter aa = new ArrayAdapter(getContext(),android.R.layout.simple_spinner_item,rateType);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Setting the ArrayAdapter data on the Spinner
+        spin.setAdapter(aa);
+
 
 //        setRetainInstance(true);
 
@@ -50,6 +65,16 @@ public class CalculatorFragment extends Fragment {
 
         return view;
 
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//        Toast.makeText(getContext(),rateType[rateType.length] , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
 
     }
 }

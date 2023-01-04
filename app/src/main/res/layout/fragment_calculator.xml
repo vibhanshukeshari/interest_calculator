@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:forceDarkAllowed="false"
-    android:background="@color/light_blue"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:forceDarkAllowed="false"
+    android:background="@color/dark_blue"
     tools:context=".CalculatorFragment">
 
     <LinearLayout
@@ -15,14 +15,235 @@
         android:orientation="horizontal"
         android:paddingTop="0.2dp" />
 
-<!--    <androidx.recyclerview.widget.RecyclerView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:nestedScrollingEnabled="false"-->
-<!--        android:id="@+id/recyclerViewAsia">-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_blue"
+            android:orientation="vertical">
 
 
 
-<!--    </androidx.recyclerview.widget.RecyclerView>-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Principal Amount"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="7.5dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                app:boxStrokeWidth="0.5dp"
+                app:boxStrokeWidthFocused="0.8dp"
+                app:boxBackgroundColor="@color/dark_blue"
+                app:boxStrokeColor="@color/box_stroke_color"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:padding="6dp"
+                    android:textColorHint="@color/light_white"
+                    android:inputType="numberDecimal"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="Interest Rate (%)"
+                    android:layout_marginBottom="7.5dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="7.5dp"
+                    app:boxStrokeWidth="0.5dp"
+                    app:boxStrokeWidthFocused="0.8dp"
+                    app:boxBackgroundColor="@color/dark_blue"
+                    app:boxStrokeColor="@color/box_stroke_color"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:padding="6dp"
+                        android:textColorHint="@color/light_white"
+                        android:inputType="numberDecimal"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Spinner
+                    android:id="@+id/spinner"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.7"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginTop="7.5dp"
+                    android:layout_marginBottom="7.5dp"
+                    android:layout_gravity="center"
+                    android:backgroundTint="@color/light_white"
+                    android:popupBackground="@color/dark_blue"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:text="Time Period:"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:checkedButton="@id/radio_button_duration"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/radio_button_duration"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
+                        android:buttonTint="@color/button_tint"
+                        android:text="Duration"
+                        android:textColor="@color/button_tint" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/radio_button_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:buttonTint="@color/button_tint"
+                        android:text="Date"
+                        android:textColor="@color/button_tint" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="Year"
+                    android:layout_marginBottom="12.5dp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="5dp"
+
+                    app:boxStrokeWidth="0.5dp"
+                    app:boxStrokeWidthFocused="0.8dp"
+                    app:boxBackgroundColor="@color/dark_blue"
+                    app:boxStrokeColor="@color/box_stroke_color"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:padding="6dp"
+                        android:imeOptions="actionNext"
+                        android:textColorHint="@color/light_white"
+                        android:inputType="numberDecimal"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="Month"
+                    android:layout_marginBottom="12.5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    app:boxStrokeWidth="0.5dp"
+                    app:boxStrokeWidthFocused="0.8dp"
+                    app:boxBackgroundColor="@color/dark_blue"
+                    app:boxStrokeColor="@color/box_stroke_color"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:imeOptions="actionNext"
+                        android:inputType="numberDecimal"
+                        android:padding="6dp"
+                        android:textColorHint="@color/light_white"
+                        android:textSize="18sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:hint="Day"
+                    android:layout_marginBottom="12.5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="25dp"
+                    app:boxStrokeWidth="0.5dp"
+                    app:boxStrokeWidthFocused="0.8dp"
+                    app:boxBackgroundColor="@color/dark_blue"
+                    app:boxStrokeColor="@color/box_stroke_color"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="18sp"
+                        android:padding="6dp"
+                        android:textColorHint="@color/light_white"
+                        android:inputType="numberDecimal"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <DatePicker
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
 </FrameLayout>
 

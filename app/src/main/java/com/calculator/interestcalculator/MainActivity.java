@@ -5,11 +5,18 @@ package com.calculator.interestcalculator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,33 +28,55 @@ import android.widget.LinearLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
     BottomNavigationView mBottomNavigation;
     private ViewPagerAdapter mViewPagerAdapter;
     private ViewPager viewPager;
     private LinearLayout bottomLinearLayout;
+    Menu menu;
+    private MaterialButton btnSimpleInterest;
+    private MaterialButton btnCompoundInterest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar = findViewById(R.id.myToolBar);
+        setSupportActionBar(toolbar);
 
 
-//        Objects.requireNonNull(getSupportActionBar()).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.light_blue)));
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#15202b")));
+
 
         viewPager = findViewById(R.id.view_pager);
         mBottomNavigation = findViewById(R.id.bottom_navigation);
         bottomLinearLayout = findViewById(R.id.controller);
+        DrawerLayout drawerLayout = findViewById(R.id.drawer);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        btnSimpleInterest = findViewById(R.id.btn_simple_interest);
+        btnCompoundInterest = findViewById(R.id.btn_compound_interest);
 
-//        bottomLinearLayout.setVisibility(View.INVISIBLE);
+
+
+        ActionBarDrawerToggle toggle;
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(true);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.bringToFront();
+
+        menu = navigationView.getMenu();
+
+
 
         mBottomNavigation.setOnNavigationItemSelectedListener(this);
 
@@ -55,6 +84,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         viewPager.setAdapter(mViewPagerAdapter);
         viewPager.setOffscreenPageLimit(2);
 
+
+        try {
+
+            btnSimpleInterest.setBackgroundColor(Color.parseColor("#1da1f3"));
+
+        } catch (NullPointerException ignored){}
 
 
 
@@ -104,6 +139,47 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
+        btnSimpleInterest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+
+                    btnSimpleInterest.setBackgroundColor(Color.parseColor("#1da1f3"));
+                    btnSimpleInterest.setTextColor(Color.parseColor("#ffffff"));
+                    btnSimpleInterest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.simple_icon, 0, 0, 0);
+
+
+
+                    btnCompoundInterest.setBackgroundColor(Color.parseColor("#15202b"));
+                    btnCompoundInterest.setTextColor(Color.parseColor("#8899a6"));
+                    btnCompoundInterest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.compound_icon_unchecked, 0, 0, 0);
+
+
+
+                } catch (NullPointerException ignored){}
+
+
+            }
+        });
+
+        btnCompoundInterest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+
+                    btnCompoundInterest.setBackgroundColor(Color.parseColor("#1da1f3"));
+                    btnCompoundInterest.setTextColor(Color.parseColor("#ffffff"));
+                    btnCompoundInterest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.compound_icon, 0, 0, 0);
+
+
+                    btnSimpleInterest.setBackgroundColor(Color.parseColor("#15202b"));
+                    btnSimpleInterest.setTextColor(Color.parseColor("#8899a6"));
+                    btnSimpleInterest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.simple_icon_unchecked, 0, 0, 0);
+
+                }catch (NullPointerException ignored){}
+
+            }
+        });
 
 
 
@@ -121,6 +197,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 viewPager.setCurrentItem(1);
                 break;
         }
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
 }
