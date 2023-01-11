@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
 }
 
+
 android {
     compileSdk 32
 
@@ -15,6 +16,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+
     buildTypes {
         release {
             minifyEnabled false
@@ -27,6 +29,10 @@ android {
     }
 }
 
+
+
+
+
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
@@ -37,4 +43,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     def multidex_version = "2.0.1"
     implementation "androidx.multidex:multidex:$multidex_version"
+//    implementation 'com.github.blackfizz:eazegraph:1.2.5l@aar'
+//    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.github.blackfizz:eazegraph:1.2.2@aar'
+    implementation 'com.nineoldandroids:library:2.4.0'
+    implementation 'com.hbb20:ccp:2.5.0'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.robinhood.ticker:ticker:2.0.4'
 }

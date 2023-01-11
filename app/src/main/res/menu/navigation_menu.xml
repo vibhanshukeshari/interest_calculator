@@ -2,70 +2,55 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:title="Settings">
+
+    <item android:title="Setting :">
         <menu>
-            <group android:checkableBehavior="none">
                 <item
-                    android:id="@+id/sound"
+                    android:id="@+id/currency"
+                    app:actionLayout="@layout/drawer_switch"
                     android:icon="@drawable/simple_icon"
-                    android:title="Teller balance sound" />
-                <item
-                    android:id="@+id/finger_print"
-                    android:icon="@drawable/simple_icon"
-                    android:title="Fingerprint authentication" />
-            </group>
+                    android:title="Currency" />
+
+
         </menu>
     </item>
-
-
-
-    <item android:title="Communicate">
+    <item android:title="Communicates :">
         <menu>
             <item
                 android:title="Share app"
-                android:icon="@drawable/simple_icon"
+                android:icon="@drawable/ic_baseline_share_24"
+                android:iconTint="@color/highlight_blue"
                 android:id="@+id/share_app" />
 
             <item
                 android:title="Rate us"
-                android:icon="@drawable/simple_icon"
+                android:icon="@drawable/ic_baseline_star_rate_24"
                 android:id="@+id/rate_us" />
 
 
             <item
                 android:title="Feedback"
-                android:icon="@drawable/simple_icon"
+                android:icon="@drawable/ic_baseline_feedback_24"
                 android:id="@+id/feedback" />
 
         </menu>
     </item>
 
 
-
-
-    <item android:title="Legal documents">
+    <item android:title="Legal documents :">
         <menu>
 
 
             <item
                 android:title="Privacy policy"
-                android:icon="@drawable/simple_icon"
+                android:icon="@drawable/ic_baseline_privacy_tip_24"
                 android:id="@+id/privacy" />
 
 
             <item
                 android:title="Term of use"
-                android:icon="@drawable/simple_icon"
+                android:icon="@drawable/ic_baseline_term_of_use_24"
                 android:id="@+id/term_and_condition" />
         </menu>
     </item>
-
 </menu>
-
-
-
-
-
-
-
-

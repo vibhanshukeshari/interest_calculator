@@ -4,35 +4,22 @@ package com.calculator.interestcalculator;
 
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-
-import android.content.res.ColorStateList;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.LinearLayout;
-
-
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
+import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.tabs.TabLayout;
-
-import java.util.Objects;
+import com.hbb20.CountryCodePicker;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -44,16 +31,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private MaterialButton btnSimpleInterest;
     private MaterialButton btnCompoundInterest;
 
+    private TextView textViewFooterTotalAmount;
+
+    CountryCodePicker ccp;
+    TextView textViewCurrencySymbol;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.myToolBar);
         setSupportActionBar(toolbar);
-
-
-
-
 
         viewPager = findViewById(R.id.view_pager);
         mBottomNavigation = findViewById(R.id.bottom_navigation);
@@ -62,8 +50,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         NavigationView navigationView = findViewById(R.id.navigation_view);
         btnSimpleInterest = findViewById(R.id.btn_simple_interest);
         btnCompoundInterest = findViewById(R.id.btn_compound_interest);
-
-
+        textViewFooterTotalAmount = findViewById(R.id.text_view_footer_total_amount);
 
         ActionBarDrawerToggle toggle;
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -76,7 +63,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         menu = navigationView.getMenu();
 
-
+        ccp = MenuItemCompat.getActionView(menu.findItem(R.id.currency)).findViewById(R.id.ccp);
+        textViewCurrencySymbol = MenuItemCompat.getActionView(menu.findItem(R.id.currency)).findViewById(R.id.text_view_currency_symbol);
 
         mBottomNavigation.setOnNavigationItemSelectedListener(this);
 
@@ -84,14 +72,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         viewPager.setAdapter(mViewPagerAdapter);
         viewPager.setOffscreenPageLimit(2);
 
-
         try {
 
             btnSimpleInterest.setBackgroundColor(Color.parseColor("#1da1f3"));
 
         } catch (NullPointerException ignored){}
-
-
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -138,53 +123,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });
-
-        btnSimpleInterest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-
-                    btnSimpleInterest.setBackgroundColor(Color.parseColor("#1da1f3"));
-                    btnSimpleInterest.setTextColor(Color.parseColor("#ffffff"));
-                    btnSimpleInterest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.simple_icon, 0, 0, 0);
-
-
-
-                    btnCompoundInterest.setBackgroundColor(Color.parseColor("#15202b"));
-                    btnCompoundInterest.setTextColor(Color.parseColor("#8899a6"));
-                    btnCompoundInterest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.compound_icon_unchecked, 0, 0, 0);
-
-
-
-                } catch (NullPointerException ignored){}
-
-
-            }
-        });
-
-        btnCompoundInterest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-
-                    btnCompoundInterest.setBackgroundColor(Color.parseColor("#1da1f3"));
-                    btnCompoundInterest.setTextColor(Color.parseColor("#ffffff"));
-                    btnCompoundInterest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.compound_icon, 0, 0, 0);
-
-
-                    btnSimpleInterest.setBackgroundColor(Color.parseColor("#15202b"));
-                    btnSimpleInterest.setTextColor(Color.parseColor("#8899a6"));
-                    btnSimpleInterest.setCompoundDrawablesWithIntrinsicBounds(R.drawable.simple_icon_unchecked, 0, 0, 0);
-
-                }catch (NullPointerException ignored){}
-
-            }
-        });
-
-
-
-
-
     }
 
     @Override

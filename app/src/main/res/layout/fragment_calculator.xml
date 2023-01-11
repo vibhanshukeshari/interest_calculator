@@ -8,101 +8,136 @@
     android:background="@color/dark_blue"
     tools:context=".CalculatorFragment">
 
-    <LinearLayout
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#39434d"
-        android:orientation="horizontal"
-        android:paddingTop="0.2dp" />
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/light_blue"
             android:orientation="vertical">
 
-
-
-            <com.google.android.material.textfield.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Principal Amount"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="7.5dp"
+                android:background="#39434d"
+                android:orientation="horizontal"
+                android:paddingTop="0.2dp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="25dp"
+                android:layout_marginTop="15dp"
                 android:layout_marginEnd="25dp"
-                app:boxStrokeWidth="0.5dp"
-                app:boxStrokeWidthFocused="0.8dp"
+                android:layout_marginBottom="15dp"
                 app:boxBackgroundColor="@color/dark_blue"
+                android:hint="Principal Amount"
+                android:textColorHint="@color/light_white"
                 app:boxStrokeColor="@color/box_stroke_color"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                app:boxStrokeWidth="0.5dp"
+                app:boxStrokeWidthFocused="0.8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_text_principal_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:padding="6dp"
-                    android:textColorHint="@color/light_white"
                     android:inputType="numberDecimal"
-                    />
+                    android:padding="6dp"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-
-
-
-                <com.google.android.material.textfield.TextInputLayout
+                <TextView
+                    android:id="@+id/text_view_interest_rate_type"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="Interest Rate (%)"
-                    android:layout_marginBottom="7.5dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="25dp"
                     android:layout_marginEnd="5dp"
-                    android:layout_marginTop="7.5dp"
-                    app:boxStrokeWidth="0.5dp"
-                    app:boxStrokeWidthFocused="0.8dp"
+                    android:singleLine="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:scrollHorizontally="true"
+                    android:text="Interest Rate Type :"
+                    android:textColor="@color/light_white"
+                    android:textSize="18sp" />
+
+
+
+                    <Spinner
+                        android:id="@+id/spinner_interest_rate_type"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="30dp"
+                        android:textAlignment="textEnd"
+                        android:layout_marginEnd="25dp"
+                        android:layout_weight="1"
+                        android:backgroundTint="@color/highlight_blue"
+                        android:popupBackground="@color/dark_blue" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="7.5dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:id="@+id/edit_text_layout_interest_rate"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    android:textColorHint="@color/light_white"
                     app:boxBackgroundColor="@color/dark_blue"
                     app:boxStrokeColor="@color/box_stroke_color"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    app:boxStrokeWidth="0.5dp"
+                    app:boxStrokeWidthFocused="0.8dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:padding="6dp"
-                        android:textColorHint="@color/light_white"
+                        android:id="@+id/edit_text_interest_rate"
                         android:inputType="numberDecimal"
-                        />
+                        android:padding="6dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-
                 <Spinner
-                    android:id="@+id/spinner"
+                    android:forceDarkAllowed="true"
+                    android:id="@+id/spinner_interest_rate_period"
                     android:layout_width="0dp"
-                    android:layout_weight="0.7"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="30dp"
+                    android:textAlignment="textEnd"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="25dp"
-                    android:layout_marginTop="7.5dp"
-                    android:layout_marginBottom="7.5dp"
-                    android:layout_gravity="center"
-                    android:backgroundTint="@color/light_white"
-                    android:popupBackground="@color/dark_blue"
-                    android:layout_height="wrap_content"/>
+                    android:layout_weight="0.7"
+                    android:backgroundTint="@color/highlight_blue"
+                    android:popupBackground="@color/dark_blue" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
                 <TextView
@@ -110,140 +145,665 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="25dp"
-                    android:layout_marginBottom="2.5dp"
-                    android:text="Time Period:"
-                    android:textColor="@color/white"
-                    android:textSize="20sp" />
+                    android:text="Time Period :"
+                    android:textColor="@color/light_white"
+                    android:textSize="18sp" />
 
-                <RadioGroup
-                    android:layout_width="wrap_content"
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="25dp"
-                    android:layout_marginBottom="2.5dp"
-                    android:checkedButton="@id/radio_button_duration"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_marginEnd="25dp">
 
-                    <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/radio_button_duration"
+                    <RadioGroup
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="5dp"
-                        android:buttonTint="@color/button_tint"
-                        android:text="Duration"
-                        android:textColor="@color/button_tint" />
+                        android:layout_marginStart="10dp"
+                        android:checkedButton="@id/radio_button_duration"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
 
-                    <com.google.android.material.radiobutton.MaterialRadioButton
-                        android:id="@+id/radio_button_date"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
-                        android:buttonTint="@color/button_tint"
-                        android:text="Date"
-                        android:textColor="@color/button_tint" />
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_button_duration"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:buttonTint="@color/button_tint"
+                            android:text="Duration"
+                            android:checked="true"
+                            android:textColor="@color/button_tint"/>
 
-                </RadioGroup>
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                            android:id="@+id/radio_button_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="5dp"
+                            android:layout_marginEnd="25dp"
+                            android:buttonTint="@color/button_tint"
+                            android:text="Date"
+                            android:textColor="@color/button_tint"/>
+
+                    </RadioGroup>
+                </HorizontalScrollView>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                <LinearLayout
+                    android:id="@+id/linear_layout_duration"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Year"
-                    android:layout_marginBottom="12.5dp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginTop="7.5dp"
+                    android:layout_marginBottom="7.5dp"
+                    android:orientation="horizontal">
 
-                    app:boxStrokeWidth="0.5dp"
-                    app:boxStrokeWidthFocused="0.8dp"
-                    app:boxBackgroundColor="@color/dark_blue"
-                    app:boxStrokeColor="@color/box_stroke_color"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:padding="6dp"
-                        android:imeOptions="actionNext"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="7.5dp"
+                        android:layout_weight="1"
+                        android:hint="Year"
+                        app:boxBackgroundColor="@color/dark_blue"
+                        app:boxStrokeColor="@color/box_stroke_color"
+                        app:boxStrokeWidth="0.5dp"
                         android:textColorHint="@color/light_white"
-                        android:inputType="numberDecimal"
-                        />
-                </com.google.android.material.textfield.TextInputLayout>
+                        app:boxStrokeWidthFocused="0.8dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_text_year"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="numberDecimal"
+                            android:padding="6dp"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="7.5dp"
+                        android:layout_weight="1"
+                        android:hint="Month"
+                        app:boxBackgroundColor="@color/dark_blue"
+                        app:boxStrokeColor="@color/box_stroke_color"
+                        app:boxStrokeWidth="0.5dp"
+                        android:textColorHint="@color/light_white"
+                        app:boxStrokeWidthFocused="0.8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_text_month"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:imeOptions="actionNext"
+                            android:inputType="numberDecimal"
+                            android:padding="6dp"
+                            android:textColor="@color/white"
+                            android:textSize="18sp"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginBottom="7.5dp"
+                        android:layout_weight="1"
+                        android:hint="Day"
+                        android:textColorHint="@color/light_white"
+                        app:boxBackgroundColor="@color/dark_blue"
+                        app:boxStrokeColor="@color/box_stroke_color"
+                        app:boxStrokeWidth="0.5dp"
+                        app:boxStrokeWidthFocused="0.8dp">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_text_day"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:padding="6dp"
+                            android:textColor="@color/white"
+                            android:textSize="18sp" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/duration_bottom_line"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Month"
-                    android:layout_marginBottom="12.5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    app:boxStrokeWidth="0.5dp"
-                    app:boxStrokeWidthFocused="0.8dp"
-                    app:boxBackgroundColor="@color/dark_blue"
-                    app:boxStrokeColor="@color/box_stroke_color"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionNext"
-                        android:inputType="numberDecimal"
-                        android:padding="6dp"
-                        android:textColorHint="@color/light_white"
-                        android:textSize="18sp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:hint="Day"
-                    android:layout_marginBottom="12.5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="25dp"
-                    app:boxStrokeWidth="0.5dp"
-                    app:boxStrokeWidthFocused="0.8dp"
-                    app:boxBackgroundColor="@color/dark_blue"
-                    app:boxStrokeColor="@color/box_stroke_color"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="18sp"
-                        android:padding="6dp"
-                        android:textColorHint="@color/light_white"
-                        android:inputType="numberDecimal"
-                        />
-                </com.google.android.material.textfield.TextInputLayout>
-
+                    android:background="#39434d"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.2dp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:id="@+id/linear_layout_date"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <DatePicker
+                android:orientation="vertical">
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="7.5dp"
+                    android:layout_marginEnd="25dp"
+                    android:text="From Date :"
+                    android:textColor="@color/light_white"
+                    android:textSize="18sp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/from_date_editText_layout"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:hint="DD/MM/YYYY"
+                    app:boxBackgroundColor="@color/dark_blue"
+                    app:boxStrokeColor="@color/box_stroke_color"
+                    app:boxStrokeWidth="0.5dp"
+                    android:textColorHint="@color/light_white"
+                    app:boxStrokeWidthFocused="0.8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/from_date_editText"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:clickable="false"
+                        android:textColor="@color/white"
+                        android:imeOptions="actionNext"
+                        android:drawableEnd="@drawable/date_picker"
+                        android:paddingEnd="5dp"
+                        android:drawableTint="@color/highlight_blue"
+                        android:focusableInTouchMode="false"
+                        android:inputType="numberDecimal"
+                        android:padding="6dp"
+                        android:textSize="18sp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="25dp"
+                    android:text="To Date :"
+                    android:textColor="@color/light_white"
+                    android:textSize="18sp"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginEnd="25dp"
+                    android:layout_marginBottom="15dp"
+                    android:hint="DD/MM/YYYY"
+                    android:textColorHint="@color/light_white"
+                    app:boxBackgroundColor="@color/dark_blue"
+                    app:boxStrokeColor="@color/box_stroke_color"
+                    app:boxStrokeWidth="0.5dp"
+                    app:boxStrokeWidthFocused="0.8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/to_date_editText"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:imeOptions="actionNext"
+                        android:textColor="@color/white"
+                        android:drawableEnd="@drawable/date_picker"
+                        android:paddingEnd="5dp"
+                        android:drawableTint="@color/highlight_blue"
+                        android:focusableInTouchMode="false"
+                        android:inputType="numberDecimal"
+                        android:padding="6dp"
+                        android:textSize="18sp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="15dp"
+                android:gravity="center"
+                android:id="@+id/linear_layout_compounding_frequency"
+                android:orientation="horizontal">
+
+
+               <TextView
+                   android:id="@+id/text_view_compounding_frequency"
+                   android:layout_width="0dp"
+                   android:layout_height="wrap_content"
+                   android:layout_weight="1"
+                   android:text="Compounding Frequency :"
+                   android:singleLine="true"
+                   android:scrollHorizontally="true"
+                   android:ellipsize="marquee"
+                   android:marqueeRepeatLimit="marquee_forever"
+                   android:focusable="false"
+                   android:textSize="18sp"
+                   android:layout_marginEnd="5dp"
+                   android:textColor="@color/light_white"/>
+
+                <Spinner
+                    android:id="@+id/spinner_compounding_frequency"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingEnd="30dp"
+                    android:textAlignment="textEnd"
+                    android:layout_weight="0.7"
+                    android:backgroundTint="@color/highlight_blue"
+                    android:popupBackground="@color/dark_blue"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#39434d"
+                android:orientation="horizontal"
+                android:paddingTop="0.2dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/dark_blue"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#39434d"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.2dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Results :"
+                    android:textSize="12sp"
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginEnd="25dp"
+                    android:textColor="@color/light_white"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_view_result_principal"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Principal Amount"
+                        android:singleLine="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/light_white"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="5dp"/>
+
+<!--                    <TextView-->
+<!--                        android:id="@+id/text_view_principal_amount"-->
+<!--                        android:layout_width="0dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="0"-->
+<!--                        android:textAlignment="textEnd"-->
+<!--                        android:textSize="18sp"-->
+<!--                        android:textColor="@color/white"-->
+<!--                        android:layout_marginBottom="5dp"-->
+<!--                        android:layout_marginStart="5dp"-->
+<!--                        android:layout_marginEnd="25dp"/>-->
+
+
+                    <com.robinhood.ticker.TickerView
+                        android:id="@+id/text_view_principal_amount"
+                        android:textSize="18sp"
+                        android:text="0"
+                        android:layout_weight="1"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="25dp"
+                        android:textAlignment="textEnd"
+                        android:textColor="@color/white"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_view_result_interest"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Interest Amount"
+                        android:singleLine="true"
+                        android:textSize="18sp"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/light_white"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"/>
+
+                    <TextView
+                        android:id="@+id/text_view_interest_amount"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textAlignment="textEnd"
+                        android:textSize="18sp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="25dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/text_view_result_total"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Total Amount"
+                        android:singleLine="true"
+                        android:textSize="18sp"
+                        android:textColor="@color/light_white"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
+
+                    <TextView
+                        android:id="@+id/text_view_total_amount"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textAlignment="textEnd"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#39434d"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.2dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/dark_blue"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#39434d"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.2dp" />
+
+                <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="25dp"
+                        android:layout_marginEnd="25dp">
+
+
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            android:id="@+id/pieChart"
+                            />
+
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginBottom="25dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="#080b10"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Principal Amount"
+                                android:textSize="14dp"
+                                android:layout_marginEnd="25dp"
+                                android:singleLine="true"
+                                android:textColor="@color/light_white"
+                                android:paddingLeft="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:layout_height="wrap_content">
+
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="@color/highlight_blue"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total Interest"
+                                android:singleLine="true"
+                                android:textColor="@color/light_white"
+                                android:textSize="14dp"
+                                android:paddingLeft="10dp"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#39434d"
+                        android:orientation="horizontal"
+                        android:paddingTop="0.2dp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/dark_blue"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#39434d"
+                        android:orientation="horizontal"
+                        android:paddingTop="0.2dp" />
+
+
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/bar_chart1"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="25dp"
+                        android:layout_height="300dp"/>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/textView_pie_chart_lable"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="25dp"
+                            android:text="Compound Interest"
+                            android:textColor="@color/light_white"
+                            android:textSize="10dp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Bar Graph"
+                            android:layout_alignParentEnd="true"
+                            android:textSize="10dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="25dp"
+                            android:textColor="@color/light_white"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginBottom="25dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:layout_marginStart="25dp"
+                            android:layout_marginEnd="25dp"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="#080b10"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Principal Amount"
+                                android:textSize="14dp"
+                                android:layout_marginEnd="25dp"
+                                android:singleLine="true"
+                                android:textColor="@color/light_white"
+                                android:paddingLeft="10dp"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="0.7"
+                            android:layout_height="wrap_content">
+
+                            <View
+                                android:layout_width="15dp"
+                                android:layout_height="5dp"
+                                android:layout_gravity="center_vertical"
+                                android:background="@color/highlight_blue"/>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total Interest"
+                                android:singleLine="true"
+                                android:textColor="@color/light_white"
+                                android:textSize="14dp"
+                                android:paddingLeft="10dp"/>
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#39434d"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.2dp" />
+
+            </LinearLayout>
 
         </LinearLayout>
-
-    </ScrollView>
-
-
+    </androidx.core.widget.NestedScrollView>
 </FrameLayout>
-

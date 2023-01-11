@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/switch_layout_finger">
+
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/ccp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        app:ccp_autoDetectCountry="true"
+        app:ccp_showNameCode="false"
+        app:ccp_showPhoneCode="false"
+        tools:ccp_contentColor="#fcfdfd"
+        app:ccp_rememberLastSelection="true"
+        android:backgroundTint="@color/highlight_blue"
+        app:ccp_arrowColor="@color/highlight_blue"
+        app:ccpDialog_textColor="@color/light_white"
+        app:ccpDialog_backgroundColor="@color/dark_blue"
+        app:ccpDialog_fastScroller_bubbleColor="@color/highlight_blue"
+        app:ccpDialog_fastScroller_handleColor="@color/light_white"
+        app:ccp_countryAutoDetectionPref="SIM_NETWORK_LOCALE"
+        tools:ccp_textSize="20dp" />
+    <TextView
+        android:id="@+id/text_view_currency_symbol"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="20dp"/>
+
+
+
+</LinearLayout>

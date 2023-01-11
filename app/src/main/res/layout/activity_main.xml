@@ -39,18 +39,9 @@
                     android:orientation="horizontal"
                     android:paddingTop="0.2dp" />
 
-
-
-
-
             </com.google.android.material.appbar.AppBarLayout>
 
-
-
-
-
-
-    <LinearLayout
+            <LinearLayout
                 android:id="@+id/selector"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,9 +56,10 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Simple"
+                    android:textColor="@color/white"
                     app:iconTint="@color/bottom_navigation_color"
                     app:iconTintMode="multiply"
-                    android:textSize="15sp"
+                    android:textSize="15dp"
                     android:minHeight="55dp"
                     android:drawableLeft="@drawable/simple_icon"
                     android:layout_marginTop="10dp"
@@ -82,7 +74,7 @@
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="compound"
-                    android:textSize="15sp"
+                    android:textSize="15dp"
                     android:backgroundTint="@color/light_blue"
                     android:textColor="@color/light_white"
                     android:minHeight="55dp"
@@ -122,7 +114,7 @@
             <LinearLayout
                 android:id="@+id/controller"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_above="@+id/bottom_navigation">
 
@@ -138,9 +130,10 @@
                 <LinearLayout
                     android:id="@+id/controller1"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:background="@color/light_blue"
                     android:elevation="5dp"
+                    android:gravity="center"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -160,46 +153,28 @@
                                 android:clickable="false"
                                 android:ellipsize="end"
                                 android:maxWidth="160dp"
-                                android:maxLines="1"
-                                android:paddingStart="5dp"
+                                android:paddingStart="10dp"
                                 android:paddingEnd="5dp"
+                                android:singleLine="true"
                                 android:text="Total Amount :"
                                 android:textColor="#ffffff"
                                 android:textSize="20sp" />
 
-                            <TextView
-                                android:id="@+id/textViewRupeesSymbol"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="0"
-                                android:textAlignment="center"
-                                android:textColor="#3bd16f"
-                                android:textSize="20sp" />
 
                             <TextView
-                                android:id="@+id/textViewResult"
+                                android:id="@+id/text_view_footer_total_amount"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="0.9"
+                                android:layout_weight="1"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="5dp"
+                                android:text="0"
                                 android:textColor="#3bd16f"
                                 android:textSize="20sp" />
 
 
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/textViewWordsCalculationFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Zero Rupees Only. "
-                            android:paddingStart="9dp"
-                            android:paddingEnd="5dp"
-                            android:paddingBottom="5dp"
-                            android:textColor="#ccffffff"
-                            android:textColorHint="#8899a6"
-                            android:textSize="14sp" />
                     </LinearLayout>
 
 
@@ -260,23 +235,7 @@
                 app:labelVisibilityMode="selected"
                 app:menu="@menu/menu_bottom" />
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </RelativeLayout>
-
 
 
         <com.google.android.material.navigation.NavigationView
@@ -285,20 +244,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="#10171f"
+            app:itemTextColor="@color/white"
+            app:subheaderColor="@color/light_white"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/header"
             app:menu="@menu/navigation_menu">
 
-
         </com.google.android.material.navigation.NavigationView>
 
-
-
-
-
-
     </androidx.drawerlayout.widget.DrawerLayout>
-
-
 
 </RelativeLayout>

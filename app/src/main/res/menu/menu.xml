@@ -7,4 +7,9 @@
         android:icon="@drawable/reset"
         android:id="@+id/Reset"
         app:showAsAction="ifRoom"/>
+    <item
+        android:title="Share Result"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:id="@+id/Share"
+        app:showAsAction="ifRoom"/>
 </menu>
