@@ -994,11 +994,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     public void textWatcherPrincipalAmount(){
 
-//                Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
-
-
-
-
         if(!editTextPrincipalAmount.getText().toString().equals("")
                 && !editTextInterestRate.getText().toString().equals("")
                 && !editTextYear.getText().toString().equals("")){
