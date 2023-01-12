@@ -1,24 +1,19 @@
 package com.calculator.interestcalculator;
-import static com.robinhood.ticker.TickerView.ScrollingDirection.ANY;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.DOWN;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.UP;
 
-import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -45,7 +40,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
@@ -53,7 +47,10 @@ import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Currency;
+import java.util.Locale;
 import java.util.Objects;
 
 public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
@@ -67,15 +64,22 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private static String countrySymbol;
     private static String countryCurrency;
     static boolean interestRatePercentageSelected = true;
-    private  int simpleInteresetSpinnerRateType;
-    private  int compoundInterestSpinnerFrequency;
+    private int simpleInteresetSpinnerRateType;
+    private int compoundInterestSpinnerFrequency;
     private double principalAmount;
-    private double principalAmountOldvalue = 0;
+    private double principalAmountOldValue = 0;
+    private double getInterestAmount;
+    private double interestAmounOldValue = 0;
+    private double getTotalAmount;
+    private double totalAmountOldValue = 0;
+    private double getTotalFooterAmount;
+    private double totalAmountFooterOldValue = 0;
     private int rateTypePercentageOrAmount;
     private int compoundInterestFrequency;
+    private LinearLayout linearLayoutVisualGraph;
 
     private double interestRate;
-//    private double time;
+    //    private double time;
     private double totalSimpleInterestAmount;
     private double totalCompoundInterestAmount;
     private double year;
@@ -87,6 +91,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     SimpleInterest simpleInterest;
     CompoundInterest compoundInterest;
+    NumberFormatterWithSymbol numberFormatterWithSymbol;
 
     PieChart pieChart;
     BarChart mChart1;
@@ -97,19 +102,21 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     LinearLayout linearLayoutDate, linearLayoutDuration, linearLayoutDurationBottomLine, linearLayoutCompoundingFrequency;
     Spinner spinnerInterestRatePeriod, spinnerCompoundingFrequency, spinnerInterestRateType;
-    EditText editTextPrincipalAmount,editTextInterestRate,editTextYear,editTextMonth,editTextDay,fromDateEditText, toDateEditText;
-    TextView textViewResultPrincipal,textViewInterestAmount,textViewTotalAmount, textViewCompoundingFrequency, textViewInterestRateType;
+    EditText editTextPrincipalAmount, editTextInterestRate, editTextYear, editTextMonth, editTextDay, fromDateEditText, toDateEditText;
+    TextView textViewResultPrincipal, textViewCompoundingFrequency, textViewInterestRateType;
     ArrayAdapter<String> aa, arrayAdapter, arrayAdapterInterestRateType;
     Button btnCompound, btnSimple;
-    TextView textViewFooterTotalAmount;
+
+    TextInputLayout editTextPrincipalAmountLayout;
 
     TextInputLayout editTextLayoutInterestRate;
 
-    TextView textViewPieChartLable;
+    TextView textViewLableBarGraph0;
+    TextView textViewLableBarGraph;
 
     RadioButton radioButtonDuration, radioButtonDate;
 
-    TickerView textViewPrincipalAmount;
+    TickerView textViewPrincipalAmount, textViewInterestAmount, textViewTotalAmount,textViewFooterTotalAmount;
 
 
 
@@ -131,12 +138,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         editTextPrincipalAmount = view.findViewById(R.id.edit_text_principal_amount);
         editTextInterestRate = view.findViewById(R.id.edit_text_interest_rate);
         editTextYear = view.findViewById(R.id.edit_text_year);
-        editTextMonth  = view.findViewById(R.id.edit_text_month);
+        editTextMonth = view.findViewById(R.id.edit_text_month);
         editTextDay = view.findViewById(R.id.edit_text_day);
         fromDateEditText = view.findViewById(R.id.from_date_editText);
         toDateEditText = view.findViewById(R.id.to_date_editText);
 
-        textViewPieChartLable = view.findViewById(R.id.textView_pie_chart_lable);
+        textViewLableBarGraph0 = view.findViewById(R.id.textView_lable_barGraph0);
 
         radioButtonDuration = view.findViewById(R.id.radio_button_duration);
         radioButtonDate = view.findViewById(R.id.radio_button_date);
@@ -148,13 +155,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         linearLayoutCompoundingFrequency = view.findViewById(R.id.linear_layout_compounding_frequency);
 
+        linearLayoutVisualGraph = view.findViewById(R.id.linear_layout_visualGraph);
+
         textViewPrincipalAmount = view.findViewById(R.id.text_view_principal_amount);
         textViewPrincipalAmount.setCharacterLists(TickerUtils.provideNumberList());
 
-        textViewPrincipalAmount.setPreferredScrollingDirection(TickerView.ScrollingDirection.DOWN);
-
         textViewInterestAmount = view.findViewById(R.id.text_view_interest_amount);
+        textViewInterestAmount.setCharacterLists(TickerUtils.provideNumberList());
+
         textViewTotalAmount = view.findViewById(R.id.text_view_total_amount);
+        textViewTotalAmount.setCharacterLists(TickerUtils.provideNumberList());
+
         textViewResultPrincipal = view.findViewById(R.id.text_view_result_principal);
         textViewCompoundingFrequency = view.findViewById(R.id.text_view_compounding_frequency);
         textViewInterestRateType = view.findViewById(R.id.text_view_interest_rate_type);
@@ -163,7 +174,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         btnSimple = requireActivity().findViewById(R.id.btn_simple_interest);
 
         textViewFooterTotalAmount = requireActivity().findViewById(R.id.text_view_footer_total_amount);
+        textViewFooterTotalAmount.setCharacterLists(TickerUtils.provideNumberList());
 
+        editTextPrincipalAmountLayout = view.findViewById(R.id.editText_principal_amount_layout);
+
+        textViewLableBarGraph = view.findViewById(R.id.textView_lable_barGraph);
 
         editTextLayoutInterestRate = view.findViewById(R.id.edit_text_layout_interest_rate);
 
@@ -175,18 +190,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         mChart1 = view.findViewById(R.id.bar_chart1);
 
 
-//        simpleInterest = new SimpleInterest();
-//        compoundInterest = new CompoundInterest();
-
-
-
-
-
-
-
-
-
-
+        simpleInterest = new SimpleInterest();
+        compoundInterest = new CompoundInterest();
+        numberFormatterWithSymbol = new NumberFormatterWithSymbol();
 
 
         //Creating the ArrayAdapter instance having the interest rate type
@@ -218,23 +224,24 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onClick(View view) {
 
                 btnSimpleCompoundStatus = true;
-                textViewPieChartLable.setText("Simple Interest");
+//                textViewPieChartLable.setText("Simple Interest");
 
 
-                if(!editTextPrincipalAmount.getText().toString().equals("") &&
+                if (!editTextPrincipalAmount.getText().toString().equals("") &&
                         !editTextInterestRate.getText().toString().equals("") &&
                         !editTextYear.getText().toString().equals("")) {
+
+                    textViewLableBarGraph.setText("BarGraph");
+                    textViewLableBarGraph0.setText("Simple Interest");
 
 //                    upDateData();
                     getSetViews();
 
+
                 }
 
 
-
-
-
-                    try {
+                try {
 
                     btnSimple.setBackgroundColor(Color.parseColor("#1da1f3"));
                     btnSimple.setTextColor(Color.parseColor("#ffffff"));
@@ -258,25 +265,18 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onClick(View view) {
 
                 btnSimpleCompoundStatus = false;
-//                tickerView.setPaintFlags(1);
-//                tickerView.setPreferredScrollingDirection(ANY);
 
-//                tickerView.setText("" + (--a[0]));
-
-
-                if(!editTextPrincipalAmount.getText().toString().equals("") &&
+                if (!editTextPrincipalAmount.getText().toString().equals("") &&
                         !editTextInterestRate.getText().toString().equals("") &&
                         !editTextYear.getText().toString().equals("")) {
+                    textViewLableBarGraph.setText("BarGraph");
 
+                    textViewLableBarGraph0.setText("Compound Interest");
 //                    upDateData();
                     getSetViews();
 
                 }
 
-
-
-
-                textViewPieChartLable.setText("Compound Interest");
                 try {
 
                     btnCompound.setBackgroundColor(Color.parseColor("#1da1f3"));
@@ -356,12 +356,13 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             }
         });
 
-       //BarGraph
-//        MultipalColor();
+        try {
+            mChart1.setNoDataText("Enter all three values to see Bar chart data.");
+            pieChart.setNoDataText("Enter all three values to see Pie Chart data.");
 
-        // PieChart
-        setupPieChart();
-        loadPieChartData();
+        }catch (NullPointerException ignore){}
+
+
 
         countryName = ((MainActivity) Objects.requireNonNull(requireActivity())).ccp.getSelectedCountryEnglishName();
 
@@ -384,6 +385,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 countryNameToCurrency.setCountryName(countryName);
                 countrySymbol = countryNameToCurrency.getmYcountrySymbol();
                 countryCurrency = countryNameToCurrency.getmYcountryCurrency();
+
+
 
                 arrayListInterestRateType.remove(1);
                 arrayListInterestRateType.add(countryCurrency + " (" + countrySymbol + ")");
@@ -410,21 +413,47 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
                 }
+//------------------------------ use to update country symbol when changing country-- --------------------------------
 
+
+                numberFormatterWithSymbol.setCountryName(countryName);
+                numberFormatterWithSymbol.setNumber(principalAmount);
+               textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+               editTextPrincipalAmountLayout.setPrefixText(countrySymbol + " ");
+
+                if(btnSimpleCompoundStatus){
+
+                    setSimpleInterestText();
+
+
+                }else {
+
+                    setCompoundInterestText();
+
+                }
+
+//             //        //          //             //             //              //             //        //       //          //
 
             }
         });
 
-
         arrayListInterestRateType.add(countryCurrency + " (" + countrySymbol + ")");
 
-
 //        ------------------------------------------------------------------------------------------------------------------------
+
+        editTextPrincipalAmountLayout.setPrefixText(countrySymbol + " ");
+
+        numberFormatterWithSymbol.setCountryName(countryName);
+        numberFormatterWithSymbol.setNumber(0);
+
+        textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+        textViewInterestAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+        textViewTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+        textViewFooterTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
 
         spinnerInterestRateType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
 
                 if (i == 0) {
 
@@ -447,12 +476,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             }
         });
 
-        
-        
         spinnerCompoundingFrequency.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                
+
                 compoundInterestFrequency = i;
             }
 
@@ -462,82 +489,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             }
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//        if(!editTextPrincipalAmount.getText().toString().equals("") &&
-//                !editTextInterestRate.getText().toString().equals("") &&
-//                !editTextYear.getText().toString().equals("")){
-//
-//
-//            principalAmount = Double.parseDouble(editTextPrincipalAmount.getText().toString());
-//        Toast.makeText(getContext(), String.valueOf(principalAmount), Toast.LENGTH_SHORT).show();
-//            interestRate = Double.parseDouble(editTextInterestRate.getText().toString());
-//            year = Double.parseDouble(editTextYear.getText().toString());
-//
-//            simpleInterest.setPrincipal(principalAmount);
-//            simpleInterest.setRateType(rateTypePercentageOrAmount);
-//            simpleInterest.setRate(interestRate);
-//            totalInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
-//
-//
-//            compoundInterest.setPrincipal(principalAmount);
-//            compoundInterest.setRate(rateTypePercentageOrAmount);
-//            compoundInterest.setRate(interestRate);
-//            compoundInterest.setCompoundingFrequency(compoundInterestFrequency);
-//            totalInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
-//
-//
-//            textViewPrincipalAmount.setText(String.valueOf(principalAmount));
-//            textViewInterestAmount.setText(String.valueOf(totalInterestAmount));
-//            textViewTotalAmount.setText(String.valueOf(principalAmount + totalInterestAmount));
-//            textViewFooterTotalAmount.setText(String.valueOf(principalAmount + totalInterestAmount));
-//
-
-
-
-//        }
-//
-//
-//        rateTypePercentageOrAmount = getSpinnerInterestRateType();
-//        compoundInterestFrequency = getSpinnerCompoundingFrequency();
-//
-
-
 //--------------------------------------Text Watcher----------------------------------------------------------------
-
 
         editTextPrincipalAmount.addTextChangedListener(new TextWatcher() {
             @Override
@@ -548,131 +500,43 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-
-                //
-                if(!editTextPrincipalAmount.getText().toString().equals("") &&
+                  if (!editTextPrincipalAmount.getText().toString().equals("") &&
                         !editTextInterestRate.getText().toString().equals("") &&
                         !editTextYear.getText().toString().equals("")) {
-
                     getSetViews();
-//                    upDateData();
-//                    MultipalColor();
 
-//                    Toast.makeText(getContext(), "hi", Toast.LENGTH_SHORT).show();
-                }
-//
-//            principalAmount = Double.parseDouble(editTextPrincipalAmount.getText().toString());
-//            interestRate = Double.parseDouble(editTextInterestRate.getText().toString());
-//            year = Double.parseDouble(editTextYear.getText().toString());
-//
+                    if(btnSimpleCompoundStatus){
 
-//            simpleInterest.setPrincipal(principalAmount);
-//            simpleInterest.setRateType(rateTypePercentageOrAmount);
-//            simpleInterest.setRate(interestRate);
-//            totalInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
+                        textViewLableBarGraph0.setText("Simple Interest");
+                        textViewLableBarGraph.setText("Bar Graph");
 
+                    }else {
 
-//            textViewPrincipalAmount.setText(String.valueOf(principalAmount));
-//            textViewInterestAmount.setText(String.valueOf(totalInterestAmount));
-//            textViewTotalAmount.setText(String.valueOf(principalAmount + totalInterestAmount));
-//            textViewFooterTotalAmount.setText(String.valueOf(principalAmount + totalInterestAmount));
-//
+                        textViewLableBarGraph.setText("Bar Graph");
+                        textViewLableBarGraph0.setText("Compound Interest");
+                    }
 
-//        }
-//
-//
-//            principalAmount = Double.parseDouble(editTextPrincipalAmount.getText().toString());
-////        Toast.makeText(getContext(), String.valueOf(principalAmount), Toast.LENGTH_SHORT).show();
-//            interestRate = Double.parseDouble(editTextInterestRate.getText().toString());
-//            year = Double.parseDouble(editTextYear.getText().toString());
-//
-//            simpleInterest.setPrincipal(principalAmount);
-//            simpleInterest.setRateType(rateTypePercentageOrAmount);
-//            simpleInterest.setRate(interestRate);
-//            totalInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
-//
-//
-//            compoundInterest.setPrincipal(principalAmount);
-//            compoundInterest.setRate(rateTypePercentageOrAmount);
-//            compoundInterest.setRate(interestRate);
-//            compoundInterest.setCompoundingFrequency(compoundInterestFrequency);
-//            totalInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
-//
-//
-//            textViewPrincipalAmount.setText(String.valueOf(principalAmount));
-//            textViewInterestAmount.setText(String.valueOf(totalInterestAmount));
-//            textViewTotalAmount.setText(String.valueOf(principalAmount + totalInterestAmount));
-//            textViewFooterTotalAmount.setText(String.valueOf(principalAmount + totalInterestAmount));
-//
-//
-//
-//
-//        }
-//
-//
-//        rateTypePercentageOrAmount = getSpinnerInterestRateType();
-//        compoundInterestFrequency = getSpinnerCompoundingFrequency();
-//
+                  } else {
+                      if(editTextPrincipalAmount.getText().toString().equals("")){
+                          resetViews();
+                      }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                  }
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-//                upDateData();
-
 
             }
         });
 
-
-
 //-------------------------------------------------------------------------------------------------------------------------
 
-
-
-
-
-
-
+//        Took 4 hours to do this, changing device language to arabic it changes app numeric to arabic also;
+        Locale.setDefault(new Locale("en", "US"));
 
         return view;
     }
-
-
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -687,8 +551,13 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private void loadPieChartData() {
         ArrayList<PieEntry> entries = new ArrayList<>();
         entries.add(new PieEntry((float) principalAmount, "Principal Amount"));
-        entries.add(new PieEntry((float) totalSimpleInterestAmount, "Total Interest"));
+        if(btnSimpleCompoundStatus){
 
+            entries.add(new PieEntry((float) totalSimpleInterestAmount , "Total Interest"));
+
+        } else {
+            entries.add(new PieEntry((float) totalCompoundInterestAmount, "Total Interest"));
+        }
         ArrayList<Integer> colors = new ArrayList<>();
 
         colors.add(Color.parseColor("#080b10"));
@@ -715,7 +584,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         pieChart.setEntryLabelTextSize(12);
         pieChart.setEntryLabelColor(Color.parseColor("#000000"));
 
-        if(btnSimpleCompoundStatus){
+        if (btnSimpleCompoundStatus) {
 
             pieChart.setCenterText("Simple Interest");
 
@@ -748,7 +617,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         mChart1.getDescription().setEnabled(false);
 
-        // if more than 60 entries are displayed in the chart, no values will be
         // drawn
         mChart1.setMaxVisibleValueCount(40);
 
@@ -880,7 +748,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         xAxisLabel.add("99y");
         xAxisLabel.add("100y");
 
-
         xLabels.setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
 
         Legend l = mChart1.getLegend();
@@ -894,24 +761,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-
-
-
-//        getSetViews();
-
-
-
         for (int time = 1; time < year + 1; time++) {
 
-            if(btnSimpleCompoundStatus){
-
+            if (btnSimpleCompoundStatus) {
 
                 simpleInterest.setTime(time);
                 totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
-
-
-                setSimpleInterestText();
-
 
                 yVals1.add(new BarEntry(time,
                         new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
@@ -921,20 +776,21 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 compoundInterest.setTime(time);
                 totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
 
-               setCompoundInterestText();
-//                Toast.makeText(getContext(), String.valueOf(totalInterestAmount), Toast.LENGTH_SHORT).show();
-
                 yVals1.add(new BarEntry(time,
                         new float[]{(float) principalAmount, (float) (totalCompoundInterestAmount - principalAmount)},
                         getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
 
             }
 
-
-
         }
 
-            leftAxis.setValueFormatter(new LargeValueFormatter());
+        if(btnSimpleCompoundStatus){
+            setSimpleInterestText();
+        } else {
+            setCompoundInterestText();
+        }
+
+        leftAxis.setValueFormatter(new LargeValueFormatter());
 
         BarDataSet set1;
 
@@ -955,14 +811,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
             BarData data = new BarData(dataSets);
 
-//            if( principal >9999999.0){
+            data.setValueFormatter(new LargeValueFormatter());
 
-                data.setValueFormatter(new LargeValueFormatter());
-
-//            }
             data.setValueTextColor(Color.WHITE);
 
-            mChart1.setData(data);
+                mChart1.setData(data);
+
         }
 
         mChart1.getLegend().setEnabled(false);
@@ -987,25 +841,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         return simpleInteresetSpinnerRateType;
 
     }
-    
-    public int getSpinnerCompoundingFrequency(){
+
+    public int getSpinnerCompoundingFrequency() {
         return compoundInterestSpinnerFrequency;
     }
 
-    public void textWatcherPrincipalAmount(){
-
-        if(!editTextPrincipalAmount.getText().toString().equals("")
-                && !editTextInterestRate.getText().toString().equals("")
-                && !editTextYear.getText().toString().equals("")){
-
-     getSetViews();
-
-        }
-
+    public void textWatcherPrincipalAmount() {
 
     }
 
-    public void upDateData(){
+    public void upDateData() {
 
         MultipalColor();
         loadPieChartData();
@@ -1013,60 +858,71 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     }
 
-    public void getSetViews(){
-
-        simpleInterest = new SimpleInterest();
-        compoundInterest = new CompoundInterest();
+    public void getSetViews() {
 
         // trick for comparing old and new value to ticker
-        principalAmountOldvalue = principalAmount;
-        principalAmount = Double.parseDouble(editTextPrincipalAmount.getText().toString());
+        principalAmountOldValue = principalAmount;
+        principalAmount = Double.parseDouble( 0 + editTextPrincipalAmount.getText().toString());
 
+          interestAmounOldValue = getInterestAmount;
+//
+        if(btnSimpleCompoundStatus){
 
-//        principalAmountOldvalue = 0;
+            getInterestAmount = totalSimpleInterestAmount;
 
+        } else {
 
-        Toast.makeText(getContext(), String.valueOf(principalAmountOldvalue), Toast.LENGTH_SHORT).show();
-        interestRate = Double.parseDouble(editTextInterestRate.getText().toString());
-        year = Double.parseDouble(editTextYear.getText().toString());
+            getInterestAmount = totalCompoundInterestAmount;
+
+        }
+
+          totalAmountOldValue = getTotalAmount;
+
+        if(btnSimpleCompoundStatus){
+
+            getTotalAmount = principalAmount + totalSimpleInterestAmount;
+
+        } else {
+
+            getTotalAmount = principalAmount + totalCompoundInterestAmount;
+
+        }
+
+          totalAmountFooterOldValue = getTotalFooterAmount;
+
+        if(btnSimpleCompoundStatus){
+
+            getTotalFooterAmount = principalAmount + totalSimpleInterestAmount;
+        } else {
+            getTotalFooterAmount = principalAmount + totalSimpleInterestAmount;
+        }
+
+        interestRate = Double.parseDouble( 0 + editTextInterestRate.getText().toString());
+        year = Double.parseDouble( 0 + editTextYear.getText().toString());
 
         simpleInterest.setPrincipal(principalAmount);
         simpleInterest.setRateType(rateTypePercentageOrAmount);
         simpleInterest.setRate(interestRate);
-
 
         compoundInterest.setPrincipal(principalAmount);
         compoundInterest.setRate(rateTypePercentageOrAmount);
         compoundInterest.setRate(interestRate);
         compoundInterest.setCompoundingFrequency(compoundInterestFrequency);
 
+        numberFormatterWithSymbol.setCountryName(countryName);
 
-        if(principalAmountOldvalue < principalAmount){
-
+        if(principalAmountOldValue < principalAmount){
 
             textViewPrincipalAmount.setPreferredScrollingDirection(DOWN);
-            Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
 
-            for ( double i = principalAmountOldvalue ; i <= principalAmount; i++) {
-                textViewPrincipalAmount.setText(String.valueOf(i));
-
-            }
-
-
-        }else {
+        } else {
 
             textViewPrincipalAmount.setPreferredScrollingDirection(UP);
 
-            for ( double i = principalAmount ; i <= principalAmountOldvalue; i++) {
-                textViewPrincipalAmount.setText(String.valueOf(i));
-
-            }
-
         }
 
-
-
-
+        numberFormatterWithSymbol.setNumber(principalAmount);
+        textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
 
         rateTypePercentageOrAmount = getSpinnerInterestRateType();
         compoundInterestFrequency = getSpinnerCompoundingFrequency();
@@ -1075,23 +931,84 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     }
 
-    private void setSimpleInterestText() {
+    private void resetViews(){
 
+        numberFormatterWithSymbol.setNumber(0);
+        textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+        textViewInterestAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+        textViewTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+        textViewFooterTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
 
-                textViewInterestAmount.setText(String.valueOf(totalSimpleInterestAmount));
-                textViewTotalAmount.setText(String.valueOf(principalAmount + totalSimpleInterestAmount));
-                textViewFooterTotalAmount.setText(String.valueOf(principalAmount + totalSimpleInterestAmount));
+        try {
+            mChart1.clear();
+            pieChart.clear();
+            textViewLableBarGraph0.setText("");
+            textViewLableBarGraph.setText("");
+        }catch (NullPointerException ignore){}
 
     }
 
-    private void setCompoundInterestText(){
+    private void setSimpleInterestText() {
+
+        if(interestAmounOldValue < getInterestAmount){
+            textViewInterestAmount.setPreferredScrollingDirection(DOWN);
+        }else {
+            textViewInterestAmount.setPreferredScrollingDirection(UP);
+        }
+
+        if(totalAmountOldValue < getTotalAmount){
+            textViewTotalAmount.setPreferredScrollingDirection(DOWN);
+        }else {
+            textViewTotalAmount.setPreferredScrollingDirection(UP);
+        }
+
+        if(totalAmountFooterOldValue < getTotalFooterAmount){
+            textViewFooterTotalAmount.setPreferredScrollingDirection(DOWN);
+        } else {
+            textViewFooterTotalAmount.setPreferredScrollingDirection(UP);
+        }
 
 
-        textViewInterestAmount.setText(new DecimalFormat("##.##").format(totalCompoundInterestAmount - principalAmount));
-        textViewTotalAmount.setText(new DecimalFormat("##.##").format(totalCompoundInterestAmount));
-        textViewFooterTotalAmount.setText(new DecimalFormat("##.##").format(totalCompoundInterestAmount));
+        numberFormatterWithSymbol.setNumber(totalSimpleInterestAmount);
+        textViewInterestAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+
+        numberFormatterWithSymbol.setNumber(principalAmount + totalSimpleInterestAmount);
+        textViewTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+
+        numberFormatterWithSymbol.setNumber(principalAmount + totalSimpleInterestAmount);
+        textViewFooterTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+
+    }
+
+    private void setCompoundInterestText() {
+
+        if(interestAmounOldValue < getInterestAmount){
+            textViewInterestAmount.setPreferredScrollingDirection(DOWN);
+        }else {
+            textViewInterestAmount.setPreferredScrollingDirection(UP);
+        }
+
+        if(totalAmountOldValue < getTotalAmount){
+            textViewTotalAmount.setPreferredScrollingDirection(DOWN);
+        }else {
+            textViewTotalAmount.setPreferredScrollingDirection(UP);
+        }
+
+        if(totalAmountFooterOldValue < getTotalFooterAmount){
+            textViewFooterTotalAmount.setPreferredScrollingDirection(DOWN);
+        } else {
+            textViewFooterTotalAmount.setPreferredScrollingDirection(UP);
+        }
+
+        numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount - principalAmount);
+        textViewInterestAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+
+        numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount);
+        textViewTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+
+        numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount);
+        textViewFooterTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
 
     }
 
 }
-

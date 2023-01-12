@@ -1,5 +1,7 @@
 package com.calculator.interestcalculator;
 
+import android.widget.Toast;
+
 public class CountryNameToSymbol{
 
     String mYcountryName;
@@ -246,7 +248,7 @@ public class CountryNameToSymbol{
             mYcountrySymbol = "$";
         }else if(mYcountryName.equals("Armenia")){
             mYcountrySymbol = "֏";
-        }else if(mYcountryName.equals("Aruba8*")){
+        }else if(mYcountryName.equals("Aruba")){
             mYcountrySymbol = "ƒ";
         }else if(mYcountryName.equals("Australia")){
             mYcountrySymbol = " $";

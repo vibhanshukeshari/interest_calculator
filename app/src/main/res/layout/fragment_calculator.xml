@@ -27,6 +27,7 @@
                 android:paddingTop="0.2dp" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/editText_principal_amount_layout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,6 +37,8 @@
                 android:layout_marginBottom="15dp"
                 app:boxBackgroundColor="@color/dark_blue"
                 android:hint="Principal Amount"
+                app:prefixTextAppearance="@style/myPrefixTextSize"
+                app:prefixTextColor="@color/highlight_blue"
                 android:textColorHint="@color/light_white"
                 app:boxStrokeColor="@color/box_stroke_color"
                 app:boxStrokeWidth="0.5dp"
@@ -46,6 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
+                    android:maxLength="8"
                     android:padding="6dp"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -500,6 +504,7 @@
                         android:layout_marginEnd="25dp"
                         android:textAlignment="textEnd"
                         android:textColor="@color/white"
+                        android:gravity="end"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content" />
 
@@ -524,12 +529,13 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginTop="5dp"/>
 
-                    <TextView
+                    <com.robinhood.ticker.TickerView
                         android:id="@+id/text_view_interest_amount"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="0"
+                        android:gravity="end"
                         android:textAlignment="textEnd"
                         android:textSize="18sp"
                         android:layout_marginTop="5dp"
@@ -560,12 +566,13 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"/>
 
-                    <TextView
+                    <com.robinhood.ticker.TickerView
                         android:id="@+id/text_view_total_amount"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
                         android:text="0"
+                        android:gravity="end"
                         android:textAlignment="textEnd"
                         android:textSize="18sp"
                         android:textColor="@color/white"
@@ -596,6 +603,7 @@
                     android:paddingTop="0.2dp" />
 
                 <LinearLayout
+                    android:id="@+id/linear_layout_visualGraph"
                 android:layout_width="match_parent"
                 android:orientation="vertical"
                     android:layout_height="wrap_content">
@@ -711,20 +719,19 @@
                         android:layout_height="wrap_content">
 
                         <TextView
-                            android:id="@+id/textView_pie_chart_lable"
+                            android:id="@+id/textView_lable_barGraph0"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentStart="true"
                             android:layout_marginStart="25dp"
                             android:layout_marginTop="0dp"
                             android:layout_marginEnd="25dp"
-                            android:text="Compound Interest"
                             android:textColor="@color/light_white"
                             android:textSize="10dp" />
                         <TextView
+                            android:id="@+id/textView_lable_barGraph"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Bar Graph"
                             android:layout_alignParentEnd="true"
                             android:textSize="10dp"
                             android:layout_marginTop="0dp"

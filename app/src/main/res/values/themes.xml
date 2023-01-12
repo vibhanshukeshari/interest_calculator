@@ -48,4 +48,7 @@
         <item name="android:buttonBarNegativeButtonStyle">@style/vibhuButtonThemeForCalenderPicker</item>
         <item name="android:buttonBarNeutralButtonStyle">@style/vibhuButtonThemeForCalenderPicker</item>
     </style>
+    <style name="myPrefixTextSize" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textSize">20sp</item>
+    </style>
 </resources>

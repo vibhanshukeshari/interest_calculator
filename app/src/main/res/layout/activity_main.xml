@@ -161,7 +161,7 @@
                                 android:textSize="20sp" />
 
 
-                            <TextView
+                            <com.robinhood.ticker.TickerView
                                 android:id="@+id/text_view_footer_total_amount"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -170,7 +170,7 @@
                                 android:paddingEnd="5dp"
                                 android:text="0"
                                 android:textColor="#3bd16f"
-                                android:textSize="20sp" />
+                                android:textSize="18sp" />
 
 
                         </LinearLayout>

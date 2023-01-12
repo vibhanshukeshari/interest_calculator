@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.hbb20.CountryCodePicker;
+import com.robinhood.ticker.TickerView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private MaterialButton btnSimpleInterest;
     private MaterialButton btnCompoundInterest;
 
-    private TextView textViewFooterTotalAmount;
+    private TickerView textViewFooterTotalAmount;
 
     CountryCodePicker ccp;
     TextView textViewCurrencySymbol;
