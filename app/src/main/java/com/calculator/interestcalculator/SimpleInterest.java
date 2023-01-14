@@ -59,7 +59,7 @@ public class SimpleInterest extends CalculatorFragment{
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(double time) {
         this.time = time;
     }
 

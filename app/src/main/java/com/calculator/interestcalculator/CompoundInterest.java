@@ -4,7 +4,7 @@ public class CompoundInterest extends CalculatorFragment {
 
     double principal;
     double rate;
-    int time;
+    double time;
     int rateType;
     double totalCompoundInterestAmount;
     int compoundingFrequency;
@@ -29,11 +29,11 @@ public class CompoundInterest extends CalculatorFragment {
         this.rate = rate;
     }
 
-    public int getTime() {
+    public double getTime() {
         return time;
     }
 
-    public void setTime(int time) {
+    public void setTime(double time) {
         this.time = time;
     }
 
