@@ -342,7 +342,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 durationAndDate.setYear(year);
                 durationAndDate.setMonth(month);
                 durationAndDate.setDay(day);
-                duration = durationAndDate.getDuration();
+                duration = Double.parseDouble(String.format("%.2f",durationAndDate.getDuration()));
+//                duration = durationAndDate.getDuration();
 
 //                Toast.makeText(getContext(), String.valueOf(duration), Toast.LENGTH_SHORT).show();
 
@@ -447,6 +448,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 numberFormatterWithSymbol.setNumber(principalAmount);
                textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
                editTextPrincipalAmountLayout.setPrefixText(countrySymbol + " ");
+
+                if (!editTextPrincipalAmount.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().equals("") &&
+                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
+                                || !editTextDay.getText().toString().equals(""))) {
+
+                    getSetViews();
+
+                }
+
 
                 if(btnSimpleCompoundStatus){
 
@@ -869,62 +880,51 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
 
+            // It took 50 hrs to create a bar graph properly. (Amrit hostel ) dated - 14/01/2023
 
             if (btnSimpleCompoundStatus) {
 
                 double fraction = duration % 1 ;
 
-
-//                if(duration <= 1){
-//                    simpleInterest.setTime(duration);
-//                    setSimpleInterestText();
-//                    totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
-//                    Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
-//                } else {
-
-
                     if(((time + fraction) == (duration + 1)) && (fraction != 0)){
-                        Toast.makeText(getContext(), String.valueOf( fraction), Toast.LENGTH_SHORT).show();
-                        simpleInterest.setTime(fraction);
-                        totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
-                        Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
-                    } else {
+                        simpleInterest.setTime(fraction );
 
+                        double myPredeccessorSI;
+
+                        myPredeccessorSI = totalSimpleInterestAmount;
+                        totalSimpleInterestAmount =   simpleInterest.getTotalSimpleInterestAmount();
+
+                        yVals1.add(new BarEntry((float) time,
+                                new float[]{(float) principalAmount, (float) totalSimpleInterestAmount + (float)myPredeccessorSI},
+                                getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+
+                    } else {
                         simpleInterest.setTime(time);
                         totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
-//                        Toast.makeText(getContext(), "false", Toast.LENGTH_SHORT).show();
+
+                        yVals1.add(new BarEntry((float) time,
+                                new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
+                                getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+
                     }
-
-//                }
-
-
-
-                yVals1.add(new BarEntry((float) time,
-                        new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
-                        getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
-//                Toast.makeText(getContext(), String.valueOf(totalSimpleInterestAmount), Toast.LENGTH_SHORT).show();
 
             } else {
 
                 double fraction = duration % 1;
 
                 if(((time + fraction) == (duration + 1)) && (fraction != 0)){
-                    Toast.makeText(getContext(), String.valueOf( fraction), Toast.LENGTH_SHORT).show();
                     compoundInterest.setTime(fraction);
-                    totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
-                    Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
+
+                    //took 5 hrs to create this concept, need to chagne principal amount for last iteration
+                    compoundInterest.setPrincipal(totalCompoundInterestAmount);
+                    totalCompoundInterestAmount =    compoundInterest.getTotalCompoundInterestAmount();
+                    compoundInterest.setPrincipal(Double.parseDouble( 0 + editTextPrincipalAmount.getText().toString()));
+
                 } else {
-
                     compoundInterest.setTime(time);
-                    totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
-//                        Toast.makeText(getContext(), "false", Toast.LENGTH_SHORT).show();
+                    totalCompoundInterestAmount =  compoundInterest.getTotalCompoundInterestAmount();
+
                 }
-
-
-//                compoundInterest.setTime(time);
-//                totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
-
-//                Toast.makeText(getContext(), String.valueOf(totalCompoundInterestAmount), Toast.LENGTH_SHORT).show();
 
                 yVals1.add(new BarEntry((float) time,
                         new float[]{(float) principalAmount, (float) (totalCompoundInterestAmount - principalAmount)},
@@ -935,15 +935,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         }
 
         if(btnSimpleCompoundStatus){
-            simpleInterest.setTime(duration);
+            simpleInterest.setTime( Double.parseDouble(String.format("%.2f",durationAndDate.getDuration())));
             totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
             setSimpleInterestText();
+
         } else {
-            compoundInterest.setTime(duration);
+            compoundInterest.setTime(Double.parseDouble(String.format("%.2f",durationAndDate.getDuration())));
             totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
             setCompoundInterestText();
-        }
 
+        }
 
         leftAxis.setValueFormatter(new ValueFormatter() {
             @Override
@@ -969,8 +970,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         BarDataSet set1;
 
-
-
         if (mChart1.getData() != null &&
                 mChart1.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mChart1.getData().getDataSetByIndex(0);
@@ -988,7 +987,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
             BarData data = new BarData(dataSets);
 
-//            data.setDrawValues(false);
 // It took 2 days to sort out this format before using LargeValueFormatter but it was showing wrong value < 1000;
             data.setValueFormatter(new ValueFormatter() {
                 @Override
@@ -999,7 +997,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     if(value <= 999){
 
                         numberFormatterWithSymbol.setNumber(value);
-//                        Toast.makeText(getContext(), String.valueOf(value), Toast.LENGTH_SHORT).show();
                         vibhuFormattedValue = numberFormatterWithSymbol.getNumberAfterFormat();
 
                     } else {
@@ -1031,7 +1028,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         colors.add(Color.parseColor("#080b10"));
         colors.add(Color.parseColor("#1da1f3"));
-
 
         return colors;
     }
@@ -1098,7 +1094,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         }
 
         interestRate = Double.parseDouble( 0 + editTextInterestRate.getText().toString());
-//        year = Double.parseDouble( 0 + editTextYear.getText().toString());
 
         if(radioButtonDuration.isChecked()){
 
@@ -1115,8 +1110,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         } else {
 
         }
-
-
 
         simpleInterest.setPrincipal(principalAmount);
         simpleInterest.setRateType(rateTypePercentageOrAmount);

@@ -34,16 +34,19 @@ public class DurationAndDate {
 //                duration = 0;
 //            } else {
 
-            if(month == 12) {
-                year++;
-                month = 0;
-            }
-            if(day == 31){
-                month++;
-                day = 0;
-            }
-                duration = ((year*365.0) + (month*31.0) + day);
-                duration = duration/365.00;
+//            if(month == 12) {
+//                year++;
+//                month = 0;
+//            }
+//            Please note that the standard working days to be considered is 30 days irrespective of whether the number of days in a month is 28/29/30/31 days.
+//            if(day == 30){
+//                month++;
+//                day = 0;
+//            }
+//                duration = ((year*365.0) + (month*30.0) + day);
+//                duration = duration/365.00;
+
+            duration = (year + (Double.parseDouble(String.valueOf(month))/12) + (Double.parseDouble(String.valueOf(day)) /(30 * 12)));
 
 //            }
 

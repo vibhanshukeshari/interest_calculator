@@ -49,7 +49,7 @@ public class CompoundInterest extends CalculatorFragment {
 
         if(compoundingFrequency == 0){
 
-            totalCompoundInterestAmount =    (principal * (Math.pow((1 + rate/100),time)));
+            totalCompoundInterestAmount =    (principal * (Math.pow((1 + rate/100),(1 * time))));
 
 
         }
