@@ -17,7 +17,7 @@ public class NumberFormatterWithSymbol {
     public String getNumberAfterFormat() {
 
         if(countryName.equals("India")){
-            locale = new Locale("(hi", "IN");
+            locale = new Locale("hi", "IN");
 
             numberFormat = NumberFormat.getCurrencyInstance(locale);
             numberFormat.setMaximumFractionDigits(2);

@@ -28,7 +28,7 @@
         <item name="android:colorForeground">#ffffff</item>
 
     </style>
-
+<!--    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge"/>-->
 
     <style name="vibhuButtonThemeForCalenderPicker" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:textColor">#ffffff</item>

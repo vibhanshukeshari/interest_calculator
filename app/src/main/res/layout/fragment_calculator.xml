@@ -223,7 +223,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
                             android:padding="6dp"
                             android:textColor="@color/white"
                             android:textSize="18sp"/>
@@ -250,7 +250,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
                             android:padding="6dp"
                             android:textColor="@color/white"
                             android:textSize="18sp"/>
@@ -276,7 +276,7 @@
                             android:id="@+id/edit_text_day"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
+                            android:inputType="number"
                             android:padding="6dp"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
@@ -332,13 +332,14 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:clickable="false"
+                        android:longClickable="false"
                         android:textColor="@color/white"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionNone"
                         android:drawableEnd="@drawable/date_picker"
                         android:paddingEnd="5dp"
                         android:drawableTint="@color/highlight_blue"
                         android:focusableInTouchMode="false"
-                        android:inputType="numberDecimal"
+                        android:inputType="none"
                         android:padding="6dp"
                         android:textSize="18sp"/>
 
@@ -375,13 +376,14 @@
                         android:clickable="false"
                         android:cursorVisible="false"
                         android:focusable="false"
-                        android:imeOptions="actionNext"
+                        android:imeOptions="actionDone"
                         android:textColor="@color/white"
                         android:drawableEnd="@drawable/date_picker"
                         android:paddingEnd="5dp"
                         android:drawableTint="@color/highlight_blue"
                         android:focusableInTouchMode="false"
-                        android:inputType="numberDecimal"
+                        android:inputType="none"
+                        android:longClickable="false"
                         android:padding="6dp"
                         android:textSize="18sp"/>
 

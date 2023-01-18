@@ -5,8 +5,20 @@ import static com.robinhood.ticker.TickerView.ScrollingDirection.UP;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.LocalDate;
+import org.joda.time.*;
+
+import androidx.core.util.Pair;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.joda.time.Interval;
+import org.joda.time.Period;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -43,20 +55,33 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
 
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+//import java.time.Duration;
+//import java.time.Duration;
+import  java.time.*;
+//import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Objects;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 
 public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -107,6 +132,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     public static boolean fromClicked = false;
     public static boolean toClicked = false;
+
+//    public Duration myDuration;
 
     LinearLayout linearLayoutDate, linearLayoutDuration, linearLayoutDurationBottomLine, linearLayoutCompoundingFrequency;
     Spinner spinnerInterestRatePeriod, spinnerCompoundingFrequency, spinnerInterestRateType;
@@ -204,8 +231,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         durationAndDate = new DurationAndDate();
 
 
-
-
         //Creating the ArrayAdapter instance having the interest rate type
         aa = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, rateType);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -236,19 +261,23 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 btnSimpleCompoundStatus = true;
 
-                if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().equals("") &&
-                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                                || !editTextDay.getText().toString().equals(""))){
+                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
+                                ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                        !editTextDay.getText().toString().equals("")) ||
+                                        (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
+
 
                     textViewLableBarGraph.setText("BarGraph");
                     textViewLableBarGraph0.setText("Simple Interest");
 
                     getSetViews();
 
+                    Toast.makeText(getContext(), "true1", Toast.LENGTH_SHORT).show();
+
+
+
+
                 }
-
-
                 try {
 
                     btnSimple.setBackgroundColor(Color.parseColor("#1da1f3"));
@@ -274,10 +303,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 btnSimpleCompoundStatus = false;
 
-                if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().equals("") &&
-                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                                || !editTextDay.getText().toString().equals(""))){
+                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
+                        ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                !editTextDay.getText().toString().equals("")) ||
+                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
+
 
                     textViewLableBarGraph.setText("BarGraph");
                     textViewLableBarGraph0.setText("Compound Interest");
@@ -311,9 +341,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onClick(View view) {
 
 
-                DialogFragment newFragment = new SelectDateFragment();
-                newFragment.show(getFragmentManager(), "DatePicker");
-                fromClicked = true;
+
+
+
+
+
+
+
+
+//                DialogFragment newFragment = new SelectDateFragment();
+//                newFragment.show(getFragmentManager(), "DatePicker");
+//                fromClicked = true;
 
             }
         });
@@ -322,9 +360,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             @Override
             public void onClick(View view) {
 
-                DialogFragment newFragment = new SelectDateFragment();
-                newFragment.show(getFragmentManager(), "DatePicker");
-                toClicked = true;
+//                DialogFragment newFragment = new SelectDateFragment();
+//                newFragment.show(getFragmentManager(), "DatePicker");
+//                toClicked = true;
 
             }
         });
@@ -333,6 +371,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         radioButtonDuration.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                durationAndDate.setRadioButtonDurationOrDataStatus(true);
 
                 year  = Integer.parseInt(0 + editTextYear.getText().toString());
                 month = Integer.parseInt(0 + editTextMonth.getText().toString());
@@ -351,6 +391,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 linearLayoutDate.setVisibility(View.GONE);
                 linearLayoutDuration.setVisibility(View.VISIBLE);
                 linearLayoutDurationBottomLine.setVisibility(View.GONE);
+//                fromDateEditText.setText("");
+//                toDateEditText.setText("");
 
             }
         });
@@ -368,6 +410,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
             });
 
+
         }
 
         radioButtonDate.setOnClickListener(new View.OnClickListener() {
@@ -380,6 +423,45 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 linearLayoutDuration.setVisibility(View.GONE);
                 linearLayoutDate.setVisibility(View.VISIBLE);
                 linearLayoutDurationBottomLine.setVisibility(View.GONE);
+
+//
+//                MaterialDatePicker materialDatePicker = MaterialDatePicker.Builder.dateRangePicker().setSelection(Pair.create(MaterialDatePicker.thisMonthInUtcMilliseconds(),MaterialDatePicker.todayInUtcMilliseconds())).build();
+//                materialDatePicker.show(getActivity().getSupportFragmentManager(), "Tag_picker");
+//
+//                MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.dateRangePicker();
+//
+//             materialDatePicker.getHeaderText();
+
+//            Toast.makeText(getContext(), materialDatePicker.getHeaderText(), Toast.LENGTH_SHORT).show();
+
+//
+//                materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+//                    @Override
+//                    public void onPositiveButtonClick(Object selection) {
+//
+//                                    Toast.makeText(getContext(),
+//                                            String.valueOf(materialDatePicker.getHeaderText()), Toast.LENGTH_SHORT).show();
+//
+//
+//
+//
+//                    }
+//                });
+                MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.dateRangePicker();
+//                builder.setTheme(com.google.android.material.R.style.Widget_MaterialComponents_MaterialCalendar_DayOfWeekLabel);
+                MaterialDatePicker dateRangePicker =
+                        MaterialDatePicker.Builder.dateRangePicker()
+                                .setTitleText("Select dates")
+                                .setSelection(
+                                        new Pair(
+                                                MaterialDatePicker.thisMonthInUtcMilliseconds(),
+                                                MaterialDatePicker.todayInUtcMilliseconds()
+                                        )
+                                )
+                                .build();
+
+//                dateRangePicker.show(getFragmentManager(),"hello");
+//                dateRangePicker.getHeaderText();
 
             }
         });
@@ -449,10 +531,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
                editTextPrincipalAmountLayout.setPrefixText(countrySymbol + " ");
 
-                if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().equals("") &&
-                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                                || !editTextDay.getText().toString().equals(""))) {
+
+
+                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
+                        ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                !editTextDay.getText().toString().equals("")) ||
+                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
 
                     getSetViews();
 
@@ -539,10 +623,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
-                if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().equals("") &&
-                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                                || !editTextDay.getText().toString().equals(""))){
+
+                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
+                        ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                !editTextDay.getText().toString().equals("")) ||
+                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
 
 //                    Toast.makeText(getContext(), "getSetCalled", Toast.LENGTH_SHORT).show();
                     getSetViews();
@@ -559,10 +644,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     }
 
                   } else {
-                    if(editTextPrincipalAmount.getText().toString().equals("")
-                            || editTextInterestRate.getText().toString().equals("")
-                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
-                            && editTextDay.getText().toString().equals("")))
+                    if(editTextPrincipalAmount.getText().toString().equals("") || editTextInterestRate.getText().toString().equals("")
+                            ||
+
+
+                            ((fromDateEditText.getText().toString().equals("") || toDateEditText.getText().toString().equals(""))
+
+                        &&
+
+
+                            (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
+                            && editTextDay.getText().toString().equals(""))))
                     {
                         resetViews();
                       }
@@ -640,6 +732,211 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
 
+
+//-----------------------------------------------------End---------------------------------------------------------------------------------
+
+
+// --------------------------------------Text Watcher Year----------------------------------------------------------------
+
+
+
+
+
+        editTextYear.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                if (!editTextPrincipalAmount.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().equals("") &&
+                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
+                                || !editTextDay.getText().toString().equals(""))){
+
+//                        ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString())) != 0)) {
+                    getSetViews();
+
+                    if(btnSimpleCompoundStatus){
+
+                        textViewLableBarGraph0.setText("Simple Interest");
+                        textViewLableBarGraph.setText("Bar Graph");
+
+                    }else {
+
+                        textViewLableBarGraph.setText("Bar Graph");
+                        textViewLableBarGraph0.setText("Compound Interest");
+                    }
+
+                } else {
+                    if(editTextPrincipalAmount.getText().toString().equals("")
+                            || editTextInterestRate.getText().toString().equals("")
+                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
+                            && editTextDay.getText().toString().equals("")))
+
+//                            || ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString()) == 0)))
+                    {
+                        resetViews();
+                    }
+
+                }
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+//-----------------------------------------------------End---------------------------------------------------------------------------------
+
+
+// --------------------------------------Text Watcher Day----------------------------------------------------------------
+
+
+
+        editTextDay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                if (!editTextPrincipalAmount.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().equals("") &&
+                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
+                                || !editTextDay.getText().toString().equals(""))){
+
+//                        ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString())) != 0)) {
+                    getSetViews();
+
+                    if(btnSimpleCompoundStatus){
+
+                        textViewLableBarGraph0.setText("Simple Interest");
+                        textViewLableBarGraph.setText("Bar Graph");
+
+                    }else {
+
+                        textViewLableBarGraph.setText("Bar Graph");
+                        textViewLableBarGraph0.setText("Compound Interest");
+                    }
+
+                } else {
+                    if(editTextPrincipalAmount.getText().toString().equals("")
+                            || editTextInterestRate.getText().toString().equals("")
+                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
+                            && editTextDay.getText().toString().equals("")))
+
+//                            || ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString()) == 0)))
+                    {
+                        resetViews();
+                    }
+
+                }
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+//-----------------------------------------------------End---------------------------------------------------------------------------------
+
+
+
+
+// --------------------------------------Text Watcher Month----------------------------------------------------------------
+
+        editTextMonth.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                if (!editTextPrincipalAmount.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().equals("") &&
+                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
+                                || !editTextDay.getText().toString().equals(""))){
+
+//                        ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString())) != 0)) {
+                    getSetViews();
+
+                    if(btnSimpleCompoundStatus){
+
+                        textViewLableBarGraph0.setText("Simple Interest");
+                        textViewLableBarGraph.setText("Bar Graph");
+
+                    }else {
+
+                        textViewLableBarGraph.setText("Bar Graph");
+                        textViewLableBarGraph0.setText("Compound Interest");
+                    }
+
+                } else {
+                    if(editTextPrincipalAmount.getText().toString().equals("")
+                            || editTextInterestRate.getText().toString().equals("")
+                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
+                            && editTextDay.getText().toString().equals("")))
+
+//                            || ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString()) == 0)))
+                    {
+                        resetViews();
+                    }
+
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+//-----------------------------------------------------End---------------------------------------------------------------------------------
+
+
+
+// --------------------------------------Text Watcher Month----------------------------------------------------------------
+
+        fromDateEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
 //-----------------------------------------------------End---------------------------------------------------------------------------------
 
@@ -736,13 +1033,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         // scaling can now only be done on x- and y-axis separately
         mChart1.setPinchZoom(true);
-        mChart1.setDrawGridBackground(false);
-        mChart1.setDragEnabled(true);
-        mChart1.setDrawBarShadow(false);
-
         mChart1.setDrawValueAboveBar(false);
-        mChart1.setHighlightFullBarEnabled(false);
-
+        mChart1.setDragEnabled(true);
+//        mChart1.fitScreen();
         mChart1.animateY(1400, Easing.EaseInOutQuad);
 
         mChart1.getXAxis().setGridColor(Color.parseColor("#8899a6"));
@@ -769,98 +1062,98 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         xAxisLabel.add("5Y");
         xAxisLabel.add("6y");
         xAxisLabel.add("7y");
-        xAxisLabel.add("8y");
-        xAxisLabel.add("9y");
-        xAxisLabel.add("10y");
-        xAxisLabel.add("11y");
-        xAxisLabel.add("12y");
-        xAxisLabel.add("13y");
-        xAxisLabel.add("14y");
-        xAxisLabel.add("15y");
-        xAxisLabel.add("16y");
-        xAxisLabel.add("17y");
-        xAxisLabel.add("18y");
-        xAxisLabel.add("19y");
-        xAxisLabel.add("20y");
-        xAxisLabel.add("21y");
-        xAxisLabel.add("22y");
-        xAxisLabel.add("23y");
-        xAxisLabel.add("24y");
-        xAxisLabel.add("25y");
-        xAxisLabel.add("26y");
-        xAxisLabel.add("27y");
-        xAxisLabel.add("28y");
-        xAxisLabel.add("29y");
-        xAxisLabel.add("30y");
-        xAxisLabel.add("31y");
-        xAxisLabel.add("32y");
-        xAxisLabel.add("33y");
-        xAxisLabel.add("34y");
-        xAxisLabel.add("35y");
-        xAxisLabel.add("36y");
-        xAxisLabel.add("37y");
-        xAxisLabel.add("38y");
-        xAxisLabel.add("39y");
-        xAxisLabel.add("40y");
-        xAxisLabel.add("41y");
-        xAxisLabel.add("42y");
-        xAxisLabel.add("42y");
-        xAxisLabel.add("44y");
-        xAxisLabel.add("45y");
-        xAxisLabel.add("46y");
-        xAxisLabel.add("47y");
-        xAxisLabel.add("48y");
-        xAxisLabel.add("49y");
-        xAxisLabel.add("50y");
-        xAxisLabel.add("51y");
-        xAxisLabel.add("52y");
-        xAxisLabel.add("53y");
-        xAxisLabel.add("54y");
-        xAxisLabel.add("55y");
-        xAxisLabel.add("56y");
-        xAxisLabel.add("57y");
-        xAxisLabel.add("58y");
-        xAxisLabel.add("59y");
-        xAxisLabel.add("60y");
-        xAxisLabel.add("61y");
-        xAxisLabel.add("62y");
-        xAxisLabel.add("63y");
-        xAxisLabel.add("64y");
-        xAxisLabel.add("65y");
-        xAxisLabel.add("66y");
-        xAxisLabel.add("67y");
-        xAxisLabel.add("68y");
-        xAxisLabel.add("69y");
-        xAxisLabel.add("70y");
-        xAxisLabel.add("71y");
-        xAxisLabel.add("72y");
-        xAxisLabel.add("73y");
-        xAxisLabel.add("74y");
-        xAxisLabel.add("75y");
-        xAxisLabel.add("76y");
-        xAxisLabel.add("77y");
-        xAxisLabel.add("78y");
-        xAxisLabel.add("79y");
-        xAxisLabel.add("80y");
-        xAxisLabel.add("81y");
-        xAxisLabel.add("82y");
-        xAxisLabel.add("83y");
-        xAxisLabel.add("84y");
-        xAxisLabel.add("85y");
-        xAxisLabel.add("86y");
-        xAxisLabel.add("87y");
-        xAxisLabel.add("88y");
-        xAxisLabel.add("89y");
-        xAxisLabel.add("90y");
-        xAxisLabel.add("91y");
-        xAxisLabel.add("92y");
-        xAxisLabel.add("93y");
-        xAxisLabel.add("94y");
-        xAxisLabel.add("95y");
-        xAxisLabel.add("96y");
-        xAxisLabel.add("97y");
-        xAxisLabel.add("98y");
-        xAxisLabel.add("99y");
+        xAxisLabel.add("8Y");
+        xAxisLabel.add("9Y");
+        xAxisLabel.add("10Y");
+        xAxisLabel.add("11Y");
+        xAxisLabel.add("12Y");
+        xAxisLabel.add("13Y");
+        xAxisLabel.add("14Y");
+        xAxisLabel.add("15Y");
+        xAxisLabel.add("16Y");
+        xAxisLabel.add("17Y");
+        xAxisLabel.add("18Y");
+        xAxisLabel.add("19Y");
+        xAxisLabel.add("20Y");
+        xAxisLabel.add("21Y");
+        xAxisLabel.add("22Y");
+        xAxisLabel.add("23Y");
+        xAxisLabel.add("24Y");
+        xAxisLabel.add("25Y");
+        xAxisLabel.add("26Y");
+        xAxisLabel.add("27Y");
+        xAxisLabel.add("28Y");
+        xAxisLabel.add("29Y");
+        xAxisLabel.add("30Y");
+        xAxisLabel.add("31Y");
+        xAxisLabel.add("32Y");
+        xAxisLabel.add("33Y");
+        xAxisLabel.add("34Y");
+        xAxisLabel.add("35Y");
+        xAxisLabel.add("36Y");
+        xAxisLabel.add("37Y");
+        xAxisLabel.add("38Y");
+        xAxisLabel.add("39Y");
+        xAxisLabel.add("40Y");
+        xAxisLabel.add("41Y");
+        xAxisLabel.add("42Y");
+        xAxisLabel.add("43Y");
+        xAxisLabel.add("44Y");
+        xAxisLabel.add("45Y");
+        xAxisLabel.add("46Y");
+        xAxisLabel.add("47Y");
+        xAxisLabel.add("48Y");
+        xAxisLabel.add("49Y");
+        xAxisLabel.add("50Y");
+        xAxisLabel.add("51Y");
+        xAxisLabel.add("52Y");
+        xAxisLabel.add("53Y");
+        xAxisLabel.add("54Y");
+        xAxisLabel.add("55Y");
+        xAxisLabel.add("56Y");
+        xAxisLabel.add("57Y");
+        xAxisLabel.add("58Y");
+        xAxisLabel.add("59Y");
+        xAxisLabel.add("60Y");
+        xAxisLabel.add("61Y");
+        xAxisLabel.add("62Y");
+        xAxisLabel.add("63Y");
+        xAxisLabel.add("64Y");
+        xAxisLabel.add("65Y");
+        xAxisLabel.add("66Y");
+        xAxisLabel.add("67Y");
+        xAxisLabel.add("68Y");
+        xAxisLabel.add("69Y");
+        xAxisLabel.add("70Y");
+        xAxisLabel.add("71Y");
+        xAxisLabel.add("72Y");
+        xAxisLabel.add("73Y");
+        xAxisLabel.add("74Y");
+        xAxisLabel.add("75Y");
+        xAxisLabel.add("76Y");
+        xAxisLabel.add("77Y");
+        xAxisLabel.add("78Y");
+        xAxisLabel.add("79Y");
+        xAxisLabel.add("80Y");
+        xAxisLabel.add("81Y");
+        xAxisLabel.add("82Y");
+        xAxisLabel.add("83Y");
+        xAxisLabel.add("84Y");
+        xAxisLabel.add("85Y");
+        xAxisLabel.add("86Y");
+        xAxisLabel.add("87Y");
+        xAxisLabel.add("88Y");
+        xAxisLabel.add("89Y");
+        xAxisLabel.add("90Y");
+        xAxisLabel.add("91Y");
+        xAxisLabel.add("92Y");
+        xAxisLabel.add("93Y");
+        xAxisLabel.add("94Y");
+        xAxisLabel.add("95Y");
+        xAxisLabel.add("96Y");
+        xAxisLabel.add("97Y");
+        xAxisLabel.add("98Y");
+        xAxisLabel.add("99Y");
         xAxisLabel.add("100y");
 
         xLabels.setValueFormatter(new IndexAxisValueFormatter(xAxisLabel));
@@ -891,12 +1184,23 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                         double myPredeccessorSI;
 
-                        myPredeccessorSI = totalSimpleInterestAmount;
-                        totalSimpleInterestAmount =   simpleInterest.getTotalSimpleInterestAmount();
+                        if(duration <1){
 
-                        yVals1.add(new BarEntry((float) time,
-                                new float[]{(float) principalAmount, (float) totalSimpleInterestAmount + (float)myPredeccessorSI},
-                                getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+                            totalSimpleInterestAmount =   simpleInterest.getTotalSimpleInterestAmount();
+                            yVals1.add(new BarEntry((float) time,
+                                    new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
+                                    getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+
+                        } else {
+
+                            myPredeccessorSI = totalSimpleInterestAmount;
+                            totalSimpleInterestAmount =   simpleInterest.getTotalSimpleInterestAmount();
+//                            Toast.makeText(getContext(), String.valueOf(myPredeccessorSI), Toast.LENGTH_SHORT).show();
+                            yVals1.add(new BarEntry((float) time,
+                                    new float[]{(float) principalAmount, (float) totalSimpleInterestAmount + (float)myPredeccessorSI},
+                                    getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+
+                        }
 
                     } else {
                         simpleInterest.setTime(time);
@@ -911,14 +1215,23 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             } else {
 
                 double fraction = duration % 1;
-
+                //took 5 hrs to create this concept, need to chagne principal amount for last iteration
                 if(((time + fraction) == (duration + 1)) && (fraction != 0)){
                     compoundInterest.setTime(fraction);
 
-                    //took 5 hrs to create this concept, need to chagne principal amount for last iteration
+
+                    if(duration<1){
+                        totalCompoundInterestAmount =    compoundInterest.getTotalCompoundInterestAmount();
+                        compoundInterest.setPrincipal(Double.parseDouble( 0 + editTextPrincipalAmount.getText().toString()));
+
+                    } else {
+
+
                     compoundInterest.setPrincipal(totalCompoundInterestAmount);
                     totalCompoundInterestAmount =    compoundInterest.getTotalCompoundInterestAmount();
                     compoundInterest.setPrincipal(Double.parseDouble( 0 + editTextPrincipalAmount.getText().toString()));
+
+                    }
 
                 } else {
                     compoundInterest.setTime(time);
@@ -970,6 +1283,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         BarDataSet set1;
 
+
         if (mChart1.getData() != null &&
                 mChart1.getData().getDataSetCount() > 0) {
             set1 = (BarDataSet) mChart1.getData().getDataSetByIndex(0);
@@ -986,6 +1300,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             dataSets.add(set1);
 
             BarData data = new BarData(dataSets);
+
+//            data.setBarWidth(0.20f);
 
 // It took 2 days to sort out this format before using LargeValueFormatter but it was showing wrong value < 1000;
             data.setValueFormatter(new ValueFormatter() {
@@ -1019,7 +1335,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         mChart1.getLegend().setEnabled(false);
         mChart1.getLegend().setDrawInside(false);
         mChart1.setFitBars(true);
+        mChart1.fitScreen();
         mChart1.invalidate();
+
+
     }
 
     private ArrayList<Integer> getColors() {
@@ -1107,7 +1426,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             durationAndDate.setMonth(month);
             durationAndDate.setDay(day);
 
+
         } else {
+
+            durationAndDate.setRadioButtonDurationOrDataStatus(false);
+
+            String fromDateString = "" + fromDateEditText.getText().toString();
+            String toDateString = "" + toDateEditText.getText().toString();
+
+            durationAndDate.setFromDateAndToDate(getDateDiff(new SimpleDateFormat("dd/MM/yyyy"),fromDateString,toDateString));
+
 
         }
 
@@ -1140,7 +1468,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
         duration = Double.parseDouble(String.format("%.2f",durationAndDate.getDuration()));
-//        Toast.makeText(getContext(), String.valueOf(duration), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), String.valueOf(duration), Toast.LENGTH_SHORT).show();
 
 
         upDateData();
@@ -1250,5 +1578,30 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
         return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
     }
+    /**
+     * Get a diff between two dates
+     *
+     * @param oldDate the old date
+     * @param newDate the new date
+     * @return the diff value, in the days
+     */
+    public  double getDateDiff(SimpleDateFormat format, String oldDate, String newDate) {
+        try {
+            return TimeUnit.DAYS.convert(format.parse(newDate).getTime() - format.parse(oldDate).getTime(), TimeUnit.MILLISECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+
+
+        public void printDifference() throws ParseException {
+
+
+
+
+
+        }
 
 }
