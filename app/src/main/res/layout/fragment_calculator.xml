@@ -9,6 +9,7 @@
     tools:context=".CalculatorFragment">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/calculation_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:ignore="UselessParent">
@@ -50,6 +51,8 @@
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:maxLength="8"
+                    android:longClickable="false"
+                    android:importantForAutofill="no"
                     android:padding="6dp"
                     android:textColor="@color/white"
                     android:textSize="18sp" />
@@ -120,6 +123,8 @@
                         android:id="@+id/edit_text_interest_rate"
                         android:inputType="numberDecimal"
                         android:padding="6dp"
+                        android:longClickable="false"
+                        android:importantForAutofill="no"
                         android:textColor="@color/white"
                         android:textSize="18sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -225,6 +230,8 @@
                             android:imeOptions="actionNext"
                             android:inputType="number"
                             android:padding="6dp"
+                            android:longClickable="false"
+                            android:importantForAutofill="no"
                             android:textColor="@color/white"
                             android:textSize="18sp"/>
 
@@ -251,6 +258,8 @@
                             android:layout_height="wrap_content"
                             android:imeOptions="actionNext"
                             android:inputType="number"
+                            android:longClickable="false"
+                            android:importantForAutofill="no"
                             android:padding="6dp"
                             android:textColor="@color/white"
                             android:textSize="18sp"/>
@@ -278,6 +287,8 @@
                             android:layout_height="wrap_content"
                             android:inputType="number"
                             android:padding="6dp"
+                            android:longClickable="false"
+                            android:importantForAutofill="no"
                             android:textColor="@color/white"
                             android:textSize="18sp" />
 
@@ -307,7 +318,7 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="7.5dp"
                     android:layout_marginEnd="25dp"
-                    android:text="From Date :"
+                    android:text="Start Date :"
                     android:textColor="@color/light_white"
                     android:textSize="18sp"/>
 
@@ -322,6 +333,10 @@
                     app:boxBackgroundColor="@color/dark_blue"
                     app:boxStrokeColor="@color/box_stroke_color"
                     app:boxStrokeWidth="0.5dp"
+                    app:errorEnabled="true"
+                    android:focusableInTouchMode="false"
+                    android:focusable="false"
+                    app:boxStrokeErrorColor="#ff0000"
                     android:textColorHint="@color/light_white"
                     app:boxStrokeWidthFocused="0.8dp">
 
@@ -351,7 +366,7 @@
                     android:layout_marginStart="25dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="25dp"
-                    android:text="To Date :"
+                    android:text="End Date :"
                     android:textColor="@color/light_white"
                     android:textSize="18sp"/>
 
@@ -363,6 +378,10 @@
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="15dp"
                     android:hint="DD/MM/YYYY"
+                    app:errorEnabled="true"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:id="@+id/to_date_editText_layout"
                     android:textColorHint="@color/light_white"
                     app:boxBackgroundColor="@color/dark_blue"
                     app:boxStrokeColor="@color/box_stroke_color"

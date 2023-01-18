@@ -7,28 +7,103 @@ public class SimpleInterest extends CalculatorFragment{
     double principal;
     double rate;
     double time;
-    int rateType;
+    int rateTypePA;
+    int rateTypeFrequencyYMWDHQBI;
     double totalSimpleInterestAmount;
 
 
 
-//    public double getTotalInterestAmount() {
-//        return totalInterestAmount;
-//
-//
-//
-//    }
-//
-//    public void setTotalInterestAmount(double totalInterestAmount) {
-//        this.totalInterestAmount = totalInterestAmount;
-//    }
+    public int getRateTypeFrequencyYMWDHQBI() {
+        return rateTypeFrequencyYMWDHQBI;
+    }
+
+    public void setRateTypeFrequencyYMWDHQBI(int rateTypeFrequencyYMWDHQBI) {
+        this.rateTypeFrequencyYMWDHQBI = rateTypeFrequencyYMWDHQBI;
+    }
+
+
+
 
     public double getTotalSimpleInterestAmount() {
 
 
-        if(rateType == 0){
+        if(rateTypeFrequencyYMWDHQBI == 0){
 
-            totalSimpleInterestAmount = (principal * rate * time)/100;
+            if(rateTypePA == 0){
+//             percentage wise
+                totalSimpleInterestAmount = (principal * rate * time)/100;
+
+            } else if(rateTypePA == 1){
+//            Amount wise
+
+                totalSimpleInterestAmount = ((principal * rate * time)/100) ;
+            }
+
+        } else if(rateTypeFrequencyYMWDHQBI == 1){
+            if(rateTypePA == 0){
+//             percentage wise
+                totalSimpleInterestAmount = (principal * rate * time)/100;
+
+            } else if(rateTypePA == 1){
+//            Amount wise
+
+                totalSimpleInterestAmount = ((principal * rate * time)/100) ;
+            }
+
+        } else if(rateTypeFrequencyYMWDHQBI == 2){
+            if(rateTypePA == 0){
+//             percentage wise
+                totalSimpleInterestAmount = (principal * rate * time)/100;
+
+            } else if(rateTypePA == 1){
+//            Amount wise
+
+                totalSimpleInterestAmount = ((principal * rate * time)/100) ;
+            }
+
+        } else if(rateTypeFrequencyYMWDHQBI == 3){
+            if(rateTypePA == 0){
+//             percentage wise
+                totalSimpleInterestAmount = (principal * rate * time)/100;
+
+            } else if(rateTypePA == 1){
+//            Amount wise
+
+                totalSimpleInterestAmount = ((principal * rate * time)/100) ;
+            }
+
+        } else if(rateTypeFrequencyYMWDHQBI == 4){
+            if(rateTypePA == 0){
+//             percentage wise
+                totalSimpleInterestAmount = (principal * rate * time)/100;
+
+            } else if(rateTypePA == 1){
+//            Amount wise
+
+                totalSimpleInterestAmount = ((principal * rate * time)/100) ;
+            }
+
+        } else if(rateTypeFrequencyYMWDHQBI == 5){
+            if(rateTypePA == 0){
+//             percentage wise
+                totalSimpleInterestAmount = (principal * rate * time)/100;
+
+            } else if(rateTypePA == 1){
+//            Amount wise
+
+                totalSimpleInterestAmount = ((principal * rate * time)/100) ;
+            }
+
+        } else if (rateTypeFrequencyYMWDHQBI == 6){
+            if(rateTypePA == 0){
+//             percentage wise
+                totalSimpleInterestAmount = (principal * rate * time)/100;
+
+            } else if(rateTypePA == 1){
+//            Amount wise
+
+                totalSimpleInterestAmount = ((principal * rate * time)/100) ;
+            }
 
         }
 
@@ -64,11 +139,11 @@ public class SimpleInterest extends CalculatorFragment{
     }
 
     public int getRateType() {
-        return rateType;
+        return rateTypePA;
     }
 
     public void setRateType(int rateType) {
-        this.rateType = rateType;
+        this.rateTypePA = rateType;
     }
 
 

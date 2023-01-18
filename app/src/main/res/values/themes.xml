@@ -51,4 +51,16 @@
     <style name="myPrefixTextSize" parent="TextAppearance.AppCompat.Medium">
         <item name="android:textSize">20sp</item>
     </style>
+    <style name="WhiteColorAccent">
+        <item name="colorAccent">#ffffff</item>
+    </style>
+
+    <style name="AppTheme.WhiteEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">#ffffff</item>
+        <item name="colorControlNormal">#ff00ff</item>
+        <item name="colorControlActivated">#ffffff</item>
+        <item name="colorControlHighlight">#ffffff</item>
+    </style>
+
+
 </resources>

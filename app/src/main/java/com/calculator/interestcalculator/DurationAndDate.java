@@ -15,7 +15,6 @@ public class DurationAndDate {
 
     double fromDateAndToDate;
     double duration;
-    boolean radioButtonDurationOrDataStatus;
 
 
 
@@ -23,30 +22,14 @@ public class DurationAndDate {
 
 
 
-    public boolean isRadioButtonDurationOrDataStatus() {
-        return radioButtonDurationOrDataStatus;
-    }
-
-    public void setRadioButtonDurationOrDataStatus(boolean radioButtonDurationOrDataStatus) {
-        this.radioButtonDurationOrDataStatus = radioButtonDurationOrDataStatus;
-    }
 
     public double getDuration() {
 
 
 
 
-        if(radioButtonDurationOrDataStatus){
-
 
             duration = (year + (Double.parseDouble(String.valueOf(month))/12) + (Double.parseDouble(String.valueOf(day)) /(30 * 12)));
-
-
-        }else {
-
-            duration = fromDateAndToDate;
-
-        }
 
 
 
