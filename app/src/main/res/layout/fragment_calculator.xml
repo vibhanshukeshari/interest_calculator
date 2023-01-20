@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:forceDarkAllowed="false"
+    android:id="@+id/calculation_fragment_parent_FrameLayout"
     android:background="@color/dark_blue"
     tools:context=".CalculatorFragment">
 
@@ -43,6 +44,8 @@
                 android:textColorHint="@color/light_white"
                 app:boxStrokeColor="@color/box_stroke_color"
                 app:boxStrokeWidth="0.5dp"
+                app:helperTextTextColor="#ff0000"
+                app:helperTextEnabled="true"
                 app:boxStrokeWidthFocused="0.8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -50,7 +53,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
-                    android:maxLength="8"
                     android:longClickable="false"
                     android:importantForAutofill="no"
                     android:padding="6dp"
@@ -60,6 +62,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
+                android:id="@+id/interest_rate_type"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -99,7 +102,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="7.5dp"
                 android:orientation="horizontal">
 
@@ -115,6 +118,8 @@
                     app:boxBackgroundColor="@color/dark_blue"
                     app:boxStrokeColor="@color/box_stroke_color"
                     app:boxStrokeWidth="0.5dp"
+                    app:helperTextEnabled="true"
+                    app:helperTextTextColor="#ff0000"
                     app:boxStrokeWidthFocused="0.8dp">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -123,6 +128,7 @@
                         android:id="@+id/edit_text_interest_rate"
                         android:inputType="numberDecimal"
                         android:padding="6dp"
+                        android:hint="Interest Rate (%)"
                         android:longClickable="false"
                         android:importantForAutofill="no"
                         android:textColor="@color/white"
@@ -211,12 +217,15 @@
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="0dp"
+                        android:id="@+id/edit_text_year_layout"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="25dp"
                         android:layout_marginEnd="5dp"
                         android:layout_marginBottom="7.5dp"
                         android:layout_weight="1"
                         android:hint="Year"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="#ff0000"
                         app:boxBackgroundColor="@color/dark_blue"
                         app:boxStrokeColor="@color/box_stroke_color"
                         app:boxStrokeWidth="0.5dp"
@@ -246,9 +255,12 @@
                         android:layout_marginBottom="7.5dp"
                         android:layout_weight="1"
                         android:hint="Month"
+                        android:id="@+id/edit_text_month_layout"
                         app:boxBackgroundColor="@color/dark_blue"
                         app:boxStrokeColor="@color/box_stroke_color"
                         app:boxStrokeWidth="0.5dp"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="#ff0000"
                         android:textColorHint="@color/light_white"
                         app:boxStrokeWidthFocused="0.8dp">
 
@@ -279,6 +291,9 @@
                         app:boxBackgroundColor="@color/dark_blue"
                         app:boxStrokeColor="@color/box_stroke_color"
                         app:boxStrokeWidth="0.5dp"
+                        app:helperTextEnabled="true"
+                        app:helperTextTextColor="#ff0000"
+                        android:id="@+id/edit_text_day_layout"
                         app:boxStrokeWidthFocused="0.8dp">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -310,6 +325,7 @@
                 android:id="@+id/linear_layout_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -333,7 +349,7 @@
                     app:boxBackgroundColor="@color/dark_blue"
                     app:boxStrokeColor="@color/box_stroke_color"
                     app:boxStrokeWidth="0.5dp"
-                    app:errorEnabled="true"
+                    app:helperTextEnabled="true"
                     android:focusableInTouchMode="false"
                     android:focusable="false"
                     app:boxStrokeErrorColor="#ff0000"
@@ -341,22 +357,22 @@
                     app:boxStrokeWidthFocused="0.8dp">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/from_date_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/from_date_editText"
-                        android:cursorVisible="false"
-                        android:focusable="false"
                         android:clickable="false"
-                        android:longClickable="false"
-                        android:textColor="@color/white"
-                        android:imeOptions="actionNone"
+                        android:cursorVisible="false"
                         android:drawableEnd="@drawable/date_picker"
-                        android:paddingEnd="5dp"
                         android:drawableTint="@color/highlight_blue"
+                        android:focusable="false"
                         android:focusableInTouchMode="false"
+                        android:imeOptions="actionNone"
                         android:inputType="none"
+                        android:longClickable="false"
                         android:padding="6dp"
-                        android:textSize="18sp"/>
+                        android:paddingEnd="5dp"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -378,7 +394,7 @@
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="15dp"
                     android:hint="DD/MM/YYYY"
-                    app:errorEnabled="true"
+                    app:helperTextEnabled="true"
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:id="@+id/to_date_editText_layout"
@@ -514,20 +530,24 @@
 <!--                        android:layout_marginStart="5dp"-->
 <!--                        android:layout_marginEnd="25dp"/>-->
 
+                    <HorizontalScrollView
+                        android:layout_width="0dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
 
                     <com.robinhood.ticker.TickerView
                         android:id="@+id/text_view_principal_amount"
                         android:textSize="18sp"
                         android:text="0"
-                        android:layout_weight="1"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="25dp"
+                       android:layout_width="wrap_content"
                         android:textAlignment="textEnd"
                         android:textColor="@color/white"
-                        android:gravity="end"
-                        android:layout_width="0dp"
+                        android:layout_gravity="end"
                         android:layout_height="wrap_content" />
+                    </HorizontalScrollView>
 
                 </LinearLayout>
 
@@ -550,20 +570,24 @@
                         android:layout_marginEnd="5dp"
                         android:layout_marginTop="5dp"/>
 
-                    <com.robinhood.ticker.TickerView
-                        android:id="@+id/text_view_interest_amount"
+                    <HorizontalScrollView
                         android:layout_width="0dp"
                         android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:gravity="end"
-                        android:textAlignment="textEnd"
-                        android:textSize="18sp"
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
-                        android:textColor="@color/white"
                         android:layout_marginStart="5dp"
-                        android:layout_marginEnd="25dp"/>
+                        android:layout_marginEnd="25dp"
+                        android:layout_height="wrap_content">
+                    <com.robinhood.ticker.TickerView
+                        android:id="@+id/text_view_interest_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:layout_gravity="end"
+                        android:textAlignment="textEnd"
+                        android:textSize="18sp"
+                        android:textColor="@color/white" />
+                    </HorizontalScrollView>
 
                 </LinearLayout>
 
@@ -587,20 +611,25 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"/>
 
-                    <com.robinhood.ticker.TickerView
-                        android:id="@+id/text_view_total_amount"
+                    <HorizontalScrollView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:text="0"
-                        android:gravity="end"
-                        android:textAlignment="textEnd"
-                        android:textSize="18sp"
-                        android:textColor="@color/white"
                         android:layout_marginStart="5dp"
                         android:layout_marginEnd="25dp"
                         android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"/>
+                        android:layout_weight="1"
+                        android:layout_marginBottom="5dp"
+                        android:layout_height="wrap_content">
+                    <com.robinhood.ticker.TickerView
+                        android:id="@+id/text_view_total_amount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:layout_gravity="end"
+                        android:textAlignment="textEnd"
+                        android:textSize="18sp"
+                        android:textColor="@color/white"
+                       />
+                    </HorizontalScrollView>
 
                 </LinearLayout>
 

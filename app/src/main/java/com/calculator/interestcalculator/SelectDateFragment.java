@@ -33,7 +33,7 @@ public class SelectDateFragment extends DialogFragment implements DatePickerDial
          yy = calendar.get(Calendar.YEAR);
          mm = calendar.get(Calendar.MONTH);
          dd = calendar.get(Calendar.DAY_OF_MONTH);
-        return new DatePickerDialog(getActivity(),R.style.vibhuCalenderPickerTheme, this, yy, mm, dd);
+        return new DatePickerDialog(getActivity(),R.style.alertDialogCalendarPicker, this, yy, mm, dd);
     }
 
     public void onDateSet(DatePicker view, int yy, int mm, int dd) {

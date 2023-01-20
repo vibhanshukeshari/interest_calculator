@@ -62,5 +62,22 @@
         <item name="colorControlHighlight">#ffffff</item>
     </style>
 
+    <style name="alertDialogCalendarPicker" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:dialogCornerRadius">10dp</item>
+        <item name="android:background">#10171f</item>
+        <item name="colorAccent">#1da1f3</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/vibhuButtonThemeForCalenderPicker</item>
+        <item name="android:textColorPrimary">#d9ffffff</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+
+
+    <style name="alertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:dialogCornerRadius">10dp</item>
+        <item name="android:background">#10171f</item>
+        <item name="android:textColorPrimary">#d9ffffff</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
 
 </resources>

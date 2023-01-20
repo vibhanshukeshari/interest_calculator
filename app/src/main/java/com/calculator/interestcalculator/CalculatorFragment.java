@@ -2,6 +2,7 @@ package com.calculator.interestcalculator;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.DOWN;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.UP;
 
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -35,14 +36,20 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -96,14 +103,14 @@ import java.util.concurrent.TimeUnit;
 
 public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
+    boolean edit = true;
     View view;
     static long myValue;
     boolean flagBarWidthFirstTime = true;
+    int cursorPosition;
 
     String[] rateTypeFrequency = {"Yearly", "Monthly", "Weekly", "Daily", "Half-Yearly", "Quarterly", "Bi-Annually"};
-    String[] compoundingFrequency = {"Yearly", "Monthly", "Weekly", "Daily", "Half-Yearly", "Quarterly"};
-
-//    private static boolean radioButtonDurationOrDateStatus = true;
+    String[] compoundingFrequency = {"Yearly", "Monthly(12/Y)", "Weekly(52/Y)", "Daily(365/Y)", "Half-Yearly(2/Y)", "Quarterly(4/Y)", "Daily(360/Y)", "Bi-Weekly(26/Y)", "Half-Monthly(24/Y)", "Bi-Monthly(6/Y)", "Bi-Anually(0.5/Y)"};
 
     private NestedScrollView calculationScrollView;
     private static String countryName;
@@ -111,7 +118,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private static String countryCurrency;
     static boolean interestRatePercentageSelected = true;
     private int interestSpinnerRateType;
-//    private int compoundInterestSpinnerRateType;
+    //    private int compoundInterestSpinnerRateType;
     private int compoundInterestSpinnerFrequency;
     private double principalAmount;
     private double principalAmountOldValue = 0;
@@ -123,11 +130,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private double totalAmountFooterOldValue = 0;
     private int rateTypePA;
     private int rateTypeFrequencyYMWDHQBI;
-    private int compoundInterestFrequency;
+    //    private int compoundInterestFrequency;
     private LinearLayout linearLayoutVisualGraph;
 
     private double interestRate;
-        private double duration;
+    private double duration;
     private double totalSimpleInterestAmount;
     private double totalCompoundInterestAmount;
     private int year = 0;
@@ -157,6 +164,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     TextView textViewResultPrincipal, textViewCompoundingFrequency, textViewInterestRateType;
     ArrayAdapter<String> aa, arrayAdapter, arrayAdapterInterestRateType;
     Button btnCompound, btnSimple;
+    LinearLayout linearLayoutInterestRateType;
+
+    FrameLayout calculationFragmentParentFarmeLayout;
+    RelativeLayout rlMain;
 
     TextInputLayout editTextPrincipalAmountLayout;
 
@@ -164,13 +175,15 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     TextInputLayout fromDateEditTextLayout, toDateEditTextLayout;
 
+
+    TextInputLayout editTextYearLayout, editTextMonthLayout, editTextDayLayout;
+
     TextView textViewLableBarGraph0;
     TextView textViewLableBarGraph;
 
     RadioButton radioButtonDuration, radioButtonDate;
 
-    TickerView textViewPrincipalAmount, textViewInterestAmount, textViewTotalAmount,textViewFooterTotalAmount;
-
+    TickerView textViewPrincipalAmount, textViewInterestAmount, textViewTotalAmount, textViewFooterTotalAmount;
 
 
     @Override
@@ -205,6 +218,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         linearLayoutDuration = view.findViewById(R.id.linear_layout_duration);
 
         linearLayoutDurationBottomLine = view.findViewById(R.id.duration_bottom_line);
+        linearLayoutInterestRateType = view.findViewById(R.id.interest_rate_type);
 
         linearLayoutCompoundingFrequency = view.findViewById(R.id.linear_layout_compounding_frequency);
 
@@ -240,6 +254,13 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         calculationScrollView = view.findViewById(R.id.calculation_scroll_view);
 
+        editTextYearLayout = view.findViewById(R.id.edit_text_year_layout);
+        editTextMonthLayout = view.findViewById(R.id.edit_text_month_layout);
+        editTextDayLayout = view.findViewById(R.id.edit_text_day_layout);
+
+        calculationFragmentParentFarmeLayout = view.findViewById(R.id.calculation_fragment_parent_FrameLayout);
+        rlMain = requireActivity().findViewById(R.id.rlMain);
+
         ArrayList<String> arrayListInterestRateType = new ArrayList<>();
         arrayListInterestRateType.add("Percentage (%)");
 
@@ -252,8 +273,13 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         compoundInterest = new CompoundInterest();
         numberFormatterWithSymbol = new NumberFormatterWithSymbol();
         durationAndDate = new DurationAndDate();
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+        // Temporary this feature id turned off, in future it might be VISIBLE.
+//        Every thing is set in compound and simple java file at index of 1 PA
+//        just have to put formula
+        linearLayoutInterestRateType.setVisibility(View.GONE);
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Creating the ArrayAdapter instance having the interest rate type
         aa = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, rateTypeFrequency);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -278,16 +304,28 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         textViewCompoundingFrequency.setSelected(true);
         textViewInterestRateType.setSelected(true);
 
+        // used to hide soft keyboard
+
+        try {
+            setupUI(calculationFragmentParentFarmeLayout);
+
+        } catch (NullPointerException ignore) {}
+
+        try {
+            setupUI(rlMain);
+        } catch (NullPointerException ignore) {}
+
+
         btnSimple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 btnSimpleCompoundStatus = true;
 
-                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
-                                ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
-                                        !editTextDay.getText().toString().equals("")) ||
-                                        (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
+                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                        ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                !editTextDay.getText().toString().equals("")) ||
+                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
 
                     textViewLableBarGraph.setText("BarGraph");
@@ -296,8 +334,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     getSetViews();
 
 //                    Toast.makeText(getContext(), "true1", Toast.LENGTH_SHORT).show();
-
-
 
 
                 }
@@ -311,11 +347,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     btnCompound.setBackgroundColor(Color.parseColor("#15202b"));
                     btnCompound.setTextColor(Color.parseColor("#8899a6"));
                     btnCompound.setCompoundDrawablesWithIntrinsicBounds(R.drawable.compound_icon_unchecked, 0, 0, 0);
-                    linearLayoutCompoundingFrequency.setVisibility(View.GONE);
+
+
+                    LayoutCompoundFrequencyFadeOut(linearLayoutCompoundingFrequency);
+
+//                    linearLayoutCompoundingFrequency.setVisibility(View.GONE);
 
 
                 } catch (NullPointerException ignored) {
                 }
+
 
             }
         });
@@ -326,10 +367,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 btnSimpleCompoundStatus = false;
 
-                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
+                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                         ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                 !editTextDay.getText().toString().equals("")) ||
-                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
+                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
 
                     textViewLableBarGraph.setText("BarGraph");
@@ -344,8 +385,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     btnCompound.setBackgroundColor(Color.parseColor("#1da1f3"));
                     btnCompound.setTextColor(Color.parseColor("#ffffff"));
                     btnCompound.setCompoundDrawablesWithIntrinsicBounds(R.drawable.compound_icon, 0, 0, 0);
-                    linearLayoutCompoundingFrequency.setVisibility(View.VISIBLE);
-                    linearLayoutDurationBottomLine.setVisibility(View.GONE);
+
+
+//                    linearLayoutCompoundingFrequency.setVisibility(View.VISIBLE);
+
+                    LayoutCompoundFrequencyFadeIn(linearLayoutCompoundingFrequency);
+                    LayoutCompoundFrequencyFadeOut(linearLayoutDurationBottomLine);
+
+//                    linearLayoutDurationBottomLine.setVisibility(View.GONE);
 
                     btnSimple.setBackgroundColor(Color.parseColor("#15202b"));
                     btnSimple.setTextColor(Color.parseColor("#8899a6"));
@@ -369,11 +416,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 newFragment.show(getFragmentManager(), "DatePicker");
                 fromClicked = true;
 //                toDateEditText.performClick();
-
-
-
-
-
 
             }
         });
@@ -402,7 +444,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 //                durationAndDate.setRadioButtonDurationOrDataStatus(true);
 
-                year  = Integer.parseInt(0 + editTextYear.getText().toString());
+                year = Integer.parseInt(0 + editTextYear.getText().toString());
                 month = Integer.parseInt(0 + editTextMonth.getText().toString());
                 day = Integer.parseInt(0 + editTextDay.getText().toString());
 
@@ -410,17 +452,30 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 durationAndDate.setYear(year);
                 durationAndDate.setMonth(month);
                 durationAndDate.setDay(day);
-                duration = Double.parseDouble(String.format("%.2f",durationAndDate.getDuration()));
+                duration = Double.parseDouble(String.format("%.2f", durationAndDate.getDuration()));
 //                duration = durationAndDate.getDuration();
 
 //                Toast.makeText(getContext(), String.valueOf(duration), Toast.LENGTH_SHORT).show();
 
+                LayoutCompoundFrequencyFadeIn(linearLayoutDuration);
+                LayoutCompoundFrequencyFadeOut(linearLayoutDate);
+//                linearLayoutDate.setVisibility(View.GONE);
 
-                linearLayoutDate.setVisibility(View.GONE);
-                linearLayoutDuration.setVisibility(View.VISIBLE);
-                linearLayoutDurationBottomLine.setVisibility(View.GONE);
+//                linearLayoutDuration.setVisibility(View.VISIBLE);
+                LayoutCompoundFrequencyFadeOut(linearLayoutDurationBottomLine);
+//                linearLayoutDurationBottomLine.setVisibility(View.GONE);
 //                fromDateEditText.setText("");
 //                toDateEditText.setText("");
+
+                // it is used to set from or to date edit text to null if only one field is filled and user swaped to duration;
+                if (fromDateEditText.getText().toString().equals("") || toDateEditText.getText().toString().equals("")) {
+                    if (!fromDateEditText.getText().toString().equals("")) {
+                        fromDateEditText.setText("");
+                    } else {
+                        toDateEditText.setText("");
+//                        Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
             }
         });
@@ -448,11 +503,33 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 //                durationAndDate.setRadioButtonDurationOrDataStatus(false);
 
-                linearLayoutDuration.setVisibility(View.GONE);
-                linearLayoutDate.setVisibility(View.VISIBLE);
-                linearLayoutDurationBottomLine.setVisibility(View.GONE);
+
+                LayoutCompoundFrequencyFadeOut(linearLayoutDuration);
+//                linearLayoutDuration.setVisibility(View.GONE);
+                LayoutCompoundFrequencyFadeIn(linearLayoutDate);
+//                linearLayoutDate.setVisibility(View.VISIBLE);
+                LayoutCompoundFrequencyFadeOut(linearLayoutDurationBottomLine);
+//                linearLayoutDurationBottomLine.setVisibility(View.GONE);
 
 
+                if (fromDateEditText.getText().toString().equals("") && toDateEditText.getText().toString().equals("")) {
+
+                    if (!editTextYear.getText().toString().equals("")) {
+                        editTextYear.setText("");
+
+                    }
+
+                    if (!editTextMonth.getText().toString().equals("")) {
+                        editTextMonth.setText("");
+
+                    }
+
+                    if (!editTextDay.getText().toString().equals("")) {
+                        editTextDay.setText("");
+
+                    }
+
+                }
             }
         });
 
@@ -460,8 +537,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             mChart1.setNoDataText("Enter all three values to see Bar chart data.");
             pieChart.setNoDataText("Enter all three values to see Pie Chart data.");
 
-        }catch (NullPointerException ignore){}
-
+        } catch (NullPointerException ignore) {
+        }
 
 
         countryName = ((MainActivity) Objects.requireNonNull(requireActivity())).ccp.getSelectedCountryEnglishName();
@@ -483,7 +560,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 countryNameToCurrency.setCountryName(countryName);
                 countrySymbol = countryNameToCurrency.getmYcountrySymbol();
                 countryCurrency = countryNameToCurrency.getmYcountryCurrency();
-
 
 
                 arrayListInterestRateType.remove(1);
@@ -516,27 +592,26 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 numberFormatterWithSymbol.setCountryName(countryName);
                 numberFormatterWithSymbol.setNumber(principalAmount);
-               textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
-               editTextPrincipalAmountLayout.setPrefixText(countrySymbol + " ");
+                textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
+                editTextPrincipalAmountLayout.setPrefixText(countrySymbol + " ");
 
 
-
-                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
+                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                         ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                 !editTextDay.getText().toString().equals("")) ||
-                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
+                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
                     getSetViews();
 
                 }
 
 
-                if(btnSimpleCompoundStatus){
+                if (btnSimpleCompoundStatus) {
 
                     setSimpleInterestText();
 
 
-                }else {
+                } else {
 
                     setCompoundInterestText();
 
@@ -574,60 +649,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     interestRatePercentageSelected = true;
 
 
-
-//
-//                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
-//                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
-//                                    !editTextDay.getText().toString().equals("")) ||
-//                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
-//
-//                        if(btnSimple.isSelected()){
-//                            btnSimple.performClick();
-//                        }
-////
-////
-//                        if(btnCompound.isSelected()){
-//                            btnCompound.performClick();
-//                        }
-////                        getSetViews();
-//                    }
-
-
-
-
-
-
-
-
-
                 } else if (i == 1) {
 
                     interestSpinnerRateType = 1;
 //                    compoundInterestSpinnerRateType = 1;
                     editTextLayoutInterestRate.setHint("Interest Rate" + " " + "(" + countrySymbol + ")");
                     interestRatePercentageSelected = false;
-
-
-//
-//                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
-//                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
-//                                    !editTextDay.getText().toString().equals("")) ||
-//                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
-//
-//                        if(btnSimple.isSelected()){
-//                            btnSimple.performClick();
-//                        }
-//////
-//                        if(btnCompound.isSelected()){
-//                            btnCompound.performClick();
-//                        }
-//
-//                    }
-
-
-
-
-
 
                 }
             }
@@ -642,7 +669,118 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                compoundInterestFrequency = i;
+                if (i == 0) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 0;
+                        getSetViews();
+
+                    }
+                } else if (i == 1) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 1;
+                        getSetViews();
+
+                    }
+                } else if (i == 2) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 2;
+                        getSetViews();
+
+                    }
+                } else if (i == 3) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 3;
+                        getSetViews();
+
+                    }
+                } else if (i == 4) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 4;
+                        getSetViews();
+
+                    }
+                } else if (i == 5) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 5;
+                        getSetViews();
+
+                    }
+                } else if (i == 6) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 6;
+                        getSetViews();
+
+                    }
+                } else if (i == 7) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 7;
+                        getSetViews();
+
+                    }
+                } else if (i == 8) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 8;
+                        getSetViews();
+
+                    }
+                } else if (i == 9) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 9;
+                        getSetViews();
+
+                    }
+                } else if (i == 10) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        compoundInterestSpinnerFrequency = 10;
+                        getSetViews();
+
+                    }
+                }
+
             }
 
             @Override
@@ -652,30 +790,82 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         });
 
 
-
         spinnerInterestRateTypeYMWDHQBI.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
 //
-//                if(i == 0){
-//                    rateTypeFrequencyYMWDHQBI = 0;
-//                } else if(i == 1){
-//                    rateTypeFrequencyYMWDHQBI = 1;
-//                }else if(i == 2){
-//                    rateTypeFrequencyYMWDHQBI = 2;
-//                }else if(i == 3){
-//                    rateTypeFrequencyYMWDHQBI = 3;
-//                } else if(i == 4){
-//                    rateTypeFrequencyYMWDHQBI = 4;
-//                } else if(i == 5){
-//                    rateTypeFrequencyYMWDHQBI = 5;
-//                } else if(i == 6){
-//                    rateTypeFrequencyYMWDHQBI = 6;
-////                    Toast.makeText(getContext(), "6", Toast.LENGTH_SHORT).show();
-//                }
+                if (i == 0) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                rateTypeFrequencyYMWDHQBI = i;
+                        rateTypeFrequencyYMWDHQBI = 0;
+                        getSetViews();
+
+                    }
+                } else if (i == 1) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        rateTypeFrequencyYMWDHQBI = 1;
+                        getSetViews();
+
+                    }
+                } else if (i == 2) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        rateTypeFrequencyYMWDHQBI = 2;
+                        getSetViews();
+
+                    }
+                } else if (i == 3) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        rateTypeFrequencyYMWDHQBI = 3;
+                        getSetViews();
+
+                    }
+                } else if (i == 4) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        rateTypeFrequencyYMWDHQBI = 4;
+                        getSetViews();
+
+                    }
+                } else if (i == 5) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        rateTypeFrequencyYMWDHQBI = 5;
+                        getSetViews();
+
+                    }
+                } else if (i == 6) {
+                    if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
+                            ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
+                                    !editTextDay.getText().toString().equals("")) ||
+                                    (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
+
+                        rateTypeFrequencyYMWDHQBI = 6;
+                        getSetViews();
+
+                    }
+                }
 
             }
 
@@ -697,43 +887,76 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
+                double myPrincipal;
+                myPrincipal = Double.parseDouble("0" + editTextPrincipalAmount.getText().toString());
+                if (myPrincipal > 1000000000000.00) {
+                    editTextPrincipalAmountLayout.setHelperText(" Principal > 1 Trillion is not Allowed.");
 
-                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().equals("")) &&
+                    editTextPrincipalAmountLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                    editTextPrincipalAmountLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                    editTextPrincipalAmountLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                    editTextPrincipalAmount.setText("");
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            editTextPrincipalAmountLayout.setHelperText("");
+                            editTextPrincipalAmountLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+                            editTextPrincipalAmountLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+
+                        }
+                    }, 1000);
+//
+                }
+
+
+                if (myPrincipal == 0) {
+
+//                    Toast.makeText(getContext(), "true", Toast.LENGTH_SHORT).show();
+                    editTextPrincipalAmount.removeTextChangedListener(this);
+                    editTextPrincipalAmount.setText("");
+                    editTextPrincipalAmount.addTextChangedListener(this);
+                }
+
+
+                if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                         ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                 !editTextDay.getText().toString().equals("")) ||
-                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))){
+                                (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
 //                    Toast.makeText(getContext(), "getSetCalled", Toast.LENGTH_SHORT).show();
                     getSetViews();
 
-                    if(btnSimpleCompoundStatus){
+                    if (btnSimpleCompoundStatus) {
 
                         textViewLableBarGraph0.setText("Simple Interest");
                         textViewLableBarGraph.setText("Bar Graph");
 
-                    }else {
+                    } else {
 
                         textViewLableBarGraph.setText("Bar Graph");
                         textViewLableBarGraph0.setText("Compound Interest");
                     }
 
-                  } else {
-                    if(editTextPrincipalAmount.getText().toString().equals("") || editTextInterestRate.getText().toString().equals("")
+                } else {
+                    if (editTextPrincipalAmount.getText().toString().equals("") || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
                             ||
 
 
                             ((fromDateEditText.getText().toString().equals("") || toDateEditText.getText().toString().equals(""))
 
-                        &&
+                                    &&
 
 
-                            (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
-                            && editTextDay.getText().toString().equals(""))))
-                    {
+                                    (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
+                                            && editTextDay.getText().toString().equals("")))) {
                         resetViews();
-                      }
+                    }
 
-                  }
+                }
             }
 
             @Override
@@ -745,14 +968,13 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //---------------------------------------------------End----------------------------------------------------------------------
 
 
-
 // --------------------------------------Text Watcher interest amount----------------------------------------------------------------
 
 
         editTextInterestRate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                cursorPosition = editTextInterestRate.getSelectionEnd();
             }
 
             @Override
@@ -760,29 +982,29 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
                 if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().replaceAll("%", "").equals("") &&
                         (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                        || !editTextDay.getText().toString().equals(""))){
+                                || !editTextDay.getText().toString().equals(""))) {
 
 //                        ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString())) != 0)) {
                     getSetViews();
 
-                    if(btnSimpleCompoundStatus){
+                    if (btnSimpleCompoundStatus) {
 
                         textViewLableBarGraph0.setText("Simple Interest");
                         textViewLableBarGraph.setText("Bar Graph");
 
-                    }else {
+                    } else {
 
                         textViewLableBarGraph.setText("Bar Graph");
                         textViewLableBarGraph0.setText("Compound Interest");
                     }
 
                 } else {
-                    if(editTextPrincipalAmount.getText().toString().equals("")
-                            || editTextInterestRate.getText().toString().equals("")
-                        || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
-                     && editTextDay.getText().toString().equals("")))
+                    if (editTextPrincipalAmount.getText().toString().equals("")
+                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
+                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
+                            && editTextDay.getText().toString().equals("")))
 
 //                            || ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString()) == 0)))
                     {
@@ -792,28 +1014,78 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
 
+                double rate;
+                rate = Double.parseDouble("0" + editTextInterestRate.getText().toString().replaceAll("%", ""));
+                if (rate > 1000) {
+                    editTextLayoutInterestRate.setHelperText(" Rate > 1000 is not Allowed.");
+
+                    editTextLayoutInterestRate.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                    editTextLayoutInterestRate.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                    editTextLayoutInterestRate.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                    editTextInterestRate.setText("");
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            editTextLayoutInterestRate.setHelperText("");
+                            editTextLayoutInterestRate.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+                            editTextLayoutInterestRate.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+
+                        }
+                    }, 1000);
+//
+                }
+
+
+                if (rate == 0) {
+
+                    editTextInterestRate.removeTextChangedListener(this);
+                    editTextInterestRate.setText("");
+                    editTextInterestRate.addTextChangedListener(this);
+                }
+
 
             }
+
 
             @Override
             public void afterTextChanged(Editable editable) {
+                String myBeforePercentText;
+
+                if (!editTextInterestRate.getText().toString().equals("")) {
+
+
+                    if (edit) {
+                        edit = false;
+                        myBeforePercentText = editTextInterestRate.getText().toString().replaceAll("%", "");
+                        editTextInterestRate.setText(myBeforePercentText + "%");
+                        edit = true;
+
+                    }
+
+                    editTextInterestRate.setSelection(cursorPosition);
+
+
+                }
+
+                if (editTextInterestRate.getText().toString().equals("%")) {
+                    editTextInterestRate.setText("");
+                }
+
+                double rate = Integer.parseInt("0" + editTextInterestRate.getText().toString().replaceAll("%", ""));
+
 
             }
         });
-
-
-
-
-
 
 
 //-----------------------------------------------------End---------------------------------------------------------------------------------
 
 
 // --------------------------------------Text Watcher Year----------------------------------------------------------------
-
-
-
 
 
         editTextYear.addTextChangedListener(new TextWatcher() {
@@ -827,7 +1099,30 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
                 int years = Integer.parseInt("0" + editTextYear.getText().toString());
-                if(years == 0 ){
+
+
+                if (years > 99) {
+                    editTextYearLayout.setHelperText("> 99 is not Allowed.");
+                    editTextYearLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                    editTextYearLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                    editTextYear.setText("");
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            editTextYearLayout.setHelperText("");
+                            editTextYearLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+                            editTextYearLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+
+                        }
+                    }, 1000);
+//
+                }
+
+                if (years == 0) {
 
                     editTextYear.removeTextChangedListener(this);
                     editTextYear.setText("");
@@ -835,30 +1130,28 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
 
-
-
                 if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().replaceAll("%", "").equals("") &&
                         (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                                || !editTextDay.getText().toString().equals(""))){
+                                || !editTextDay.getText().toString().equals(""))) {
 
 //                        ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString())) != 0)) {
                     getSetViews();
 
-                    if(btnSimpleCompoundStatus){
+                    if (btnSimpleCompoundStatus) {
 
                         textViewLableBarGraph0.setText("Simple Interest");
                         textViewLableBarGraph.setText("Bar Graph");
 
-                    }else {
+                    } else {
 
                         textViewLableBarGraph.setText("Bar Graph");
                         textViewLableBarGraph0.setText("Compound Interest");
                     }
 
                 } else {
-                    if(editTextPrincipalAmount.getText().toString().equals("")
-                            || editTextInterestRate.getText().toString().equals("")
+                    if (editTextPrincipalAmount.getText().toString().equals("")
+                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
                             || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
                             && editTextDay.getText().toString().equals("")))
 
@@ -870,25 +1163,22 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
 
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if(radioButtonDuration.isChecked()){
-                    if(!fromDateEditText.getText().toString().equals("")){
+                if (radioButtonDuration.isChecked()) {
+                    if (!fromDateEditText.getText().toString().equals("")) {
                         fromDateEditText.setText("");
                     }
 
-                    if(!toDateEditText.getText().toString().equals("")){
+                    if (!toDateEditText.getText().toString().equals("")) {
                         toDateEditText.setText("");
                     }
 
 
-
                 }
-
 
 
             }
@@ -898,7 +1188,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
 // --------------------------------------Text Watcher Day----------------------------------------------------------------
-
 
 
         editTextDay.addTextChangedListener(new TextWatcher() {
@@ -912,7 +1201,29 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
                 int days = Integer.parseInt("0" + editTextDay.getText().toString());
-                if(days == 0 ){
+
+
+                if (days > 31) {
+                    editTextDayLayout.setHelperText("> 31 is not Allowed.");
+                    editTextDayLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                    editTextDayLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                    editTextDay.setText("");
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            editTextDayLayout.setHelperText("");
+                            editTextDayLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+                            editTextDayLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+
+                        }
+                    }, 1000);
+//
+                }
+
+                if (days == 0) {
 
                     editTextDay.removeTextChangedListener(this);
                     editTextDay.setText("");
@@ -920,32 +1231,28 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
                 if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().replaceAll("%", "").equals("") &&
                         (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                                || !editTextDay.getText().toString().equals(""))){
-
-
-
-
+                                || !editTextDay.getText().toString().equals(""))) {
 
 
 //                        ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString())) != 0)) {
                     getSetViews();
 
-                    if(btnSimpleCompoundStatus){
+                    if (btnSimpleCompoundStatus) {
 
                         textViewLableBarGraph0.setText("Simple Interest");
                         textViewLableBarGraph.setText("Bar Graph");
 
-                    }else {
+                    } else {
 
                         textViewLableBarGraph.setText("Bar Graph");
                         textViewLableBarGraph0.setText("Compound Interest");
                     }
 
                 } else {
-                    if(editTextPrincipalAmount.getText().toString().equals("")
-                            || editTextInterestRate.getText().toString().equals("")
+                    if (editTextPrincipalAmount.getText().toString().equals("")
+                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
                             || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
                             && editTextDay.getText().toString().equals("")))
 
@@ -957,21 +1264,19 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
 
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 
-                if(radioButtonDuration.isChecked()){
-                    if(!fromDateEditText.getText().toString().equals("")){
+                if (radioButtonDuration.isChecked()) {
+                    if (!fromDateEditText.getText().toString().equals("")) {
                         fromDateEditText.setText("");
                     }
 
-                    if(!toDateEditText.getText().toString().equals("")){
+                    if (!toDateEditText.getText().toString().equals("")) {
                         toDateEditText.setText("");
                     }
-
 
 
                 }
@@ -981,8 +1286,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
 //-----------------------------------------------------End---------------------------------------------------------------------------------
-
-
 
 
 // --------------------------------------Text Watcher Month----------------------------------------------------------------
@@ -998,7 +1301,30 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
                 int months = Integer.parseInt("0" + editTextMonth.getText().toString());
-                if(months == 0 ){
+
+
+                if (months > 11) {
+                    editTextMonthLayout.setHelperText("> 11 is not Allowed.");
+                    editTextMonthLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                    editTextMonthLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                    editTextMonth.setText("");
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            editTextMonthLayout.setHelperText("");
+                            editTextMonthLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+                            editTextMonthLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+
+                        }
+                    }, 1000);
+//
+                }
+
+
+                if (months == 0) {
 
                     editTextMonth.removeTextChangedListener(this);
                     editTextMonth.setText("");
@@ -1006,29 +1332,28 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
 
-
                 if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().replaceAll("%", "").equals("") &&
                         (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                                || !editTextDay.getText().toString().equals(""))){
+                                || !editTextDay.getText().toString().equals(""))) {
 
 //                        ((Integer.parseInt(editTextYear.getText().toString()) + Integer.parseInt(editTextMonth.getText().toString()) + Integer.parseInt(editTextDay.getText().toString())) != 0)) {
                     getSetViews();
 
-                    if(btnSimpleCompoundStatus){
+                    if (btnSimpleCompoundStatus) {
 
                         textViewLableBarGraph0.setText("Simple Interest");
                         textViewLableBarGraph.setText("Bar Graph");
 
-                    }else {
+                    } else {
 
                         textViewLableBarGraph.setText("Bar Graph");
                         textViewLableBarGraph0.setText("Compound Interest");
                     }
 
                 } else {
-                    if(editTextPrincipalAmount.getText().toString().equals("")
-                            || editTextInterestRate.getText().toString().equals("")
+                    if (editTextPrincipalAmount.getText().toString().equals("")
+                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
                             || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
                             && editTextDay.getText().toString().equals("")))
 
@@ -1045,15 +1370,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void afterTextChanged(Editable editable) {
 
 
-                if(radioButtonDuration.isChecked()){
-                    if(!fromDateEditText.getText().toString().equals("")){
+                if (radioButtonDuration.isChecked()) {
+                    if (!fromDateEditText.getText().toString().equals("")) {
                         fromDateEditText.setText("");
                     }
 
-                    if(!toDateEditText.getText().toString().equals("")){
+                    if (!toDateEditText.getText().toString().equals("")) {
                         toDateEditText.setText("");
                     }
-
 
 
                 }
@@ -1063,7 +1387,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         });
 
 //-----------------------------------------------------End---------------------------------------------------------------------------------
-
 
 
 // --------------------------------------Text Watcher toDateEditText----------------------------------------------------------------
@@ -1078,7 +1401,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
-                if(!toDateEditText.getText().toString().equals("") && !fromDateEditText.getText().toString().equals("")){
+                if (!toDateEditText.getText().toString().equals("") && !fromDateEditText.getText().toString().equals("")) {
 
 
                     String myFromDate = "" + fromDateEditText.getText().toString();
@@ -1087,13 +1410,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
 
 
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
 // It took 3 days to convert to years months and days between two dates;
-                if(!toDateEditText.getText().toString().equals("") && !fromDateEditText.getText().toString().equals("")) {
+                if (!toDateEditText.getText().toString().equals("") && !fromDateEditText.getText().toString().equals("")) {
 
                     String myFromDate = fromDateEditText.getText().toString();
                     String myToDate = toDateEditText.getText().toString();
@@ -1129,72 +1451,281 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     if (fromDate.after(toDate)) {
 //if date1>date2, prints the following statement
 
-                        toDateEditTextLayout.setError("End date can't be Lesser than start date.");
-                        toDateEditTextLayout.setBoxStrokeErrorColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
-                        fromDateEditTextLayout.setError("Start date can't be Greater than end date.");
-                        fromDateEditTextLayout.setBoxStrokeErrorColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                        toDateEditTextLayout.setHelperText("End date can't be Lesser than start date.");
+//                        toDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+//                        toDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                        toDateEditTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                        fromDateEditTextLayout.setHelperText("Start date can't be Greater than end date.");
+                        fromDateEditTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+//                        fromDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+//                        fromDateEditTextLayout.setEndIconDrawable(R.drawable.compound_icon);
+
+                        toDateEditText.setTextColor(Color.parseColor("#ff0000"));
+                        fromDateEditText.setTextColor(Color.parseColor("#ff0000"));
+
+
+//                        fromDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
 
                         final Handler handler = new Handler(Looper.getMainLooper());
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 toDateEditText.setText("");
-                                toDateEditTextLayout.setError("");
+                                toDateEditTextLayout.setHelperText("");
+//                                toDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+//                                toDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
 
-                                fromDateEditTextLayout.setError("");
+                                toDateEditText.setTextColor(Color.parseColor("#ff0000"));
+                                fromDateEditText.setTextColor(Color.parseColor("#ff0000"));
+
+                                fromDateEditTextLayout.setHelperText("");
                                 fromDateEditText.setText("");
+                                toDateEditText.setTextColor(Color.parseColor("#ffffff"));
+                                fromDateEditText.setTextColor(Color.parseColor("#ffffff"));
+
+//                                fromDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+//                                fromDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
                             }
-                        }, 2000);
+                        }, 1000);
 //
 
 
                     } else if (fromDate.before(toDate)) {
 
 
-                      org.joda.time.LocalDate finalFromDate = new org.joda.time.LocalDate(fromYear, fromMonth, fromDay);
+                        org.joda.time.LocalDate finalFromDate = new org.joda.time.LocalDate(fromYear, fromMonth, fromDay);
                         org.joda.time.LocalDate finalToDate = new org.joda.time.LocalDate(toYear, toMonth, toDay);
                         org.joda.time.Period period = new Period(finalFromDate, finalToDate, PeriodType.yearMonthDay());
 
 
-                    int years = period.getYears();
-                    int months = period.getMonths();
-                    int days = period.getDays();
+                        int years = period.getYears();
+                        int months = period.getMonths();
+                        int days = period.getDays();
 
 
-                    editTextYear.setText(String.valueOf(years));
-                    editTextMonth.setText(String.valueOf(months));
-                    editTextDay.setText(String.valueOf(days));
+                        editTextYear.setText(String.valueOf(years));
+                        editTextMonth.setText(String.valueOf(months));
+                        editTextDay.setText(String.valueOf(days));
 
-                    radioButtonDuration.performClick();
+                        radioButtonDuration.performClick();
 
                     } else if (fromDate.equals(toDate)) {
 
 
-
-                        toDateEditTextLayout.setError("End date can't be Equal to start date.");
-                        fromDateEditTextLayout.setError("Start date can't be Equal to end date.");
-                        fromDateEditTextLayout.setBoxStrokeErrorColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
-                        toDateEditTextLayout.setBoxStrokeErrorColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                        toDateEditTextLayout.setHelperText("End date can't be Equal to start date.");
+                        toDateEditTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                        fromDateEditTextLayout.setHelperText("Start date can't be Equal to end date.");
+                        fromDateEditTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                        fromDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                        toDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                        toDateEditText.setTextColor(Color.parseColor("#ff0000"));
+                        fromDateEditText.setTextColor(Color.parseColor("#ff0000"));
 
                         final Handler handler = new Handler(Looper.getMainLooper());
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 toDateEditText.setText("");
-                                toDateEditTextLayout.setError("");
+                                toDateEditTextLayout.setHelperText("");
+//                                toDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+//                                toDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+                                toDateEditText.setTextColor(Color.parseColor("#ffffff"));
+                                fromDateEditText.setTextColor(Color.parseColor("#ffffff"));
 
-                                fromDateEditTextLayout.setError("");
+
+                                fromDateEditTextLayout.setHelperText("");
                                 fromDateEditText.setText("");
+//                                fromDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+//                                fromDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
                             }
-                        }, 2000);
+                        }, 1000);
 //
 
 
                     }
 
 
+//                    int years = period.getYears();
+//                    int months = period.getMonths();
+//                    int days = period.getDays();
 
 
+//                    editTextYear.setText(String.valueOf(years));
+//                    editTextMonth.setText(String.valueOf(months));
+//                    editTextDay.setText(String.valueOf(days));
+
+
+//                    durationAndDate.setRadioButtonDurationOrDataStatus(true);
+//                    radioButtonDuration.performClick();
+
+                }
+
+            }
+        });
+
+
+        // --------------------------------------Text Watcher toDateEditText----------------------------------------------------------------
+
+        fromDateEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+
+                if (!toDateEditText.getText().toString().equals("") && !fromDateEditText.getText().toString().equals("")) {
+
+
+                    String myFromDate = "" + fromDateEditText.getText().toString();
+
+
+                }
+
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+// It took 3 days to convert to years months and days between two dates;
+                if (!toDateEditText.getText().toString().equals("") && !fromDateEditText.getText().toString().equals("")) {
+
+                    String myFromDate = fromDateEditText.getText().toString();
+                    String myToDate = toDateEditText.getText().toString();
+
+                    Date fromDate = null;
+                    Date toDate = null;
+
+
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                    try {
+                        fromDate = format.parse(myFromDate);
+                    } catch (ParseException e) {
+                    }
+
+                    try {
+                        toDate = format.parse(myToDate);
+                    } catch (ParseException e) {
+                    }
+
+
+                    int fromDay = Integer.valueOf((String) DateFormat.format("dd", fromDate));
+                    int fromMonth = Integer.valueOf((String) DateFormat.format("MM", fromDate));
+                    int fromYear = Integer.valueOf((String) DateFormat.format("yyyy", fromDate));
+
+
+                    int toDay = Integer.valueOf((String) DateFormat.format("dd", toDate));
+                    int toMonth = Integer.valueOf((String) DateFormat.format("MM", toDate));
+                    int toYear = Integer.valueOf((String) DateFormat.format("yyyy", toDate));
+
+
+                    fromDate.after(toDate);
+                    if (fromDate.after(toDate)) {
+//if date1>date2, prints the following statement
+
+
+                        toDateEditTextLayout.setHelperText("End date can't be Lesser than start date.");
+//                        toDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+//                        toDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                        toDateEditTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                        fromDateEditTextLayout.setHelperText("Start date can't be Greater than end date.");
+                        fromDateEditTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+//                        fromDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+//                        fromDateEditTextLayout.setEndIconDrawable(R.drawable.compound_icon);
+
+                        toDateEditText.setTextColor(Color.parseColor("#ff0000"));
+                        fromDateEditText.setTextColor(Color.parseColor("#ff0000"));
+
+
+//                        fromDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                        final Handler handler = new Handler(Looper.getMainLooper());
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                toDateEditText.setText("");
+                                toDateEditTextLayout.setHelperText("");
+//                                toDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+//                                toDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+                                toDateEditText.setTextColor(Color.parseColor("#ff0000"));
+                                fromDateEditText.setTextColor(Color.parseColor("#ff0000"));
+
+                                fromDateEditTextLayout.setHelperText("");
+                                fromDateEditText.setText("");
+                                toDateEditText.setTextColor(Color.parseColor("#ffffff"));
+                                fromDateEditText.setTextColor(Color.parseColor("#ffffff"));
+
+//                                fromDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+//                                fromDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+                            }
+                        }, 1000);
+//
+
+
+                    } else if (fromDate.before(toDate)) {
+
+
+                        org.joda.time.LocalDate finalFromDate = new org.joda.time.LocalDate(fromYear, fromMonth, fromDay);
+                        org.joda.time.LocalDate finalToDate = new org.joda.time.LocalDate(toYear, toMonth, toDay);
+                        org.joda.time.Period period = new Period(finalFromDate, finalToDate, PeriodType.yearMonthDay());
+
+
+                        int years = period.getYears();
+                        int months = period.getMonths();
+                        int days = period.getDays();
+
+
+                        editTextYear.setText(String.valueOf(years));
+                        editTextMonth.setText(String.valueOf(months));
+                        editTextDay.setText(String.valueOf(days));
+
+                        radioButtonDuration.performClick();
+
+                    } else if (fromDate.equals(toDate)) {
+
+
+                        toDateEditTextLayout.setHelperText("End date can't be Equal to start date.");
+                        toDateEditTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                        fromDateEditTextLayout.setHelperText("Start date can't be Equal to end date.");
+                        fromDateEditTextLayout.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                        fromDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                        toDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                        toDateEditText.setTextColor(Color.parseColor("#ff0000"));
+                        fromDateEditText.setTextColor(Color.parseColor("#ff0000"));
+
+                        final Handler handler = new Handler(Looper.getMainLooper());
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                toDateEditText.setText("");
+                                toDateEditTextLayout.setHelperText("");
+//                                toDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+//                                toDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+                                toDateEditText.setTextColor(Color.parseColor("#ffffff"));
+                                fromDateEditText.setTextColor(Color.parseColor("#ffffff"));
+
+
+                                fromDateEditTextLayout.setHelperText("");
+                                fromDateEditText.setText("");
+//                                fromDateEditTextLayout.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+//                                fromDateEditTextLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+                            }
+                        }, 1000);
+//
+
+
+                    }
 
 
 //                    int years = period.getYears();
@@ -1218,8 +1749,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //-----------------------------------------------------End---------------------------------------------------------------------------------
 
 
-
-
 // later it will be done after data set at bottom
 //        getSetView()
 //
@@ -1240,8 +1769,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //
 
 
-
-
 //        spinnerInterestRateType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 //            @Override
 //            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -1253,8 +1780,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //
 //            }
 //        });
-
-
 
 
 //        Took 4 hours to do this, changing device language to arabic it changes app numeric to arabic also;
@@ -1276,9 +1801,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private void loadPieChartData() {
         ArrayList<PieEntry> entries = new ArrayList<>();
 
-        if(btnSimpleCompoundStatus){
+        if (btnSimpleCompoundStatus) {
             entries.add(new PieEntry((float) principalAmount, "Principal Amount"));
-            entries.add(new PieEntry((float) totalSimpleInterestAmount , "Total Interest"));
+            entries.add(new PieEntry((float) totalSimpleInterestAmount, "Total Interest"));
 
         } else {
             entries.add(new PieEntry((float) principalAmount, "Principal Amount"));
@@ -1359,7 +1884,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         mChart1.getXAxis().setGridColor(Color.parseColor("#8899a6"));
         mChart1.getXAxis().setAxisLineColor(Color.parseColor("#8899a6"));
         mChart1.getAxisLeft().setAxisLineColor(Color.parseColor("#8899a6"));
-
 
 
         // change the position of the y-labels
@@ -1489,74 +2013,73 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
 
-        for ( double time = 1.0; time < duration+1 ; time++) {
-
+        for (double time = 1.0; time < duration + 1; time++) {
 
 
             // It took 50 hrs to create a bar graph properly. (Amrit hostel ) dated - 14/01/2023
 
             if (btnSimpleCompoundStatus) {
 
-                double fraction = duration % 1 ;
+                double fraction = duration % 1;
 
-                    if(((time + fraction) == (duration + 1)) && (fraction != 0)){
-                        simpleInterest.setTime(fraction );
+                if (((time + fraction) == (duration + 1)) && (fraction != 0)) {
+                    simpleInterest.setTime(fraction);
 
-                        double myPredeccessorSI;
+                    double myPredeccessorSI;
 
-                        if(duration <1.0){
+                    if (duration < 1.0) {
 
-                            totalSimpleInterestAmount =   simpleInterest.getTotalSimpleInterestAmount();
-                            yVals1.add(new BarEntry((float) time,
-                                    new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
-                                    getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
-//                            Toast.makeText(getContext(), String.valueOf(1), Toast.LENGTH_SHORT).show();
-
-                        } else {
-
-                            myPredeccessorSI = totalSimpleInterestAmount;
-                            totalSimpleInterestAmount =   simpleInterest.getTotalSimpleInterestAmount();
-//                            Toast.makeText(getContext(), String.valueOf(myPredeccessorSI), Toast.LENGTH_SHORT).show();
-                            yVals1.add(new BarEntry((float) time,
-                                    new float[]{(float) principalAmount, (float) totalSimpleInterestAmount + (float)myPredeccessorSI},
-                                    getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
-
-                        }
-
-                    } else {
-                        simpleInterest.setTime(time);
                         totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
-
                         yVals1.add(new BarEntry((float) time,
                                 new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
                                 getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+//                            Toast.makeText(getContext(), String.valueOf(1), Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        myPredeccessorSI = totalSimpleInterestAmount;
+                        totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
+//                            Toast.makeText(getContext(), String.valueOf(myPredeccessorSI), Toast.LENGTH_SHORT).show();
+                        yVals1.add(new BarEntry((float) time,
+                                new float[]{(float) principalAmount, (float) totalSimpleInterestAmount + (float) myPredeccessorSI},
+                                getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
 
                     }
+
+                } else {
+                    simpleInterest.setTime(time);
+                    totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
+
+                    yVals1.add(new BarEntry((float) time,
+                            new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
+                            getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+
+                }
 
             } else {
 
                 double fraction = duration % 1;
                 //took 5 hrs to create this concept, need to chagne principal amount for last iteration
-                if(((time + fraction) == (duration + 1)) && (fraction != 0)){
+                if (((time + fraction) == (duration + 1)) && (fraction != 0)) {
                     compoundInterest.setTime(fraction);
 
 
-                    if(duration<1){
-                        totalCompoundInterestAmount =    compoundInterest.getTotalCompoundInterestAmount();
-                        compoundInterest.setPrincipal(Double.parseDouble( 0 + editTextPrincipalAmount.getText().toString()));
+                    if (duration < 1) {
+                        totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
+                        compoundInterest.setPrincipal(Double.parseDouble(0 + editTextPrincipalAmount.getText().toString()));
 
                     } else {
 
 
-                    compoundInterest.setPrincipal(totalCompoundInterestAmount);
-                    totalCompoundInterestAmount =    compoundInterest.getTotalCompoundInterestAmount();
-                    compoundInterest.setPrincipal(Double.parseDouble( 0 + editTextPrincipalAmount.getText().toString()));
+                        compoundInterest.setPrincipal(totalCompoundInterestAmount);
+                        totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
+                        compoundInterest.setPrincipal(Double.parseDouble(0 + editTextPrincipalAmount.getText().toString()));
 
                     }
 
                 } else {
                     compoundInterest.setTime(time);
-                    totalCompoundInterestAmount =  compoundInterest.getTotalCompoundInterestAmount();
+                    totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
 
                 }
 
@@ -1568,13 +2091,13 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         }
 
-        if(btnSimpleCompoundStatus){
-            simpleInterest.setTime( Double.parseDouble(String.format("%.2f",durationAndDate.getDuration())));
+        if (btnSimpleCompoundStatus) {
+            simpleInterest.setTime(Double.parseDouble(String.format("%.2f", durationAndDate.getDuration())));
             totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
             setSimpleInterestText();
 
         } else {
-            compoundInterest.setTime(Double.parseDouble(String.format("%.2f",durationAndDate.getDuration())));
+            compoundInterest.setTime(Double.parseDouble(String.format("%.2f", durationAndDate.getDuration())));
             totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
             setCompoundInterestText();
 
@@ -1586,14 +2109,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 String vibhuFormattedValue;
 
-                if(value <= 999){
+                if (value <= 999) {
 
                     numberFormatterWithSymbol.setNumber(value);
                     vibhuFormattedValue = numberFormatterWithSymbol.getNumberAfterFormat();
 
                 } else {
 
-                    vibhuFormattedValue = countrySymbol +" " + String.valueOf(format((long) value));
+                    vibhuFormattedValue = countrySymbol + " " + String.valueOf(format((long) value));
 
                 }
 
@@ -1603,7 +2126,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         });
 
         BarDataSet set1;
-
 
 
         if (mChart1.getData() != null &&
@@ -1627,8 +2149,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //            set1.setDrawValues(true);
 
 
-
-
 // It took 2 days to sort out this format before using LargeValueFormatter but it was showing wrong value < 1000;
             data.setValueFormatter(new ValueFormatter() {
                 @Override
@@ -1636,14 +2156,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                     String vibhuFormattedValue;
 
-                    if(value <= 999){
+                    if (value <= 999) {
 
                         numberFormatterWithSymbol.setNumber(value);
                         vibhuFormattedValue = numberFormatterWithSymbol.getNumberAfterFormat();
 
                     } else {
 
-                        vibhuFormattedValue = countrySymbol +" " + String.valueOf(format((long) value));
+                        vibhuFormattedValue = countrySymbol + " " + String.valueOf(format((long) value));
 
                     }
 
@@ -1654,7 +2174,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
             data.setValueTextColor(Color.WHITE);
 
-                mChart1.setData(data);
+            mChart1.setData(data);
 
         }
 
@@ -1668,7 +2188,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         float scaleX = viewPortHandler.getScaleX();
                         float scaleY = viewPortHandler.getScaleY();
 
-                        if(scaleX != 1 || scaleY != 1){
+                        if (scaleX != 1 || scaleY != 1) {
 
                             calculationScrollView.requestDisallowInterceptTouchEvent(true);
                         }
@@ -1682,9 +2202,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         float scaleX = viewPortHandler.getScaleX();
                         float scaleY = viewPortHandler.getScaleY();
 
-                        if(scaleX != 1 || scaleY != 1){
+                        if (scaleX != 1 || scaleY != 1) {
 
-                        calculationScrollView.requestDisallowInterceptTouchEvent(false);
+                            calculationScrollView.requestDisallowInterceptTouchEvent(false);
                         }
 
 //                        Toast.makeText(getContext(), String.valueOf(scaleX), Toast.LENGTH_SHORT).show();
@@ -1697,7 +2217,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 return false;
             }
         });
-
 
 
         mChart1.getLegend().setEnabled(false);
@@ -1725,9 +2244,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     }
 
-    public int getSpinnerRateTypeFrequencyYMWDHQBI(){
+    public int getSpinnerRateTypeFrequencyYMWDHQBI() {
         return rateTypeFrequencyYMWDHQBI;
     }
+
     public int getSpinnerCompoundingFrequency() {
         return compoundInterestSpinnerFrequency;
     }
@@ -1749,11 +2269,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //        Toast.makeText(getContext(), "han gaya m mai", Toast.LENGTH_SHORT).show();
         // trick for comparing old and new value to ticker
         principalAmountOldValue = principalAmount;
-        principalAmount = Double.parseDouble( 0 + editTextPrincipalAmount.getText().toString());
+        principalAmount = Double.parseDouble(0 + editTextPrincipalAmount.getText().toString());
 
-          interestAmounOldValue = getInterestAmount;
+        interestAmounOldValue = getInterestAmount;
 //
-        if(btnSimpleCompoundStatus){
+        if (btnSimpleCompoundStatus) {
 
             getInterestAmount = totalSimpleInterestAmount;
 
@@ -1763,9 +2283,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         }
 
-          totalAmountOldValue = getTotalAmount;
+        totalAmountOldValue = getTotalAmount;
 
-        if(btnSimpleCompoundStatus){
+        if (btnSimpleCompoundStatus) {
 
             getTotalAmount = principalAmount + totalSimpleInterestAmount;
 
@@ -1775,50 +2295,51 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         }
 
-          totalAmountFooterOldValue = getTotalFooterAmount;
+        totalAmountFooterOldValue = getTotalFooterAmount;
 
-        if(btnSimpleCompoundStatus){
+        if (btnSimpleCompoundStatus) {
 
             getTotalFooterAmount = principalAmount + totalSimpleInterestAmount;
         } else {
             getTotalFooterAmount = principalAmount + totalSimpleInterestAmount;
         }
 
-        interestRate = Double.parseDouble( 0 + editTextInterestRate.getText().toString());
+        interestRate = Double.parseDouble(0 + editTextInterestRate.getText().toString().replaceAll("%", ""));
 
 
-            year  = Integer.parseInt(0 + editTextYear.getText().toString());
-            month = Integer.parseInt(0 + editTextMonth.getText().toString());
-            day = Integer.parseInt(0 + editTextDay.getText().toString());
+        year = Integer.parseInt(0 + editTextYear.getText().toString());
+        month = Integer.parseInt(0 + editTextMonth.getText().toString());
+        day = Integer.parseInt(0 + editTextDay.getText().toString());
 
 
 //            durationAndDate.setRadioButtonDurationOrDataStatus(true);
-            durationAndDate.setYear(year);
-            durationAndDate.setMonth(month);
+        durationAndDate.setYear(year);
+        durationAndDate.setMonth(month);
 
-            if(day == 1){
+        if (day == 1) {
 //it is used because on day one duration was 0 hence bar graph representing wrong whenever user put a number starting with 1 day;
-                durationAndDate.setDay(day + 1);
+            durationAndDate.setDay(day + 1);
 
-            }else {
-                durationAndDate.setDay(day);
-            }
+        } else {
+            durationAndDate.setDay(day);
+        }
 
 
         simpleInterest.setPrincipal(principalAmount);
         simpleInterest.setRateType(rateTypePA);
         simpleInterest.setRate(interestRate);
         simpleInterest.setRateTypeFrequencyYMWDHQBI(rateTypeFrequencyYMWDHQBI);
+        Toast.makeText(getContext(), String.valueOf(rateTypeFrequencyYMWDHQBI), Toast.LENGTH_SHORT).show();
 
         compoundInterest.setPrincipal(principalAmount);
         compoundInterest.setRateType(rateTypePA);
         compoundInterest.setRate(interestRate);
-        compoundInterest.setCompoundingFrequency(compoundInterestFrequency);
+        compoundInterest.setCompoundingFrequency(compoundInterestSpinnerFrequency);
         compoundInterest.setRateTypeFrequencyYMWDHQBI(rateTypeFrequencyYMWDHQBI);
 
         numberFormatterWithSymbol.setCountryName(countryName);
 
-        if(principalAmountOldValue < principalAmount){
+        if (principalAmountOldValue < principalAmount) {
 
             textViewPrincipalAmount.setPreferredScrollingDirection(DOWN);
 
@@ -1833,10 +2354,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
         rateTypePA = getSpinnerInterestRateType();
-        compoundInterestFrequency = getSpinnerCompoundingFrequency();
+        compoundInterestSpinnerFrequency = getSpinnerCompoundingFrequency();
         rateTypeFrequencyYMWDHQBI = getSpinnerRateTypeFrequencyYMWDHQBI();
 
-        duration = Double.parseDouble(String.format("%.2f",durationAndDate.getDuration()));
+        duration = Double.parseDouble(String.format("%.2f", durationAndDate.getDuration()));
 //        Toast.makeText(getContext(), String.valueOf(duration), Toast.LENGTH_SHORT).show();
 
 
@@ -1844,7 +2365,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     }
 
-    private void resetViews(){
+    private void resetViews() {
 
         numberFormatterWithSymbol.setNumber(0);
         textViewPrincipalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
@@ -1857,25 +2378,26 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             pieChart.clear();
             textViewLableBarGraph0.setText("");
             textViewLableBarGraph.setText("");
-        }catch (NullPointerException ignore){}
+        } catch (NullPointerException ignore) {
+        }
 
     }
 
     private void setSimpleInterestText() {
 
-        if(interestAmounOldValue < getInterestAmount){
+        if (interestAmounOldValue < getInterestAmount) {
             textViewInterestAmount.setPreferredScrollingDirection(DOWN);
-        }else {
+        } else {
             textViewInterestAmount.setPreferredScrollingDirection(UP);
         }
 
-        if(totalAmountOldValue < getTotalAmount){
+        if (totalAmountOldValue < getTotalAmount) {
             textViewTotalAmount.setPreferredScrollingDirection(DOWN);
-        }else {
+        } else {
             textViewTotalAmount.setPreferredScrollingDirection(UP);
         }
 
-        if(totalAmountFooterOldValue < getTotalFooterAmount){
+        if (totalAmountFooterOldValue < getTotalFooterAmount) {
             textViewFooterTotalAmount.setPreferredScrollingDirection(DOWN);
         } else {
             textViewFooterTotalAmount.setPreferredScrollingDirection(UP);
@@ -1895,19 +2417,19 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     private void setCompoundInterestText() {
 
-        if(interestAmounOldValue < getInterestAmount){
+        if (interestAmounOldValue < getInterestAmount) {
             textViewInterestAmount.setPreferredScrollingDirection(DOWN);
-        }else {
+        } else {
             textViewInterestAmount.setPreferredScrollingDirection(UP);
         }
 
-        if(totalAmountOldValue < getTotalAmount){
+        if (totalAmountOldValue < getTotalAmount) {
             textViewTotalAmount.setPreferredScrollingDirection(DOWN);
-        }else {
+        } else {
             textViewTotalAmount.setPreferredScrollingDirection(UP);
         }
 
-        if(totalAmountFooterOldValue < getTotalFooterAmount){
+        if (totalAmountFooterOldValue < getTotalFooterAmount) {
             textViewFooterTotalAmount.setPreferredScrollingDirection(DOWN);
         } else {
             textViewFooterTotalAmount.setPreferredScrollingDirection(UP);
@@ -1923,7 +2445,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         textViewFooterTotalAmount.setText(numberFormatterWithSymbol.getNumberAfterFormat());
 
     }
-    private static final NavigableMap<Long, String> suffixes = new TreeMap<> ();
+
+    private static final NavigableMap<Long, String> suffixes = new TreeMap<>();
+
     static {
         suffixes.put(1_000L, "k");
         suffixes.put(1_000_000L, "M");
@@ -1947,4 +2471,103 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
         return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
     }
+
+    private void LayoutCompoundFrequencyFadeOut(final LinearLayout layout) {
+
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator());
+        fadeOut.setDuration(100);
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                layout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        layout.startAnimation(fadeOut);
+
+    }
+
+    private void LayoutCompoundFrequencyFadeIn(LinearLayout layout) {
+        Animation fadeIn = new AlphaAnimation(0, 1);
+        fadeIn.setInterpolator(new AccelerateInterpolator());
+        fadeIn.setDuration(750);
+
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                layout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        layout.startAnimation(fadeIn);
+
+    }
+
+    public void setupUI(View view) {
+
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(getActivity());
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
+    //    public static void hideSoftKeyboard(Activity activity) {
+//        InputMethodManager inputMethodManager =
+//                (InputMethodManager) activity.getSystemService(
+//                        Activity.INPUT_METHOD_SERVICE);
+//        if(inputMethodManager.isAcceptingText()){
+//            inputMethodManager.hideSoftInputFromWindow(
+//                    activity.getCurrentFocus().getWindowToken(),
+//                    0
+//            );
+//        }
+//    }
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
+
+
+
 }

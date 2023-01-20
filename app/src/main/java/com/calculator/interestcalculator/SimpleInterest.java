@@ -30,78 +30,71 @@ public class SimpleInterest extends CalculatorFragment{
         if(rateTypeFrequencyYMWDHQBI == 0){
 
             if(rateTypePA == 0){
-//             percentage wise
+//             percentage wise,Rate yearly
                 totalSimpleInterestAmount = (principal * rate * time)/100;
 
             } else if(rateTypePA == 1){
 //            Amount wise
-
                 totalSimpleInterestAmount = ((principal * rate * time)/100) ;
             }
 
         } else if(rateTypeFrequencyYMWDHQBI == 1){
             if(rateTypePA == 0){
-//             percentage wise
-                totalSimpleInterestAmount = (principal * rate * time)/100;
+//             percentage wise,Rate Monthly
+                totalSimpleInterestAmount = (principal * (rate * 12) * time)/100;
 
             } else if(rateTypePA == 1){
 //            Amount wise
-
                 totalSimpleInterestAmount = ((principal * rate * time)/100) ;
             }
 
         } else if(rateTypeFrequencyYMWDHQBI == 2){
             if(rateTypePA == 0){
-//             percentage wise
-                totalSimpleInterestAmount = (principal * rate * time)/100;
+//             percentage wise, Rate weekly
+                totalSimpleInterestAmount = (principal * (rate * 52) * time)/100;
 
             } else if(rateTypePA == 1){
 //            Amount wise
-
                 totalSimpleInterestAmount = ((principal * rate * time)/100) ;
             }
 
         } else if(rateTypeFrequencyYMWDHQBI == 3){
             if(rateTypePA == 0){
-//             percentage wise
-                totalSimpleInterestAmount = (principal * rate * time)/100;
+//             percentage wise, Rate daily
+                totalSimpleInterestAmount = (principal * (rate * 365) * time)/100;
 
             } else if(rateTypePA == 1){
 //            Amount wise
-
                 totalSimpleInterestAmount = ((principal * rate * time)/100) ;
             }
 
         } else if(rateTypeFrequencyYMWDHQBI == 4){
             if(rateTypePA == 0){
-//             percentage wise
-                totalSimpleInterestAmount = (principal * rate * time)/100;
+//             percentage wise, Rate half _ yearly
+                totalSimpleInterestAmount = (principal * (rate * 2) * time)/100;
 
             } else if(rateTypePA == 1){
 //            Amount wise
-
                 totalSimpleInterestAmount = ((principal * rate * time)/100) ;
             }
 
         } else if(rateTypeFrequencyYMWDHQBI == 5){
             if(rateTypePA == 0){
-//             percentage wise
-                totalSimpleInterestAmount = (principal * rate * time)/100;
+//             percentage wise, Rate Quarterly
+                totalSimpleInterestAmount = (principal * (rate * 4) * time)/100;
 
             } else if(rateTypePA == 1){
 //            Amount wise
-
                 totalSimpleInterestAmount = ((principal * rate * time)/100) ;
             }
 
         } else if (rateTypeFrequencyYMWDHQBI == 6){
             if(rateTypePA == 0){
-//             percentage wise
-                totalSimpleInterestAmount = (principal * rate * time)/100;
+//             percentage wise, Rate type bi annually
+                totalSimpleInterestAmount = (principal * (rate * 0.5) * time)/100;
 
             } else if(rateTypePA == 1){
 //            Amount wise
-
                 totalSimpleInterestAmount = ((principal * rate * time)/100) ;
             }
 

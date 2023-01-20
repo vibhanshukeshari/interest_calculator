@@ -5,11 +5,15 @@ package com.calculator.interestcalculator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
+
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,9 +22,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.hbb20.CountryCodePicker;
 import com.robinhood.ticker.TickerView;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -29,9 +36,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private ViewPager viewPager;
     private LinearLayout bottomLinearLayout;
     Menu menu;
+    DrawerLayout drawerLayout;
     private MaterialButton btnSimpleInterest;
     private MaterialButton btnCompoundInterest;
 
+    NavigationView navigationView;
     private TickerView textViewFooterTotalAmount;
 
     CountryCodePicker ccp;
@@ -47,11 +56,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         viewPager = findViewById(R.id.view_pager);
         mBottomNavigation = findViewById(R.id.bottom_navigation);
         bottomLinearLayout = findViewById(R.id.controller);
-        DrawerLayout drawerLayout = findViewById(R.id.drawer);
-        NavigationView navigationView = findViewById(R.id.navigation_view);
+        drawerLayout = findViewById(R.id.drawer);
         btnSimpleInterest = findViewById(R.id.btn_simple_interest);
         btnCompoundInterest = findViewById(R.id.btn_compound_interest);
+        navigationView = findViewById(R.id.navigation_view);
         textViewFooterTotalAmount = findViewById(R.id.text_view_footer_total_amount);
+        drawerLayout = findViewById(R.id.drawer);
 
         ActionBarDrawerToggle toggle;
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -126,6 +136,102 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         });
     }
 
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+
+
+        if (this.drawerLayout.isDrawerOpen(navigationView)) {
+            this.drawerLayout.closeDrawer(navigationView);
+        } else {
+//            super.onBackPressed();
+
+//            if (viewPager.getCurrentItem() == 0) {
+//
+//                ImageView image = new ImageView(this);
+//                image.setImageResource(R.drawable.qureka1);
+//
+//                image.setOnClickListener(v ->
+//                {
+//
+//                    Uri uri = Uri.parse("https://830.go.mglgamez.com");
+//                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
+//                    startActivity(intent);
+//                });
+
+            MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this,R.style.alertDialog);
+            alertDialoBuider.setTitle("Confirm !");
+            alertDialoBuider.setIcon(R.drawable.alert_icon);
+            alertDialoBuider.setMessage("Are you sure want to exit ?");
+
+
+
+//            alertDialoBuider.getContext().setTheme(R.style.alertDialog);
+//            alertDialoBuider.get
+
+
+            alertDialoBuider.setPositiveButton("Exit !", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                    MainActivity.super.onBackPressed();
+                }
+
+            })/*.setView(image)*/;
+
+
+            alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+
+                }
+            });
+            AlertDialog alertDialog = alertDialoBuider.create();
+            alertDialog.show();
+            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
+            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
+
+
+        }
+//            alertDialoBuider.show();
+//
+//
+//
+//            SweetAlertDialog sweetAlertDialog;
+//            sweetAlertDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
+//
+//            sweetAlertDialog.setTitleText("Confirm Exit!");
+//            sweetAlertDialog.setContentText("Are you sure want to exit?");
+//            sweetAlertDialog.setConfirmText("Exit!");
+//            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+//                @Override
+//                public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                    sweetAlertDialog.dismissWithAnimation();
+//                            MainActivity.super.onBackPressed();
+//                }
+//            });
+//
+//            sweetAlertDialog.setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
+//                        @Override
+//                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+//                            sweetAlertDialog.dismissWithAnimation();
+//                        }
+//                    });
+//
+//            sweetAlertDialog.getContext().setTheme(R.style.mytheme);
+//            sweetAlertDialog.show();
+
+
+//            } else {
+//                viewPager.setCurrentItem(viewPager.getCurrentItem() - 2);
+//            }
+
+
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
@@ -144,4 +250,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         getMenuInflater().inflate(R.menu.menu,menu);
         return true;
     }
+
+
 }

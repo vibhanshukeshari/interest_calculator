@@ -153,25 +153,33 @@
                                 android:clickable="false"
                                 android:ellipsize="end"
                                 android:maxWidth="160dp"
+                                android:layout_gravity="center"
+                                android:gravity="center"
                                 android:paddingStart="10dp"
                                 android:paddingEnd="5dp"
                                 android:singleLine="true"
                                 android:text="Total Amount :"
                                 android:textColor="#ffffff"
-                                android:textSize="20sp" />
+                                android:textSize="18sp" />
 
 
-                            <com.robinhood.ticker.TickerView
-                                android:id="@+id/text_view_footer_total_amount"
+                            <HorizontalScrollView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:paddingStart="5dp"
                                 android:paddingEnd="5dp"
+                                android:layout_marginEnd="5dp">
+                            <com.robinhood.ticker.TickerView
+                                android:id="@+id/text_view_footer_total_amount"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center_vertical"
                                 android:text="0"
                                 android:textColor="#3bd16f"
                                 android:textSize="18sp" />
-
+                            </HorizontalScrollView>
 
                         </LinearLayout>
 
