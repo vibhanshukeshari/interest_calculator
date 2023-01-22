@@ -431,7 +431,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
                 android:layout_marginStart="25dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:id="@+id/linear_layout_compounding_frequency"
                 android:orientation="horizontal">

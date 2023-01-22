@@ -2,32 +2,42 @@ package com.calculator.interestcalculator;
 //Jai Swami narayan
 //Started on 27/12/22
 
+import static com.calculator.interestcalculator.CalculatorFragment.btnSimpleCompoundStatus;
+import static com.calculator.interestcalculator.CalculatorFragment.spinnerCompoundingFrequency;
+import static com.calculator.interestcalculator.CalculatorFragment.spinnerInterestRateTypeYMWDHQBI;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
+import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Bundle;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.hbb20.CountryCodePicker;
 import com.robinhood.ticker.TickerView;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -39,10 +49,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     DrawerLayout drawerLayout;
     private MaterialButton btnSimpleInterest;
     private MaterialButton btnCompoundInterest;
-
     NavigationView navigationView;
     private TickerView textViewFooterTotalAmount;
-
     CountryCodePicker ccp;
     TextView textViewCurrencySymbol;
 
@@ -101,31 +109,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     case 0:
 
                         mBottomNavigation.getMenu().findItem(R.id.menu_calculator).setChecked(true);
-//                        Objects.requireNonNull(getSupportActionBar()).setTitle("Cal");
-//                        mBottomNavigation.getMenu().findItem(R.id.menu_seaside).setChecked(true);
-//                        Objects.requireNonNull(getSupportActionBar()).setTitle("Seaside");
-//                        relativeLayoutMain.setBackgroundColor(getResources().getColor(R.color.prussian_blue_0));
-//                        controller.setBackgroundResource(R.drawable.controller_shape);
-//                        autoPlay.setBackgroundResource(R.drawable.controller_shape);
-//                        mBottomNavigation.setBackgroundColor(getResources().getColor(R.color.prussian_blue_1));
-//                        getWindow().setNavigationBarColor(getResources().getColor(R.color.prussian_blue_1));
-//                        getWindow().setStatusBarColor(getResources().getColor(R.color.prussian_blue_1));
-//                        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.prussian_blue_1)));
                         break;
+
                     case 1:
 
                         mBottomNavigation.getMenu().findItem(R.id.menu_record).setChecked(true);
-//                        Objects.requireNonNull(getSupportActionBar()).setTitle("City");
-//                        mBottomNavigation.getMenu().findItem(R.id.menu_city).setChecked(true);
-//                        Objects.requireNonNull(getSupportActionBar()).setTitle("City");
-//                        relativeLayoutMain.setBackgroundColor(getResources().getColor(R.color.arsenic_0));
-//                        controller.setBackgroundResource(R.drawable.controller_shape_city);
-//                        autoPlay.setBackgroundResource(R.drawable.controller_shape_city);
-//                        mBottomNavigation.setBackgroundColor(getResources().getColor(R.color.arsenic_1));
-//                        getWindow().setNavigationBarColor(getResources().getColor(R.color.arsenic_1));
-//                        getWindow().setStatusBarColor(getResources().getColor(R.color.arsenic_1));
-//                        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.arsenic_1)));
-                        break;
+                 break;
                 }
             }
 
@@ -134,42 +123,87 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+//        if(btnSimpleInterest.isChecked()){
+//            btnSimpleCompoundStatus = true;
+//
+//        } else{
+//            btnSimpleCompoundStatus = false;
+//
+//        }
+
+
+
+
+        SharedPreferences SC = getSharedPreferences("SimpleCompoundStatus", MODE_PRIVATE);
+
+        CalculatorFragment.btnSimpleCompoundStatus = SC.getBoolean("interestStatus", true);
+
+//        Toast.makeText(this, String.valueOf(CalculatorFragment.btnSimpleCompoundStatus), Toast.LENGTH_SHORT).show();
+
+        if(CalculatorFragment.btnSimpleCompoundStatus){
+
+//            CalculatorFragment.btnSimpleCompoundStatus = true;
+
+            btnSimpleInterest.performClick();
+
+        } else {
+
+//            CalculatorFragment.btnSimpleCompoundStatus = false;
+
+            btnCompoundInterest.performClick();
+
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+
+        SharedPreferences sharedPreferencesSC = getSharedPreferences("SimpleCompoundStatus", MODE_PRIVATE);
+        SharedPreferences.Editor myEditSC = sharedPreferencesSC.edit();
+
+        myEditSC.clear();
+        myEditSC.putBoolean("interestStatus", Boolean.parseBoolean(String.valueOf(CalculatorFragment.btnSimpleCompoundStatus)));
+        myEditSC.apply();
+
+//        Toast.makeText(this, String.valueOf(CalculatorFragment.btnSimpleCompoundStatus), Toast.LENGTH_SHORT).show();
+//        CalculatorFragment.btnSimpleCompoundStatus = true;
+
+
+//        if(btnSimpleInterest.isChecked()){
+//            btnSimpleCompoundStatus = true;
+//
+//        } else{
+//            btnSimpleCompoundStatus = false;
+//
+//        }
+
+
+
+
+
+    }
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-
 
         if (this.drawerLayout.isDrawerOpen(navigationView)) {
             this.drawerLayout.closeDrawer(navigationView);
-        } else {
-//            super.onBackPressed();
 
-//            if (viewPager.getCurrentItem() == 0) {
-//
-//                ImageView image = new ImageView(this);
-//                image.setImageResource(R.drawable.qureka1);
-//
-//                image.setOnClickListener(v ->
-//                {
-//
-//                    Uri uri = Uri.parse("https://830.go.mglgamez.com");
-//                    Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-//                    startActivity(intent);
-//                });
+        } else {
 
             MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this,R.style.alertDialog);
-            alertDialoBuider.setTitle("Confirm !");
-            alertDialoBuider.setIcon(R.drawable.alert_icon);
-            alertDialoBuider.setMessage("Are you sure want to exit ?");
-
-
-
-//            alertDialoBuider.getContext().setTheme(R.style.alertDialog);
-//            alertDialoBuider.get
-
+            alertDialoBuider.setTitle("Confirm Exit !");
+            alertDialoBuider.setIcon(R.drawable.alert_24);
+            alertDialoBuider.setMessage("Are you sure you want to exit ?");
 
             alertDialoBuider.setPositiveButton("Exit !", new DialogInterface.OnClickListener() {
 
@@ -179,8 +213,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     MainActivity.super.onBackPressed();
                 }
 
-            })/*.setView(image)*/;
-
+            });
 
             alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                 @Override
@@ -189,46 +222,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                 }
             });
+
             AlertDialog alertDialog = alertDialoBuider.create();
             alertDialog.show();
             alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
             alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
 
-
         }
-//            alertDialoBuider.show();
-//
-//
-//
-//            SweetAlertDialog sweetAlertDialog;
-//            sweetAlertDialog = new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE);
-//
-//            sweetAlertDialog.setTitleText("Confirm Exit!");
-//            sweetAlertDialog.setContentText("Are you sure want to exit?");
-//            sweetAlertDialog.setConfirmText("Exit!");
-//            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-//                @Override
-//                public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                    sweetAlertDialog.dismissWithAnimation();
-//                            MainActivity.super.onBackPressed();
-//                }
-//            });
-//
-//            sweetAlertDialog.setCancelButton("Cancel", new SweetAlertDialog.OnSweetClickListener() {
-//                        @Override
-//                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-//                            sweetAlertDialog.dismissWithAnimation();
-//                        }
-//                    });
-//
-//            sweetAlertDialog.getContext().setTheme(R.style.mytheme);
-//            sweetAlertDialog.show();
-
-
-//            } else {
-//                viewPager.setCurrentItem(viewPager.getCurrentItem() - 2);
-//            }
-
 
     }
 
@@ -251,5 +251,161 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
+
+        switch (item.getItemId()) {
+            case R.id.Reset:
+
+                EditText principalAmount = findViewById(R.id.edit_text_principal_amount);
+                EditText interestRate = findViewById(R.id.edit_text_interest_rate);
+                EditText years = findViewById(R.id.edit_text_year);
+                EditText month = findViewById(R.id.edit_text_month);
+                EditText day = findViewById(R.id.edit_text_day);
+
+
+                try {
+                    hideSoftKeyboard(MainActivity.this);
+                } catch (NullPointerException ignored) {
+                }
+
+
+                MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialog);
+                alertDialoBuider.setTitle("Confirm Reset !");
+                alertDialoBuider.setIcon(R.drawable.alert_24);
+                alertDialoBuider.setMessage("Are you sure you want to reset ?");
+
+                alertDialoBuider.setPositiveButton("Reset !", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+
+
+
+
+
+
+
+                        spinnerInterestRateTypeYMWDHQBI.setSelection(0);
+                        spinnerCompoundingFrequency.setSelection(0);
+
+                        if(!principalAmount.getText().toString().equals("")){
+
+                            principalAmount.setText("");
+                        }
+
+
+                        if(!interestRate.getText().toString().equals("")){
+                            interestRate.setText("");
+                        }
+
+                        if(!years.getText().toString().equals("")) {
+                            years.setText("");
+                        }
+
+                        if(!month.getText().toString().equals("")) {
+                            month.setText("");
+                        }
+
+                        if(!day.getText().toString().equals("")) {
+                            day.setText("");
+                        }
+
+
+
+
+
+                        if(principalAmount.isFocused()){
+                            principalAmount.clearFocus();
+//
+                        }
+                        if(interestRate.isFocused()){
+                            interestRate.clearFocus();
+
+                        }
+
+                        if(years.isFocused()){
+                            years.clearFocus();
+
+                        }
+                        if(month.isFocused()){
+                            month.clearFocus();
+
+                        }
+                        if(day.isFocused()){
+                            day.clearFocus();
+
+                        }
+
+
+                        NestedScrollView calculationScrollView = findViewById(R.id.calculation_scroll_view);
+
+
+
+
+                        calculationScrollView.post(new Runnable() {
+                            public void run() {
+                                calculationScrollView.fullScroll(View.FOCUS_UP);
+
+                            }
+                        });
+
+                    }
+
+                });
+
+                alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialoBuider.create();
+                alertDialog.show();
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
+
+
+
+
+
+
+
+
+
+
+
+                break;
+
+
+//            case : 2
+
+//               break;
+        }
+
+
+
+
+
+
+
+
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+    }
 }
