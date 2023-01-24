@@ -494,10 +494,10 @@
                     android:layout_height="wrap_content"
                     android:text="Results :"
                     android:textSize="12sp"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginEnd="25dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginEnd="15dp"
                     android:textColor="@color/light_white"/>
 
                 <LinearLayout
@@ -655,15 +655,25 @@
 
                 <LinearLayout
                     android:id="@+id/linear_layout_visualGraph"
-                android:layout_width="match_parent"
-                android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:orientation="vertical"
                     android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Projection Breakdown (Pie Chart) :"
+                        android:textSize="12sp"
+                        android:layout_marginStart="5dp"
+                        android:padding="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:textColor="@color/light_white"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="10dp"
                         android:layout_marginStart="25dp"
                         android:layout_marginEnd="25dp">
 
@@ -757,11 +767,20 @@
                         android:orientation="horizontal"
                         android:paddingTop="0.2dp" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Projection Breakdown (Bar Graph) :"
+                        android:textSize="12sp"
+                        android:layout_marginStart="5dp"
+                        android:padding="10dp"
+                        android:layout_marginEnd="5dp"
+                        android:textColor="@color/light_white"/>
 
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/bar_chart1"
                         android:layout_width="match_parent"
-                        android:layout_marginTop="25dp"
+                        android:layout_marginTop="10dp"
                         android:layout_height="300dp"/>
 
 
@@ -861,6 +880,134 @@
                     android:paddingTop="0.2dp" />
 
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/dark_blue"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#39434d"
+                android:orientation="horizontal"
+                android:paddingTop="0.2dp"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Projection Breakdown (Table) :"
+                android:textSize="12sp"
+                android:layout_marginStart="5dp"
+                android:padding="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginEnd="5dp"
+                android:textColor="@color/light_white"/>
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="#39434d"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingTop="0.2dp"/>-->
+
+
+            <TextView
+                android:id="@+id/text_view_table_no_text"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="#b49332"
+                android:text="Enter all three values to see Table."
+                android:layout_width="match_parent"
+                android:layout_height="300dp"/>
+
+
+            <LinearLayout
+                android:id="@+id/linear_layout_table_header"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:background="@drawable/header_table_gradient"
+                android:orientation="horizontal">
+
+
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Year"
+                    android:textSize="14sp"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.6"
+                    android:padding="10dp"
+                    android:textStyle="bold"/>
+
+                <View android:layout_width="0.25dp"
+                    android:background="@color/light_white"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Interest"
+                    android:textSize="14sp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:padding="10dp"
+                    android:textStyle="bold"/>
+                <View android:layout_width="0.25dp"
+                    android:background="@color/light_white"
+                    android:layout_height="match_parent"/>
+
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Accrued Interest"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textStyle="bold"/>
+                <View android:layout_width="0.25dp"
+                    android:background="@color/light_white"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Balance"
+                    android:padding="10dp"
+                    android:textSize="14sp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textStyle="bold"/>
+
+
+
+            </LinearLayout>
+
+                <View android:layout_width="match_parent"
+                    android:background="@color/light_white"
+                    android:layout_height="0.5dp"/>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+            </LinearLayout>
+
+
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

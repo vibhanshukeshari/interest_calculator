@@ -25,7 +25,7 @@ public class NumberFormatterWithSymbol {
 
 
 
-            numberAfterFormat = numberFormat.format(number);
+//            numberAfterFormat = numberFormat.format(number);
             numberAfterFormat = numberFormat.format(number).replace("₹",  "₹" + " ");
 
         } else if(countryName.equals("Afghanistan")){
@@ -46,6 +46,30 @@ public class NumberFormatterWithSymbol {
             numberFormat.setMinimumFractionDigits(2);
 
             numberAfterFormat = numberFormat.format(number)/*.replace("","", + " ")*/;
+        } else if(countryName.equals("Albania")){
+            locale = new Locale("sq","AL");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("Lekë",  "L" + " ");
+        } else if(countryName.equals("Algeria")){
+            locale = new Locale("en","DZ");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("DZD",  "دج" + " ");
+        } else if(countryName.equals("American Samoa")){
+            locale = new Locale("en","AS");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$",  "$" + " ");
         }
 
 

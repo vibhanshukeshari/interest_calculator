@@ -285,11 +285,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
+//To be done later
 
+//                        spinnerInterestRateTypeYMWDHQBI.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                spinnerInterestRateTypeYMWDHQBI.setSelection(0);
+//                                spinnerInterestRateTypeYMWDHQBI.performClick();
+//                            }
+//                        });
+//
+//                        spinnerCompoundingFrequency.post(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                spinnerCompoundingFrequency.setSelection(0);
+//                                spinnerCompoundingFrequency.
+//                            }
+//                        });
 
-
-                        spinnerInterestRateTypeYMWDHQBI.setSelection(0);
-                        spinnerCompoundingFrequency.setSelection(0);
+//                        spinnerInterestRateTypeYMWDHQBI.setSelection(0);
+//                        spinnerCompoundingFrequency.setSelection(0);
 
                         if(!principalAmount.getText().toString().equals("")){
 

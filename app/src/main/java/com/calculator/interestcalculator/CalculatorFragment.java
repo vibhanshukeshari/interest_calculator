@@ -17,6 +17,9 @@ import androidx.core.util.Pair;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -90,6 +93,7 @@ import  java.time.*;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
@@ -105,9 +109,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     boolean flagBarWidthFirstTime = true;
     int cursorPosition;
 
+    boolean counter = true;
+
+    RecyclerView recyclerViewTable;
+    TableAdapter tableAdapter;
+
+
     String[] rateTypeFrequency = {"Yearly", "Monthly", "Weekly", "Daily", "Half-Yearly", "Quarterly", "Bi-Annually"};
     String[] compoundingFrequency = {"Yearly", "Monthly(12/Y)", "Weekly(52/Y)", "Daily(365/Y)", "Half-Yearly(2/Y)", "Quarterly(4/Y)", "Daily(360/Y)", "Bi-Weekly(26/Y)", "Half-Monthly(24/Y)", "Bi-Monthly(6/Y)", "Bi-Anually(0.5/Y)"};
 
+    List<TableModel> tableModelList;
     private NestedScrollView calculationScrollView;
     private static String countryName;
     private static String countrySymbol;
@@ -139,6 +150,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private double fromDate;
     private double toDate;
     private DurationAndDate durationAndDate;
+    private LinearLayout linearLayoutTableHeader;
 
     SimpleInterest simpleInterest;
     CompoundInterest compoundInterest;
@@ -171,6 +183,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     TextView textViewLableBarGraph0;
     TextView textViewLableBarGraph;
+
+    TextView textViewTableNoText;
 
     RadioButton radioButtonDuration, radioButtonDate;
 
@@ -248,6 +262,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         editTextMonthLayout = view.findViewById(R.id.edit_text_month_layout);
         editTextDayLayout = view.findViewById(R.id.edit_text_day_layout);
 
+        recyclerViewTable = view.findViewById(R.id.recycler_view_table);
+
+        linearLayoutTableHeader = view.findViewById(R.id.linear_layout_table_header);
+
+        textViewTableNoText = view.findViewById(R.id.text_view_table_no_text);
+
 
         calculationFragmentParentFarmeLayout = view.findViewById(R.id.calculation_fragment_parent_FrameLayout);
         rlMain = requireActivity().findViewById(R.id.rlMain);
@@ -308,6 +328,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         }
 
 
+        if(linearLayoutTableHeader.getVisibility() == View.VISIBLE) {
+
+            linearLayoutTableHeader.setVisibility(View.GONE);
+
+        }
+
+
+
         btnSimple.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -329,6 +357,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 try {
 
                     btnSimple.setBackgroundColor(Color.parseColor("#1da1f3"));
+//                    btnSimple.setBackground(getResources().getDrawable(R.drawable.year_cell));
                     btnSimple.setTextColor(Color.parseColor("#ffffff"));
                     btnSimple.setCompoundDrawablesWithIntrinsicBounds(R.drawable.simple_icon, 0, 0, 0);
 
@@ -341,14 +370,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     LayoutCompoundFrequencyFadeOut(linearLayoutCompoundingFrequency);
 
 
-                } catch (NullPointerException ignored) {
-                }
-
-
-
-                spinnerCompoundingFrequency.setSelection(0);
-
-
+                } catch (NullPointerException ignored) {}
 
             }
         });
@@ -504,9 +526,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         });
 
         try {
-            mChart1.setNoDataText("Enter all three values to see Bar chart data.");
+            mChart1.setNoDataText("Enter all three values to see Bar Graph data.");
             pieChart.setNoDataText("Enter all three values to see Pie Chart data.");
-
+            mChart1.setNoDataTextColor(Color.parseColor("#b49332"));
+            pieChart.setNoDataTextColor(Color.parseColor("#b49332"));
         } catch (NullPointerException ignore) {
         }
 
@@ -888,6 +911,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                                 (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
                     getSetViews();
+                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
+                        recyclerViewTable.setVisibility(View.VISIBLE);
+                        linearLayoutTableHeader.setVisibility(View.VISIBLE);
+                        textViewTableNoText.setVisibility(View.GONE);
+                    }
 
                     if (btnSimpleCompoundStatus) {
 
@@ -913,6 +941,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                                     (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
                                             && editTextDay.getText().toString().equals("")))) {
                         resetViews();
+
+
+                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                            recyclerViewTable.setVisibility(View.GONE);
+                            linearLayoutTableHeader.setVisibility(View.GONE);
+                            textViewTableNoText.setVisibility(View.VISIBLE);
+                        }
+//                        tableModelList = new ArrayList<>();
+
+
+
                     }
 
                 }
@@ -947,6 +986,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                     getSetViews();
 
+                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
+                        recyclerViewTable.setVisibility(View.VISIBLE);
+                        linearLayoutTableHeader.setVisibility(View.VISIBLE);
+                        textViewTableNoText.setVisibility(View.GONE);
+                    }
+
+
+
                     if (btnSimpleCompoundStatus) {
 
                         textViewLableBarGraph0.setText("Simple Interest");
@@ -964,6 +1011,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                             || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
                             && editTextDay.getText().toString().equals(""))) {
                         resetViews();
+
+                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                            recyclerViewTable.setVisibility(View.GONE);
+                            linearLayoutTableHeader.setVisibility(View.GONE);
+                            textViewTableNoText.setVisibility(View.VISIBLE);
+                        }
                     }
 
                 }
@@ -1088,6 +1141,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
                     getSetViews();
+                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
+                        recyclerViewTable.setVisibility(View.VISIBLE);
+                        linearLayoutTableHeader.setVisibility(View.VISIBLE);
+                        textViewTableNoText.setVisibility(View.GONE);
+                    }
 
                     if (btnSimpleCompoundStatus) {
 
@@ -1106,6 +1164,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                             || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
                             && editTextDay.getText().toString().equals(""))) {
                         resetViews();
+
+                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                            recyclerViewTable.setVisibility(View.GONE);
+                            linearLayoutTableHeader.setVisibility(View.GONE);
+                            textViewTableNoText.setVisibility(View.VISIBLE);
+                        }
                     }
 
                 }
@@ -1179,6 +1243,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                     getSetViews();
 
+                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
+                        recyclerViewTable.setVisibility(View.VISIBLE);
+                        linearLayoutTableHeader.setVisibility(View.VISIBLE);
+                        textViewTableNoText.setVisibility(View.GONE);
+                    }
+
                     if (btnSimpleCompoundStatus) {
 
                         textViewLableBarGraph0.setText("Simple Interest");
@@ -1196,6 +1266,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                             || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
                             && editTextDay.getText().toString().equals(""))) {
                         resetViews();
+
+                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                            recyclerViewTable.setVisibility(View.GONE);
+                            linearLayoutTableHeader.setVisibility(View.GONE);
+                            textViewTableNoText.setVisibility(View.VISIBLE);
+                        }
                     }
 
                 }
@@ -1272,6 +1348,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                     getSetViews();
 
+                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
+                        recyclerViewTable.setVisibility(View.VISIBLE);
+                        linearLayoutTableHeader.setVisibility(View.VISIBLE);
+                        textViewTableNoText.setVisibility(View.GONE);
+                    }
+
                     if (btnSimpleCompoundStatus) {
 
                         textViewLableBarGraph0.setText("Simple Interest");
@@ -1289,6 +1371,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                             || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
                             && editTextDay.getText().toString().equals(""))) {
                         resetViews();
+
+                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                            recyclerViewTable.setVisibility(View.GONE);
+                            linearLayoutTableHeader.setVisibility(View.GONE);
+                            textViewTableNoText.setVisibility(View.VISIBLE);
+                        }
                     }
 
                 }
@@ -1710,6 +1798,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         data.getDataSet().setValueTextColor(Color.WHITE);
 
 
+
         pieChart.setData(data);
         pieChart.invalidate();
 
@@ -1743,6 +1832,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         pieChart.setEntryLabelColor(Color.WHITE);
 
 
+
         Legend l = pieChart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -1765,6 +1855,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         mChart1.setPinchZoom(true);
         mChart1.setDrawValueAboveBar(false);
         mChart1.setDragEnabled(true);
+        mChart1.setNoDataTextColor(Color.parseColor("#b49332"));
 
         mChart1.animateY(1400, Easing.EaseInOutQuad);
 
@@ -1901,7 +1992,22 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         l.setXEntrySpace(6f);
 
         ArrayList<BarEntry> yVals1 = new ArrayList<BarEntry>();
+        tableModelList = new ArrayList<>();
+        counter = true;
+//        double myInteretForTable =0;
 
+
+//        if(counter <= 2){
+//        double myInteretForTable = 0;
+//        if(counter == true){
+        double myInteretForTable = 0;
+        double temp = 0;
+
+//             double myInteretForTable = simpleInterest.getTotalSimpleInterestAmount();
+
+//        }
+
+//        }
         for (double time = 1.0; time < duration + 1; time++) {
 
             // It took 50 hrs to create a bar graph properly. (Amrit hostel ) dated - 14/01/2023
@@ -1912,7 +2018,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 if (((time + fraction) == (duration + 1)) && (fraction != 0)) {
                     simpleInterest.setTime(fraction);
 
-                    double myPredeccessorSI;
+
+
+                    double myPredeccessorSI = simpleInterest.getTotalSimpleInterestAmount();
 
                     if (duration < 1.0) {
 
@@ -1920,6 +2028,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         yVals1.add(new BarEntry((float) time,
                                 new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
                                 getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+//                        tableModelList = new ArrayList<>();
+                        setRecyclerViewTable((int) time,totalSimpleInterestAmount,totalSimpleInterestAmount,principalAmount + totalSimpleInterestAmount);
 
                     } else {
 
@@ -1929,40 +2039,66 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         yVals1.add(new BarEntry((float) time,
                                 new float[]{(float) principalAmount, (float) totalSimpleInterestAmount + (float) myPredeccessorSI},
                                 getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+                        setRecyclerViewTable((int) time,  totalSimpleInterestAmount,totalSimpleInterestAmount + myPredeccessorSI,principalAmount + totalSimpleInterestAmount + myPredeccessorSI);
+
+//                        counter = false;
 
                     }
 
                 } else {
+
                     simpleInterest.setTime(time);
+//                    double myPInterestForTable = totalSimpleInterestAmount;
+
+                    double previousBalance = totalSimpleInterestAmount + principalAmount;
                     totalSimpleInterestAmount = simpleInterest.getTotalSimpleInterestAmount();
 
+//                    myInteretForTable = myPInterestForTable - simpleInterest.getTotalSimpleInterestAmount();
+//                      temp =  temp - myInteretForTable;
+//                     myInteretForTable = 0;
                     yVals1.add(new BarEntry((float) time,
                             new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
                             getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+                    if(time == 1){
+
+                        setRecyclerViewTable((int) time,totalSimpleInterestAmount,totalSimpleInterestAmount,principalAmount + totalSimpleInterestAmount);
+//                    Toast.makeText(getContext(), String.valueOf(myPInterestForTable), Toast.LENGTH_SHORT).show();
+
+                    } else {
+
+                        setRecyclerViewTable((int) time,(totalSimpleInterestAmount + principalAmount) - previousBalance,totalSimpleInterestAmount,principalAmount + totalSimpleInterestAmount);
+//                    Toast.makeText(getContext(), String.valueOf(myPInterestForTable), Toast.LENGTH_SHORT).show();
+
+                    }
+
 
                 }
 
             } else {
-
+                double previousBalanceCompound = 0;
                 double fraction = duration % 1;
                 //took 5 hrs to create this concept, need to chagne principal amount for last iteration
                 if (((time + fraction) == (duration + 1)) && (fraction != 0)) {
                     compoundInterest.setTime(fraction);
 
                     if (duration < 1) {
+//                        previousBalance = totalCompoundInterestAmount - principalAmount;
                         totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
                         compoundInterest.setPrincipal(Double.parseDouble(0 + editTextPrincipalAmount.getText().toString()));
+//                        setRecyclerViewTable((int) time,principalAmount - totalCompoundInterestAmount,principalAmount - totalCompoundInterestAmount,totalCompoundInterestAmount);
 
                     } else {
 
-
+                        previousBalanceCompound = totalCompoundInterestAmount - principalAmount;
                         compoundInterest.setPrincipal(totalCompoundInterestAmount);
                         totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
                         compoundInterest.setPrincipal(Double.parseDouble(0 + editTextPrincipalAmount.getText().toString()));
+//                        setRecyclerViewTable((int) time,  totalCompoundInterestAmount,totalCompoundInterestAmount ,principalAmount + totalCompoundInterestAmount);
 
                     }
 
                 } else {
+                     previousBalanceCompound = totalCompoundInterestAmount - principalAmount;
                     compoundInterest.setTime(time);
                     totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
 
@@ -1971,6 +2107,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 yVals1.add(new BarEntry((float) time,
                         new float[]{(float) principalAmount, (float) (totalCompoundInterestAmount - principalAmount)},
                         getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
+
+               if(time == 1){
+                   setRecyclerViewTable((int) time, (totalCompoundInterestAmount - principalAmount),totalCompoundInterestAmount - principalAmount,totalCompoundInterestAmount);
+
+               } else {
+                   setRecyclerViewTable((int) time, (totalCompoundInterestAmount - principalAmount) - previousBalanceCompound,totalCompoundInterestAmount - principalAmount,totalCompoundInterestAmount);
+
+               }
 
             }
         }
@@ -2138,6 +2282,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         loadPieChartData();
         setupPieChart();
 
+
+
     }
 
     public void getSetViews() {
@@ -2230,7 +2376,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         duration = Double.parseDouble(String.format("%.2f", durationAndDate.getDuration()));
 
+
         upDateData();
+
 
     }
 
@@ -2527,6 +2675,42 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         myEdit.putBoolean("radioStatus", Boolean.parseBoolean(String.valueOf(durationThenDate)));
         myEdit.apply();
 
+    }
+
+    public void setRecyclerViewTable(int time, double interest, double accruedInterest, double balance){
+        recyclerViewTable.setHasFixedSize(true);
+        recyclerViewTable.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        tableAdapter =  new TableAdapter(this.getContext(),getList(time,interest,accruedInterest,balance));
+        recyclerViewTable.setAdapter(tableAdapter);
+    }
+
+    private List<TableModel> getList(int time, double interest, double accruedInterest,double balance){
+//        List<TableModel> tableModelList = new ArrayList<>();
+
+
+         numberFormatterWithSymbol.setNumber(interest);
+        String myInterest = numberFormatterWithSymbol.getNumberAfterFormat();
+         numberFormatterWithSymbol.setNumber(accruedInterest);
+        String myAccruedInterest = numberFormatterWithSymbol.getNumberAfterFormat();
+         numberFormatterWithSymbol.setNumber(balance);
+        String myBalance = numberFormatterWithSymbol.getNumberAfterFormat();
+        numberFormatterWithSymbol.setNumber(principalAmount);
+        String myPrincipalAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+
+
+
+
+
+
+        if(counter == true){
+            tableModelList.add(new TableModel("0","-","-",String.valueOf(myPrincipalAmount)));
+            counter = false;
+        }
+        tableModelList.add(new TableModel(String.valueOf(time),myInterest,myAccruedInterest,myBalance));
+
+
+        return tableModelList;
     }
 
 }
