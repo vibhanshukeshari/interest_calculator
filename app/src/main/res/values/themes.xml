@@ -66,4 +66,13 @@
         <item name="android:textColorSecondary">@color/white</item>
     </style>
 
+    <style name="NavigationItemNoRipple">
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+    </style>
+    <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@drawable/splash_screen_bg</item>
+        <item name="android:navigationBarColor">#001da1f3</item>
+
+    </style>
+
 </resources>

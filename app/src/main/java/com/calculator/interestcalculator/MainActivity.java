@@ -17,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
@@ -26,6 +27,8 @@ import android.view.MenuItem;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -123,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });
+
+
 
     }
 
@@ -240,6 +245,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.menu_record:
                 viewPager.setCurrentItem(1);
+                break;
+
+            case R.id.currency:
+//                Toast.makeText(this, "hello", Toast.LENGTH_SHORT).show();
+
+//                this is country code picker
+//                ccp.getImageViewFlag().performClick();
+//                ccp.re
                 break;
         }
         return true;
@@ -362,6 +375,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                         calculationScrollView.post(new Runnable() {
                             public void run() {
+
                                 calculationScrollView.fullScroll(View.FOCUS_UP);
 
                             }

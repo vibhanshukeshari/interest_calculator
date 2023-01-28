@@ -8,7 +8,7 @@
                 <item
                     android:id="@+id/currency"
                     app:actionLayout="@layout/drawer_switch"
-                    android:icon="@drawable/simple_icon"
+                    android:icon="@drawable/currency_country1"
                     android:title="Currency" />
 
 
@@ -51,6 +51,21 @@
                 android:title="Term of use"
                 android:icon="@drawable/ic_baseline_term_of_use_24"
                 android:id="@+id/term_and_condition" />
+        </menu>
+    </item>
+
+
+
+    <item android:title="Did you know ?">
+        <menu>
+            <item
+
+                android:enabled="false"
+                app:actionLayout="@layout/footer_quote"
+                android:icon="@drawable/bulb_quote_einstein"
+                android:title="" />
+
+
         </menu>
     </item>
 </menu>
