@@ -1,60 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="5dp"
-    android:layout_marginTop="5dp"
-    android:layout_marginEnd="5dp"
-    android:layout_marginBottom="5dp"
-    android:clickable="true"
     android:elevation="8dp"
-    app:cardCornerRadius="15dp"
-    tools:ignore="TouchTargetSizeCheck">
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:clickable="true"
+    android:id="@+id/layout">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_view_design"
         android:orientation="vertical">
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
+       <TextView
+           android:id="@+id/name"
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:gravity="start"
+           android:singleLine="true"
+           android:ellipsize="end"
+           android:layout_height="wrap_content"
+           android:text="Vibhu"/>
+
+
+            <View
+                android:layout_width="1dp"
+                android:background="@color/light_white"
+                android:layout_height="match_parent"/>
+
+
             <TextView
+                android:id="@+id/type_SorC"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:ellipsize="end"
+                android:gravity="center"
                 android:singleLine="true"
-                android:layout_margin="2dp"
+                android:ellipsize="end"
                 android:layout_height="wrap_content"
-                android:text="Vibhu"
-                android:textSize="18sp" />
+                android:text="Compound Interest"/>
+
+
+            <View
+                android:layout_width="1dp"
+                android:background="@color/light_white"
+                android:layout_height="match_parent"/>
+
+
             <TextView
+                android:id="@+id/date"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:layout_margin="2dp"
+                android:gravity="end"
                 android:layout_height="wrap_content"
-                android:text="Compound Interest"
-                android:textSize="18sp" />
+                android:text="31/01/2023"/>
 
 
         </LinearLayout>
-
-
-
 
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/light_white"/>
+            android:background="@color/light_white"
+            android:layout_height="1dp"/>
+
 
 
         <LinearLayout
@@ -66,29 +88,214 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Date"
-                android:textSize="18sp" />
+                android:text="Principal Amount :"
+                android:textSize="14dp" />
+
+
             <TextView
+                android:id="@+id/principal_amount"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Date"
-                android:textSize="18sp" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:textSize="18sp" />
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Date"
-                android:textSize="18sp" />
+                android:gravity="end"
+                android:layout_gravity="end"
+                android:text="$ 1,000"
+                android:textSize="14dp" />
 
 
         </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Interest Rate: "
+                android:textSize="14dp"/>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="end"
+                android:gravity="end"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+
+            <TextView
+                android:id="@+id/interest_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10%"
+                android:textSize="14dp"/>
+
+            <TextView
+                android:id="@+id/interest_frequency"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/Year"
+                android:textSize="14dp"/>
+
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textSize="14dp"
+                android:text="Duration : "/>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/year"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text="5Y"/>
+
+                <TextView
+                    android:id="@+id/month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text=",6M"/>
+
+                <TextView
+                    android:id="@+id/day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14dp"
+                    android:text=",10D"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Compounding Frequency: "
+                android:textSize="14dp" />
+
+
+            <TextView
+                android:id="@+id/compounding_frequency"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_gravity="end"
+                android:text="Yearly"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Interest Amount: "
+                android:textSize="14dp" />
+
+
+            <TextView
+                android:id="@+id/interest_amount"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_gravity="end"
+                android:text="$ 500"
+                android:textSize="14dp" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/light_white"
+            android:layout_height="1dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Total Amount: "
+                android:textSize="14dp" />
+
+
+            <TextView
+                android:id="@+id/total_amount"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:text="$ 1,500"
+                android:textSize="14dp" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_baseline_more_vert_24"/>
+
+
+
+
+
+        </LinearLayout>
+
 
 
 
@@ -97,5 +304,252 @@
 
     </LinearLayout>
 
-
 </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingStart="10dp"-->
+    <!--android:paddingEnd="10dp">-->
+
+    <!--<LinearLayout-->
+    <!--    android:layout_width="wrap_content"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_gravity="center">-->
+
+
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Payee Name:"-->
+    <!--        android:textColor="#ffffff"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="20sp"/>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--    android:layout_width="wrap_content"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_gravity="center"-->
+    <!--    android:layout_weight="1">-->
+
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Vibhanshu Keshari"-->
+    <!--        android:ellipsize="end"-->
+    <!--        android:textColor="#ffffff"-->
+    <!--        android:maxLines="1"-->
+    <!--        android:layout_marginStart="5dp"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="20sp"/>-->
+    <!--</LinearLayout>-->
+    <!--<Button-->
+    <!--    android:id="@+id/delete_button"-->
+    <!--    android:layout_width="50dp"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    app:icon="@drawable/ic_save"-->
+    <!--    app:iconGravity="textEnd"-->
+    <!--    android:layout_marginStart="5dp"-->
+    <!--    app:iconTint="#ffffff"-->
+    <!--    android:backgroundTint="#1da1f3"-->
+    <!--    style="@style/Widget.MaterialComponents.Button.Icon" />-->
+    <!--</LinearLayout>-->
+
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingStart="10dp"-->
+    <!--android:paddingEnd="10dp">-->
+
+    <!--<LinearLayout-->
+    <!--    android:layout_width="0dp"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_gravity="center"-->
+    <!--    android:layout_weight="1">-->
+
+
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Date:"-->
+    <!--        android:textColor="#ffffff"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="16sp"/>-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="14:09:2021"-->
+    <!--        android:textColor="#ffffff"-->
+    <!--        android:layout_marginStart="5dp"-->
+    <!--        android:layout_marginEnd="10dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="16sp"/>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--    android:layout_width="0dp"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_gravity="center"-->
+    <!--    android:layout_weight="1">-->
+
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Time :"-->
+    <!--        android:textColor="#ffffff"-->
+    <!--        android:layout_marginStart="5dp"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="16sp"/>-->
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="10:00 AM"-->
+    <!--        android:layout_marginStart="5dp"-->
+    <!--        android:textColor="#ffffff"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="16sp"/>-->
+    <!--</LinearLayout>-->
+    <!--<Button-->
+    <!--    android:id="@+id/save_butto"-->
+    <!--    android:layout_width="50dp"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    app:icon="@drawable/ic_baseline_file_copy_24"-->
+    <!--    app:iconGravity="textEnd"-->
+    <!--    android:layout_marginStart="5dp"-->
+    <!--    app:iconTint="#ffffff"-->
+    <!--    android:backgroundTint="#1da1f3"-->
+    <!--    style="@style/Widget.MaterialComponents.Button.Icon" />-->
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:paddingStart="10dp"-->
+    <!--android:paddingEnd="10dp">-->
+
+    <!--<LinearLayout-->
+    <!--    android:layout_width="wrap_content"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_gravity="center">-->
+
+
+    <!--    <TextView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Total Amount :"-->
+    <!--        android:maxLines="1"-->
+    <!--        android:textColor="#ffffff"-->
+    <!--        android:maxWidth="160dp"-->
+    <!--        android:ellipsize="end"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="20sp"/>-->
+
+    <!--</LinearLayout>-->
+
+    <!--<LinearLayout-->
+    <!--    android:layout_width="wrap_content"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    android:layout_gravity="center"-->
+    <!--    android:layout_weight="1">-->
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/result"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:textColor="#3bd16f"-->
+    <!--        android:layout_marginStart="5dp"-->
+    <!--        android:layout_marginEnd="5dp"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:textSize="20sp"/>-->
+    <!--</LinearLayout>-->
+    <!--<Button-->
+    <!--    android:id="@+id/save_buto"-->
+    <!--    android:layout_width="50dp"-->
+    <!--    android:layout_height="wrap_content"-->
+    <!--    app:icon="@drawable/ic_baseline_share_24"-->
+    <!--    app:iconGravity="textEnd"-->
+    <!--    app:iconTint="#ffffff"-->
+    <!--    android:layout_marginStart="5dp"-->
+    <!--    android:backgroundTint="#1da1f3"-->
+    <!--    style="@style/Widget.MaterialComponents.Button.Icon" />-->
+    <!--</LinearLayout>-->
+
