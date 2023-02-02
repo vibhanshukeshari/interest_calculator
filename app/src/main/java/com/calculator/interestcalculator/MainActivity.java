@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.app.Activity;
@@ -44,6 +45,7 @@ import com.robinhood.ticker.TickerView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
+//    DBHandler dbHandler;
     BottomNavigationView mBottomNavigation;
     private ViewPagerAdapter mViewPagerAdapter;
     private ViewPager viewPager;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigationView = findViewById(R.id.navigation_view);
         textViewFooterTotalAmount = findViewById(R.id.text_view_footer_total_amount);
         drawerLayout = findViewById(R.id.drawer);
+
 
         ActionBarDrawerToggle toggle;
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -114,9 +117,39 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         mBottomNavigation.getMenu().findItem(R.id.menu_calculator).setChecked(true);
                         break;
 
+
+
                     case 1:
 
                         mBottomNavigation.getMenu().findItem(R.id.menu_record).setChecked(true);
+//
+//                        dbHandler.addNewRecords("50","100","1000","500","500","500","500","500","500","500","500","500");
+//                        dbHandler.close();
+
+//                        RecyclerView rvRecords = findViewById(R.id.RVRecords);
+//                        if (rvRecords.getVisibility() != View.VISIBLE) {
+//                            rvRecords.setVisibility(View.VISIBLE);
+//                        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                  break;
                 }
             }
@@ -245,6 +278,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 break;
             case R.id.menu_record:
                 viewPager.setCurrentItem(1);
+
+//                RecyclerView rvRecords = findViewById(R.id.RVRecords);
+//                if (rvRecords.getVisibility() != View.VISIBLE) {
+//                    rvRecords.setVisibility(View.VISIBLE);
+//                }
+
+//                dbHandler.addNewRecords("50","100","1000","500","500","500","500","500","500","500","500","500");
+//                dbHandler.close();
+
+
                 break;
 
             case R.id.currency:

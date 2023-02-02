@@ -4,16 +4,19 @@ import static com.robinhood.ticker.TickerView.ScrollingDirection.DOWN;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.UP;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import org.joda.time.*;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.util.Pair;
 import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -33,6 +36,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
@@ -43,6 +47,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -88,6 +93,7 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
 import com.hbb20.CountryCodePicker;
@@ -116,11 +122,31 @@ import java.util.concurrent.TimeUnit;
 public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
 
+    DBHandler dbHandler;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     boolean checkScrollShimmerTableVisisble = true;
     boolean checkScrollPieChartVisible = true;
     boolean checkScrollBarGraphVisible = true;
+
+//    private TextView dateTimeDisplay;
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
+//    private String date;
+
+    private String myName;
+    private String myTypeSorC;
+    private String myDate;
+    private String myPrincipalAmount;
+    private String myInterestRate;
+    private String myInteresRateFrequency;
+    private String myYear;
+    private String myMonth;
+    private String myDay;
+    private String myCompoundingFrequency;
+    private String myInterestAmount;
+    private String myTotalamount;
+
 
 
     static double myYearForTableAdapter;
@@ -139,6 +165,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     String[] rateTypeFrequency = {"Yearly", "Monthly", "Weekly", "Daily", "Half-Yearly", "Quarterly", "Bi-Annually"};
     String[] compoundingFrequency = {"Yearly", "Monthly(12/Y)", "Weekly(52/Y)", "Daily(365/Y)", "Half-Yearly(2/Y)", "Quarterly(4/Y)", "Daily(360/Y)", "Bi-Weekly(26/Y)", "Half-Monthly(24/Y)", "Bi-Monthly(6/Y)", "Bi-Anually(0.5/Y)"};
 
+
+//    private DBHandler dbHandler;
     List<TableModel> tableModelList;
     private NestedScrollView calculationScrollView;
     private static String countryName;
@@ -172,6 +200,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private double toDate;
     private DurationAndDate durationAndDate;
     private LinearLayout linearLayoutTableHeader;
+    private Button saveButton;
 
     SimpleInterest simpleInterest;
     CompoundInterest compoundInterest;
@@ -270,6 +299,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         textViewFooterTotalAmount = requireActivity().findViewById(R.id.text_view_footer_total_amount);
         textViewFooterTotalAmount.setCharacterLists(TickerUtils.provideNumberList());
 
+        saveButton = requireActivity().findViewById(R.id.save_button);
+
         editTextPrincipalAmountLayout = view.findViewById(R.id.editText_principal_amount_layout);
 
         textViewLableBarGraph = view.findViewById(R.id.textView_lable_barGraph);
@@ -301,12 +332,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         shimmerFrameLayout.hideShimmer();
 
-
-
-
-
-//        (Mai Objects.requireNonNull(requireActivity())).c
-
+//        dbHandler = new DBHandler(getContext());
 
 
 
@@ -316,10 +342,18 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
 
+        dbHandler = new DBHandler(getContext());
+//        dbHandler.addNewRecords("500","500","500","500","500","500","500","500","500","500","500","500");
+//        dbHandler.close();
 
 
 
 
+
+
+
+//        dbHandler.addNewRecords("1000","500","500","500","500","500","500","500","500","500","500","500");
+//        dbHandler.close();
 
 
 
@@ -2051,6 +2085,223 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
             }
         });
+
+
+
+
+
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+                View mView = layoutInflaterAndroid.inflate(R.layout.brrow_dialog_layout, null);
+                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext(),R.style.alertDialog);
+
+                alertDialogBuilderUserInput.setView(mView);
+
+                final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
+
+                userInputDialogEditText.requestFocus();
+
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+
+                alertDialogBuilderUserInput.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                        getActivity().getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        if(userInputDialogEditText.getText().toString().equals("")){
+                            myName = "Unknown";
+                        } else {
+                            myName = userInputDialogEditText.getText().toString();
+                        }
+
+                        if(btnSimpleCompoundStatus){
+                            myTypeSorC = "Simple";
+                            numberFormatterWithSymbol.setNumber(totalSimpleInterestAmount);
+                            myInterestAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                        } else{
+                            myTypeSorC = "Compound";
+                            numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount);
+                            myInterestAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+                        }
+
+
+                        calendar = Calendar.getInstance();
+                        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+
+                        myDate = dateFormat.format(calendar.getTime());
+
+                        numberFormatterWithSymbol.setNumber(principalAmount);
+                        myPrincipalAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                        myInterestRate = "@" + editTextInterestRate.getText().toString() + " / ";
+
+                        if(rateTypeFrequencyYMWDHQBI == 0){
+                            myInteresRateFrequency = "Year";
+                        } else if(rateTypeFrequencyYMWDHQBI == 1){
+                            myInteresRateFrequency = "Month";
+                        }else if(rateTypeFrequencyYMWDHQBI == 2){
+                            myInteresRateFrequency = "Week";
+                        }else if(rateTypeFrequencyYMWDHQBI == 3){
+                            myInteresRateFrequency = "Day";
+                        }else if (rateTypeFrequencyYMWDHQBI == 4){
+                            myInteresRateFrequency = "Half Year";
+                        } else if (rateTypeFrequencyYMWDHQBI == 5){
+                            myInteresRateFrequency = "Quarter";
+                        } else if (rateTypeFrequencyYMWDHQBI == 6){
+                            myInteresRateFrequency = "Bi-Annual";
+                        }
+
+
+                        myYear = String.valueOf((int) year) + "Y";
+
+                        myMonth = String.valueOf((int) month + "M");
+
+                        myDay = String.valueOf((int) day + "D");
+
+
+                        if(compoundInterestSpinnerFrequency == 0 ){
+                            myCompoundingFrequency = "Yearly";
+                        } else if(compoundInterestSpinnerFrequency == 1){
+                            myCompoundingFrequency = "Monthly";
+                        } else if(compoundInterestSpinnerFrequency == 2){
+                            myCompoundingFrequency = "Weekly";
+                        } else if(compoundInterestSpinnerFrequency == 3){
+                            myCompoundingFrequency = "Daily(365/Y)";
+                        } else if(compoundInterestSpinnerFrequency == 4){
+                            myCompoundingFrequency = "Half-Yearly";
+                        } else if(compoundInterestSpinnerFrequency == 5){
+                            myCompoundingFrequency = "Quarterly";
+                        } else if(compoundInterestSpinnerFrequency == 6){
+                            myCompoundingFrequency = "Daily(360/Y)";
+                        } else if(compoundInterestSpinnerFrequency == 7){
+                            myCompoundingFrequency = "Bi-Weekly";
+                        } else if(compoundInterestSpinnerFrequency == 8) {
+                            myCompoundingFrequency = "Half-Monthly";
+                        } else if(compoundInterestSpinnerFrequency == 9){
+                            myCompoundingFrequency = "Bi-Monthly";
+                        } else if(compoundInterestSpinnerFrequency == 10){
+                            myCompoundingFrequency = "Bi-Annually";
+                        }
+
+
+                        numberFormatterWithSymbol.setNumber(getTotalAmount);
+                        myTotalamount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+
+
+                        dbHandler.addNewRecords(myName,myTypeSorC,myDate,myPrincipalAmount,myInterestRate,myInteresRateFrequency,myYear,myMonth,myDay,myCompoundingFrequency,myInterestAmount,myTotalamount);
+                        dbHandler.close();
+
+                    }
+
+                });
+
+                alertDialogBuilderUserInput.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getActivity().getWindow().setSoftInputMode(
+                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                        dialogInterface.cancel();
+
+
+                    }
+                });
+
+                androidx.appcompat.app.AlertDialog alertDialog = alertDialogBuilderUserInput.create();
+                alertDialog.show();
+                alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
+                alertDialog.setCancelable(false);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//                dbHandler.addNewRecords("5","100","1000","500","500","500","500","500","500","500","500","500");
+//                dbHandler.close();
+            }
+        });
+
 
 
 

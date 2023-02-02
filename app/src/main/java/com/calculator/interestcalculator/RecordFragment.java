@@ -1,28 +1,43 @@
 package com.calculator.interestcalculator;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class RecordFragment extends Fragment {
 
-    RecyclerView recyclerView;
     View view;
+    private ArrayList<RecordModal>  recordModalArrayList;
+    private DBHandler dbHandler;
+    private RecordAdapter recordRVAdapter;
+    private RecyclerView recordRV;
+
+
+    public static RecordFragment getInstance(){
+        return new RecordFragment();
+    }
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
 
 
 
 
-
-
-
-
-
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -30,26 +45,54 @@ public class RecordFragment extends Fragment {
         view =   inflater.inflate(R.layout.fragment_record, container, false);
 
         setRetainInstance(true);
-
-//        recyclerView = view.findViewById(R.id.recyclerView);
-
-
-//        ItemAdapter itemAdapter = new ItemAdapter(mData);
-//        recyclerView.setHasFixedSize(true);
+//        setHasOptionsMenu(true);
 
 
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//        recyclerView.setAdapter(itemAdapter);
-//
+        recordRV = view.findViewById(R.id.RVRecords);
 
 
-//        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(),2);
-//        recyclerView.setLayoutManager(gridLayoutManager);
 
 
 
         return view;
 
+
+    }
+
+
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+
+
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+
+            System.out.println("visible to user");
+//            I am using this condition to not to refresh history fragment each and everytime user visit
+//                    refresh only first time the app starts and when any data saved.
+//            if(save_button_for_refreshing_sqlite || refresh_first_time_only) {
+            // initializing our all variables.
+            recordModalArrayList = new ArrayList<>();
+            dbHandler = new DBHandler(getContext());
+
+            // getting our currency array
+            // list from db handler class.
+            recordModalArrayList = dbHandler.readData();
+
+            // on below line passing our array lost to our adapter class.
+            recordRVAdapter = new RecordAdapter(recordModalArrayList, getContext());
+
+
+
+
+            // setting layout manager for our recycler view.
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+            recordRV.setLayoutManager(linearLayoutManager);
+
+            // setting our adapter to recycler view.
+
+            recordRV.setAdapter(recordRVAdapter);
+
+        }
 
     }
 }

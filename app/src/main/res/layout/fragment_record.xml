@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:forceDarkAllowed="false"
-    android:background="@color/light_blue"
-    tools:context=".RecordFragment">
+    android:clickable="false"
+    android:background="#10171f"
+    android:focusableInTouchMode="false"
+    android:layout_height="match_parent">
+
+
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:gravity="center_horizontal"-->
+<!--        android:textSize="22sp"-->
+<!--        android:text="hello"-->
+<!--        android:layout_margin="20dp"-->
+<!--        android:textColor="#8899a6" />-->
+
+    <!--recycler view for displaying our Interest deltails-->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/RVRecords"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+
+</RelativeLayout>
 
 
 
@@ -13,5 +33,10 @@
 
 
 
-</FrameLayout>
+
+
+
+
+
+
 

@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:elevation="8dp"
+    app:cardCornerRadius="15dp"
     android:layout_marginTop="5dp"
     android:layout_marginBottom="5dp"
     android:layout_marginStart="5dp"
@@ -17,7 +18,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/card_view_design"
+        android:background="@color/light_blue"
         android:orientation="vertical">
 
 
@@ -30,16 +31,23 @@
            android:id="@+id/name"
            android:layout_width="0dp"
            android:layout_weight="1"
-           android:gravity="start"
+           android:gravity="center"
            android:singleLine="true"
            android:ellipsize="end"
+           android:paddingStart="10dp"
+           android:paddingEnd="10dp"
+           android:paddingTop="10dp"
+           android:paddingBottom="10dp"
+           android:textSize="16dp"
            android:layout_height="wrap_content"
-           android:text="Vibhu"/>
+           android:text="Null"/>
 
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.2dp"
                 android:background="@color/light_white"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:layout_height="match_parent"/>
 
 
@@ -50,12 +58,19 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:ellipsize="end"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textSize="16dp"
                 android:layout_height="wrap_content"
-                android:text="Compound Interest"/>
+                android:text="Not Found"/>
 
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.2dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
                 android:background="@color/light_white"
                 android:layout_height="match_parent"/>
 
@@ -64,9 +79,14 @@
                 android:id="@+id/date"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:gravity="end"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                android:textSize="16dp"
+                android:paddingBottom="10dp"
                 android:layout_height="wrap_content"
-                android:text="31/01/2023"/>
+                android:text="00/00/0000"/>
 
 
         </LinearLayout>
@@ -75,7 +95,7 @@
         <View
             android:layout_width="match_parent"
             android:background="@color/light_white"
-            android:layout_height="1dp"/>
+            android:layout_height="0.2dp"/>
 
 
 
@@ -87,20 +107,32 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_gravity="center"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/light_white"
                 android:layout_height="wrap_content"
                 android:text="Principal Amount :"
-                android:textSize="14dp" />
+                android:textSize="16dp" />
 
 
             <TextView
                 android:id="@+id/principal_amount"
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="2.5dp"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:layout_gravity="end"
-                android:text="$ 1,000"
-                android:textSize="14dp" />
+                android:layout_gravity="center"
+                android:text="0,000"
+                android:textSize="16dp" />
 
 
         </LinearLayout>
@@ -115,15 +147,24 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:gravity="start"
+                android:layout_gravity="center"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/light_white"
                 android:layout_height="wrap_content"
-                android:text="Interest Rate: "
-                android:textSize="14dp"/>
+                android:text="Interest Rate :"
+                android:textSize="16dp"/>
 
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_gravity="end"
+                android:layout_gravity="center"
                 android:gravity="end"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -134,15 +175,23 @@
                 android:id="@+id/interest_rate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10%"
-                android:textSize="14dp"/>
+                android:text="0%/"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginTop="2.5dp"
+                android:textSize="16dp"/>
 
             <TextView
                 android:id="@+id/interest_frequency"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="/Year"
-                android:textSize="14dp"/>
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginTop="2.5dp"
+                android:text="Null"
+                android:textSize="16dp"/>
 
 
             </LinearLayout>
@@ -159,15 +208,24 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:layout_gravity="center"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/light_white"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"
-                android:text="Duration : "/>
+                android:textSize="16dp"
+                android:text="Duration :"/>
 
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:gravity="end"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -175,22 +233,48 @@
                     android:id="@+id/year"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:text="5Y"/>
+                    android:textSize="16dp"
+                    android:layout_marginTop="2.5dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="2dp"
+                    android:text="0Y"/>
+                <View
+                    android:layout_width="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/light_white"
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/month"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:text=",6M"/>
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginTop="2.5dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:textSize="16dp"
+                    android:text="0M"/>
+
+                <View
+                    android:layout_width="1dp"
+                    android:background="@color/light_white"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/day"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14dp"
-                    android:text=",10D"/>
+                    android:layout_marginStart="2dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginTop="2.5dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:textSize="16dp"
+                    android:text="0D"/>
+
 
 
             </LinearLayout>
@@ -207,9 +291,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textColor="@color/light_white"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="2.5dp"
+                android:singleLine="true"
+                android:ellipsize="middle"
+                android:layout_marginBottom="2.5dp"
                 android:layout_height="wrap_content"
-                android:text="Compounding Frequency: "
-                android:textSize="14dp" />
+                android:text="Frequency :"
+                android:textSize="16dp" />
 
 
             <TextView
@@ -217,10 +309,14 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="end"
-                android:layout_gravity="end"
-                android:text="Yearly"
-                android:textSize="14dp" />
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="Unknown"
+                android:textSize="16dp" />
 
 
         </LinearLayout>
@@ -234,9 +330,17 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:textColor="@color/light_white"
                 android:layout_height="wrap_content"
-                android:text="Interest Amount: "
-                android:textSize="14dp" />
+                android:layout_gravity="center"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:text="Interest Amount :"
+                android:textSize="16dp" />
 
 
             <TextView
@@ -245,17 +349,18 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:gravity="end"
-                android:layout_gravity="end"
-                android:text="$ 500"
-                android:textSize="14dp" />
+                android:layout_gravity="center"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="2.5dp"
+                android:layout_marginTop="2.5dp"
+                android:text="00"
+                android:textSize="16dp" />
 
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:background="@color/light_white"
-            android:layout_height="1dp"/>
+
 
 
         <LinearLayout
@@ -271,8 +376,16 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Total Amount: "
-                android:textSize="14dp" />
+                android:text="Total Amount :"
+                android:layout_gravity="center"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:textColor="@color/light_white"
+                android:textSize="16dp" />
 
 
             <TextView
@@ -280,22 +393,85 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:gravity="end"
-                android:text="$ 1,500"
-                android:textSize="14dp" />
-
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/ic_baseline_more_vert_24"/>
-
-
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="2.5dp"
+                android:layout_marginBottom="5dp"
+                android:text="0,000"
+                android:textSize="16dp" />
 
 
 
         </LinearLayout>
 
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/light_white"
+            android:layout_height="0.2dp"/>
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/redirect_icon"/>
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:textColor="@color/highlight_blue"-->
+<!--                android:clickable="true"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:textSize="16dp"-->
+<!--                android:layout_marginStart="2.5dp"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginBottom="10dp"-->
+<!--                android:layout_marginEnd="5dp"-->
+<!--                android:background="?attr/selectableItemBackgroundBorderless"-->
+<!--                android:text="Recalculate"-->
+<!--                />-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="end"
+                android:orientation="horizontal">
+
+
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textColor="@color/highlight_blue"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/ic_baseline_more_vert_24"
+                        android:layout_marginEnd="15dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"/>
+
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
 
 
 
