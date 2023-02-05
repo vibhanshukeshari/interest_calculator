@@ -12,7 +12,7 @@
     android:layout_marginStart="10dp"
     android:layout_marginEnd="10dp"
     android:clickable="true"
-    android:id="@+id/layout">
+    android:id="@+id/layout_simple">
 
 
     <LinearLayout
@@ -27,20 +27,20 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-       <TextView
-           android:id="@+id/name"
-           android:layout_width="0dp"
-           android:layout_weight="1"
-           android:gravity="center"
-           android:singleLine="true"
-           android:ellipsize="end"
-           android:paddingStart="10dp"
-           android:paddingEnd="10dp"
-           android:paddingTop="10dp"
-           android:paddingBottom="10dp"
-           android:textSize="16dp"
-           android:layout_height="wrap_content"
-           android:text="Null"/>
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:singleLine="true"
+                android:ellipsize="end"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textSize="16dp"
+                android:layout_height="wrap_content"
+                android:text="Null"/>
 
 
             <View
@@ -174,27 +174,27 @@
 
 
 
-            <TextView
-                android:id="@+id/interest_rate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0%/"
-                android:layout_marginEnd="0dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginBottom="2.5dp"
-                android:layout_marginTop="2.5dp"
-                android:textSize="16dp"/>
+                <TextView
+                    android:id="@+id/interest_rate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0%/"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:layout_marginTop="2.5dp"
+                    android:textSize="16dp"/>
 
-            <TextView
-                android:id="@+id/interest_frequency"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
-                android:layout_marginStart="0dp"
-                android:layout_marginBottom="2.5dp"
-                android:layout_marginTop="2.5dp"
-                android:text="Null"
-                android:textSize="16dp"/>
+                <TextView
+                    android:id="@+id/interest_frequency"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginBottom="2.5dp"
+                    android:layout_marginTop="2.5dp"
+                    android:text="Null"
+                    android:textSize="16dp"/>
 
 
             </LinearLayout>
@@ -285,46 +285,6 @@
         </LinearLayout>
 
 
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:textColor="@color/light_white"
-                android:layout_gravity="center"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginTop="2.5dp"
-                android:singleLine="true"
-                android:ellipsize="middle"
-                android:layout_marginBottom="2.5dp"
-                android:layout_height="wrap_content"
-                android:text="Frequency :"
-                android:textSize="16dp" />
-
-
-            <TextView
-                android:id="@+id/compounding_frequency"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="end"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:text="Unknown"
-                android:textSize="16dp" />
-
-
-        </LinearLayout>
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -411,10 +371,11 @@
 
         </LinearLayout>
 
+
         <TextView
+            android:id="@+id/time_as_unique_id"
             android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:id="@+id/time_as_unique_id_compound"/>
+            android:layout_height="0dp"/>
 
 
         <View
@@ -423,6 +384,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
             android:layout_height="0.2dp"/>
+
 
 
         <LinearLayout
@@ -446,7 +408,7 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="10dp"
                     android:paddingTop="10dp"
-                    android:layout_marginStart="10dp"
+                    android:layout_marginStart="15dp"
                     android:layout_marginEnd="10dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/redirect_icon"/>
@@ -477,20 +439,19 @@
                 android:orientation="horizontal">
 
 
-
                 <ImageButton
-                    android:id="@+id/deleteCompound"
+                    android:id="@+id/deleteSimple"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="2.5dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:gravity="center"
                     android:paddingStart="10dp"
                     android:paddingEnd="10dp"
-                    android:layout_marginEnd="2.5dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:src="@drawable/delete_icon"
-                    android:background="?attr/selectableItemBackgroundBorderless"/>
+                    android:src="@drawable/delete_icon" />
 
                 <ImageButton
                     android:id="@+id/more_three_dots"
@@ -516,6 +477,10 @@
 
 
         </LinearLayout>
+
+
+
+
 
 
     </LinearLayout>

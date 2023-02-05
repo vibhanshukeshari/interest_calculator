@@ -1,6 +1,6 @@
 package com.calculator.interestcalculator;
 
-public class RecordModal {
+public class RecordModalSimple {
 
     // variables,
     // description, tracks and duration, id.
@@ -13,10 +13,8 @@ public class RecordModal {
     private String years;
     private String months;
     private String days;
-    private String compoundingFrequency;
     private String interestAmount;
     private String totalAmount;
-    private String timeAsUniqueId;
 
     public String getTimeAsUniqueId() {
         return timeAsUniqueId;
@@ -25,6 +23,9 @@ public class RecordModal {
     public void setTimeAsUniqueId(String timeAsUniqueId) {
         this.timeAsUniqueId = timeAsUniqueId;
     }
+
+    private String timeAsUniqueId;
+
 
     public String getName() {
         return name;
@@ -98,13 +99,6 @@ public class RecordModal {
         this.days = days;
     }
 
-    public String getCompoundingFrequency() {
-        return compoundingFrequency;
-    }
-
-    public void setCompoundingFrequency(String compoundingFrequency) {
-        this.compoundingFrequency = compoundingFrequency;
-    }
 
     public String getInterestAmount() {
         return interestAmount;
@@ -122,8 +116,8 @@ public class RecordModal {
         this.totalAmount = totalAmount;
     }
 
-    public RecordModal(String name, String typeSorC, String date, String principalAmount, String interestRate, String interestRateFrequency, String years, String months
-                      , String days , String compoundingFrequency, String interestAmount, String totalAmount, String timeAsUniqueId) {
+    public RecordModalSimple(String name, String typeSorC, String date, String principalAmount, String interestRate, String interestRateFrequency, String years, String months
+            , String days ,String interestAmount, String totalAmount, String timeAsUniqueId) {
 
         this.name = name;
         this.typeSorC = typeSorC;
@@ -134,10 +128,10 @@ public class RecordModal {
         this.years = years;
         this.months = months;
         this.days = days;
-        this.compoundingFrequency = compoundingFrequency;
         this.interestAmount = interestAmount;
         this.totalAmount = totalAmount;
         this.timeAsUniqueId = timeAsUniqueId;
+
 
 
 

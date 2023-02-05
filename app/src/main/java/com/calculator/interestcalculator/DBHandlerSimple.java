@@ -10,20 +10,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.util.ArrayList;
 
-class DBHandler extends SQLiteOpenHelper {
+class DBHandlerSimple extends SQLiteOpenHelper {
 
     // creating a constant variables for our database.
     // below variable is for our database name.
-    private static final String DB_NAME = "recorddbcompound";
+    private static final String DB_NAME = "recorddbsimple";
 
     // below int is our database version
     private static final int DB_VERSION = 1;
 
     // below variable is for our table name.
-    private static final String TABLE_NAME = "myrecordcompound";
+    private static final String TABLE_NAME = "myrecordsimple";
 
     // below variable is for our id column.
-    private static final String ID_COL = "idcompound";
+    private static final String ID_COL = "idsimple";
 
 
     private static final String NAME_COL = "name_col";
@@ -44,8 +44,6 @@ class DBHandler extends SQLiteOpenHelper {
 
     private static final String DAY_COL = "day_col";
 
-    private static final String COMPOUNDING_FREQUENCY_COL = "compounding_frequency_col";
-
     private static final String INTEREST_AMOUNT_COL = "interest_amount_col";
 
     private static final String TOTAL_AMOUNT_COL = "total_amount_col";
@@ -55,7 +53,7 @@ class DBHandler extends SQLiteOpenHelper {
 
 
     // creating a constructor for our database handler.
-    public DBHandler(Context context) {
+    public DBHandlerSimple(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
@@ -77,7 +75,6 @@ class DBHandler extends SQLiteOpenHelper {
                 + YEAR_COL + " TEXT,"
                 + MONTH_COL + " TEXT,"
                 + DAY_COL + " TEXT,"
-                + COMPOUNDING_FREQUENCY_COL + " TEXT,"
                 + INTEREST_AMOUNT_COL + " TEXT,"
                 + TOTAL_AMOUNT_COL + " TEXT," +
                 TIME_AS_UNIQUE_ID_COL + " TEXT)";
@@ -91,12 +88,12 @@ class DBHandler extends SQLiteOpenHelper {
     // this method is use to add new course to our sqlite database.
     public void addNewRecords(String name, String typeSorC, String dateCol, String principalAmount,
                               String interestRate, String interestFrequency, String year, String month,
-                              String day, String compoundingFrequency, String interestAmount, String totalAmount, String timeAsUniqueIdCol) {
+                              String day, String interestAmount, String totalAmount, String timeAsUniqueId) {
 
         // on below line we are creating a variable for
         // our sqlite database and calling writable method
         // as we are writing data in our database.
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase dbSimple = this.getWritableDatabase();
 
         // on below line we are creating a
         // variable for content values.
@@ -113,67 +110,66 @@ class DBHandler extends SQLiteOpenHelper {
         values.put(YEAR_COL, year );
         values.put(MONTH_COL,month);
         values.put( DAY_COL,day );
-        values.put(COMPOUNDING_FREQUENCY_COL , compoundingFrequency );
         values.put( INTEREST_AMOUNT_COL,interestAmount );
         values.put(TOTAL_AMOUNT_COL,totalAmount );
-        values.put(TIME_AS_UNIQUE_ID_COL, timeAsUniqueIdCol);
+        values.put( TIME_AS_UNIQUE_ID_COL,timeAsUniqueId );
 
         // after adding all values we are passing
         // content values to our table.
-        db.insert(TABLE_NAME, null, values);
+        dbSimple.insert(TABLE_NAME, null, values);
 
         // at last we are closing our
         // database after adding database.
-        db.close();
+        dbSimple.close();
     }
 
     // we have created a new method for reading all the courses.
-    public ArrayList<RecordModal> readData() {
+    public ArrayList<RecordModalSimple> readData() {
         // on below line we are creating a
         // database for reading our database.
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase dbSimple = this.getReadableDatabase();
 
         // on below line we are creating a cursor with query to read data from database.
-        Cursor cursorRecords = db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+        Cursor cursorRecordsSimple = dbSimple.rawQuery("SELECT * FROM " + TABLE_NAME, null);
 
         // on below line we are creating a new array list.
-        ArrayList<RecordModal> recordModalArrayList = new ArrayList<>();
+        ArrayList<RecordModalSimple> recordModalArrayListSimple = new ArrayList<>();
 
         // moving our cursor to first position.
-        if (cursorRecords.moveToLast()) {
+        if (cursorRecordsSimple.moveToLast()) {
             do {
                 // on below line we are adding the data from cursor to our array list.
-                recordModalArrayList.add(new RecordModal(cursorRecords.getString(1),
-                        cursorRecords.getString(2),
-                        cursorRecords.getString(3),
-                        cursorRecords.getString(4),
-                        cursorRecords.getString(5),
-                        cursorRecords.getString(6),
-                        cursorRecords.getString(7),
-                        cursorRecords.getString(8),
-                        cursorRecords.getString(9),
-                        cursorRecords.getString(10),
-                        cursorRecords.getString(11),
-                        cursorRecords.getString(12),
-                        cursorRecords.getString(13)
+                recordModalArrayListSimple.add(new RecordModalSimple(cursorRecordsSimple.getString(1),
+                        cursorRecordsSimple.getString(2),
+                        cursorRecordsSimple.getString(3),
+                        cursorRecordsSimple.getString(4),
+                        cursorRecordsSimple.getString(5),
+                        cursorRecordsSimple.getString(6),
+                        cursorRecordsSimple.getString(7),
+                        cursorRecordsSimple.getString(8),
+                        cursorRecordsSimple.getString(9),
+                        cursorRecordsSimple.getString(10),
+                        cursorRecordsSimple.getString(11),
+                        cursorRecordsSimple.getString(12)
 
                 ));
-            } while (cursorRecords.moveToPrevious());
+            } while (cursorRecordsSimple.moveToPrevious());
             // moving our cursor to next.
         }
         // at last closing our cursor
         // and returning our array list.
-        cursorRecords.close();
-        return recordModalArrayList;
+        cursorRecordsSimple.close();
+        return recordModalArrayListSimple;
     }
 
-    public void deleteRecordCompound(String timeAsUniqueId) {
+    public void deleteRecordSimple(String id) {
 
-        SQLiteDatabase dbCompound = this.getWritableDatabase();
+        SQLiteDatabase dbSimple = this.getWritableDatabase();
 
-        dbCompound.delete(TABLE_NAME, "time_as_unique_id_col=?",new String[] {timeAsUniqueId});
-
-        dbCompound.close();
+        // have to do same thing in total paisa app also please remember to do in future if you see this vibhu.
+//        remember time textView is used as id and it is hidden in record_rv_item_simple
+        dbSimple.delete(TABLE_NAME, "time_as_unique_id_col=?", new String[]{id});
+        dbSimple.close();
 
     }
 

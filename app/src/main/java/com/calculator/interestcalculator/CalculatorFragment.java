@@ -1,5 +1,6 @@
 package com.calculator.interestcalculator;
 import static android.content.Context.MODE_PRIVATE;
+import static com.calculator.interestcalculator.MainActivity.imOnCalculation;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.DOWN;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.UP;
 import android.app.Activity;
@@ -22,6 +23,7 @@ import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +44,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -59,6 +62,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -122,7 +126,9 @@ import java.util.concurrent.TimeUnit;
 public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
 
+//    ImageButton imgBtnMoreThreeDots;
     DBHandler dbHandler;
+    DBHandlerSimple dbHandlerSimple;
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     boolean checkScrollShimmerTableVisisble = true;
@@ -146,6 +152,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private String myCompoundingFrequency;
     private String myInterestAmount;
     private String myTotalamount;
+    private String myTimeAsUniqueId;
 
 
 
@@ -248,6 +255,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_calculator, container, false);
 
+        // this is very important for calling onPrepareOptionsMenu method below i.e delete all button hide ;
+        setHasOptionsMenu(true);
+
+
         spinnerInterestRateTypeYMWDHQBI = view.findViewById(R.id.spinner_interest_rate_period);
         spinnerInterestRateTypeYMWDHQBI.setOnItemSelectedListener(this);
 
@@ -335,6 +346,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //        dbHandler = new DBHandler(getContext());
 
 
+//        imgBtnMoreThreeDots = findViewById(R.id.more_three_dots);
 
 
 
@@ -343,6 +355,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
         dbHandler = new DBHandler(getContext());
+        dbHandlerSimple = new DBHandlerSimple(getContext());
 //        dbHandler.addNewRecords("500","500","500","500","500","500","500","500","500","500","500","500");
 //        dbHandler.close();
 
@@ -441,7 +454,25 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             @Override
             public void onClick(View view) {
 
+
                 btnSimpleCompoundStatus = true;
+
+
+//                getFragmentManager().findFragmentByTag(fragmentName);
+
+
+                if(!imOnCalculation){
+                    FragmentManager fm = getFragmentManager();
+                    //below i tried radomly and works perfectly; other wise i had to use interface
+                    //before i was using fm.findFragmentById();
+                    //04/01/2023 - 21:37pm - saturday
+                    RecordFragment recordFragment = (RecordFragment) fm.getFragments().get(1);
+                    recordFragment.mySimple();
+
+                }
+
+
+
 
                 if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                         ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
@@ -499,6 +530,18 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onClick(View view) {
 
                 btnSimpleCompoundStatus = false;
+
+
+
+                if(!imOnCalculation){
+                    FragmentManager fm = getFragmentManager();
+                    //below i tried radomly and works perfectly; other wise i had to use interface
+                    //before i was using fm.findFragmentById();
+                    RecordFragment recordFragment = (RecordFragment) fm.getFragments().get(1);
+                    recordFragment.myCompound();
+
+                }
+
 
                 if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                         ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
@@ -2127,10 +2170,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                             numberFormatterWithSymbol.setNumber(totalSimpleInterestAmount);
                             myInterestAmount = numberFormatterWithSymbol.getNumberAfterFormat();
 
+                            numberFormatterWithSymbol.setNumber(totalSimpleInterestAmount + principalAmount);
+                            myTotalamount = numberFormatterWithSymbol.getNumberAfterFormat();
+
                         } else{
                             myTypeSorC = "Compound";
-                            numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount);
+                            numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount - principalAmount);
                             myInterestAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                            numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount );
+                            myTotalamount = numberFormatterWithSymbol.getNumberAfterFormat();
+
                         }
 
 
@@ -2194,13 +2244,28 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         }
 
 
-                        numberFormatterWithSymbol.setNumber(getTotalAmount);
-                        myTotalamount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                         Date currentTime = Calendar.getInstance().getTime();
+
+                         myTimeAsUniqueId = String.valueOf(currentTime);
+
+                        System.out.println(myTimeAsUniqueId);
 
 
 
-                        dbHandler.addNewRecords(myName,myTypeSorC,myDate,myPrincipalAmount,myInterestRate,myInteresRateFrequency,myYear,myMonth,myDay,myCompoundingFrequency,myInterestAmount,myTotalamount);
-                        dbHandler.close();
+
+
+                        if(btnSimpleCompoundStatus){
+                            dbHandlerSimple.addNewRecords(myName,myTypeSorC,myDate,myPrincipalAmount,myInterestRate,myInteresRateFrequency,myYear,myMonth,myDay,myInterestAmount,myTotalamount,myTimeAsUniqueId);
+                            dbHandler.close();
+
+                        } else {
+
+
+                            dbHandler.addNewRecords(myName,myTypeSorC,myDate,myPrincipalAmount,myInterestRate,myInteresRateFrequency,myYear,myMonth,myDay,myCompoundingFrequency,myInterestAmount,myTotalamount,myTimeAsUniqueId);
+                            dbHandler.close();
+
+                        }
 
                     }
 
@@ -2297,10 +2362,15 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
 
+
+
 //                dbHandler.addNewRecords("5","100","1000","500","500","500","500","500","500","500","500","500");
 //                dbHandler.close();
             }
         });
+
+
+
 
 
 
@@ -3269,6 +3339,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         checkScrollPieChartVisible = true;
         checkScrollBarGraphVisible = true;
 
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(@NonNull Menu menu) {
+
+        menu.findItem(R.id.deleteAll).setVisible(false);
+        menu.findItem(R.id.Share).setVisible(true);
+        menu.findItem(R.id.Reset).setVisible(true);
+
+        System.out.println("inside");
+        super.onPrepareOptionsMenu(menu);
     }
 
 

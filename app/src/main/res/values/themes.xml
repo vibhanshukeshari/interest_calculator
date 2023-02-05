@@ -61,6 +61,7 @@
 
     <style name="alertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="android:dialogCornerRadius">10dp</item>
+        <item name="android:forceDarkAllowed">false</item>
         <item name="android:background">#10171f</item>
         <item name="android:textColorPrimary">#d9ffffff</item>
         <item name="android:textColorSecondary">@color/white</item>
@@ -69,11 +70,14 @@
     <style name="NavigationItemNoRipple">
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
+
+
     <style name="SplashTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen_bg</item>
         <item name="android:navigationBarColor">#001da1f3</item>
 
     </style>
+
 
 
 </resources>

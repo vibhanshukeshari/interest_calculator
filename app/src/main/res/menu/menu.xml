@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:title="DeleteAll"
+        android:icon="@drawable/erase_all_action_icon"
+        android:id="@+id/deleteAll"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:title="Reset"
         android:icon="@drawable/reset"
         android:id="@+id/Reset"
