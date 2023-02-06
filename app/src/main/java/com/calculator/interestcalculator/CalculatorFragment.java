@@ -3,6 +3,8 @@ import static android.content.Context.MODE_PRIVATE;
 import static com.calculator.interestcalculator.MainActivity.imOnCalculation;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.DOWN;
 import static com.robinhood.ticker.TickerView.ScrollingDirection.UP;
+
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -2186,168 +2188,204 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             @Override
             public void onClick(View view) {
 
-                LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
-                View mView = layoutInflaterAndroid.inflate(R.layout.brrow_dialog_layout, null);
-                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext(),R.style.alertDialog);
 
-                alertDialogBuilderUserInput.setView(mView);
+                if (!editTextPrincipalAmount.getText().toString().equals("") &&
+                        !editTextInterestRate.getText().toString().replaceAll("%", "").equals("") &&
+                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
+                                || !editTextDay.getText().toString().equals(""))) {
 
-                final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
 
-                userInputDialogEditText.requestFocus();
+                    LayoutInflater layoutInflaterAndroid = LayoutInflater.from(getContext());
+                    View mView = layoutInflaterAndroid.inflate(R.layout.brrow_dialog_layout, null);
+                    AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getContext(), R.style.alertDialog);
 
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+                    alertDialogBuilderUserInput.setView(mView);
 
-                alertDialogBuilderUserInput.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    final EditText userInputDialogEditText = (EditText) mView.findViewById(R.id.userInputDialog);
 
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    userInputDialogEditText.requestFocus();
 
-                        getActivity().getWindow().setSoftInputMode(
-                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
 
-                        if(userInputDialogEditText.getText().toString().equals("")){
-                            myName = "Unknown";
-                        } else {
-                            myName = userInputDialogEditText.getText().toString();
+                    alertDialogBuilderUserInput.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            getActivity().getWindow().setSoftInputMode(
+                                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+                            if (userInputDialogEditText.getText().toString().equals("")) {
+                                myName = "Unknown";
+                            } else {
+                                myName = userInputDialogEditText.getText().toString();
+                            }
+
+                            if (btnSimpleCompoundStatus) {
+                                myTypeSorC = "Simple";
+                                numberFormatterWithSymbol.setNumber(totalSimpleInterestAmount);
+                                myInterestAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                                numberFormatterWithSymbol.setNumber(totalSimpleInterestAmount + principalAmount);
+                                myTotalamount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                            } else {
+                                myTypeSorC = "Compound";
+                                numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount - principalAmount);
+                                myInterestAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                                numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount);
+                                myTotalamount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                            }
+
+
+                            calendar = Calendar.getInstance();
+                            dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+
+                            myDate = dateFormat.format(calendar.getTime());
+
+                            numberFormatterWithSymbol.setNumber(principalAmount);
+                            myPrincipalAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+
+                            myInterestRate = "@" + editTextInterestRate.getText().toString() + " / ";
+
+                            if (rateTypeFrequencyYMWDHQBI == 0) {
+                                myInteresRateFrequency = "Year";
+                            } else if (rateTypeFrequencyYMWDHQBI == 1) {
+                                myInteresRateFrequency = "Month";
+                            } else if (rateTypeFrequencyYMWDHQBI == 2) {
+                                myInteresRateFrequency = "Week";
+                            } else if (rateTypeFrequencyYMWDHQBI == 3) {
+                                myInteresRateFrequency = "Day";
+                            } else if (rateTypeFrequencyYMWDHQBI == 4) {
+                                myInteresRateFrequency = "Half Year";
+                            } else if (rateTypeFrequencyYMWDHQBI == 5) {
+                                myInteresRateFrequency = "Quarter";
+                            } else if (rateTypeFrequencyYMWDHQBI == 6) {
+                                myInteresRateFrequency = "Bi-Annual";
+                            }
+
+
+                            myYear = String.valueOf((int) year) + "Y";
+
+                            myMonth = String.valueOf((int) month + "M");
+
+                            myDay = String.valueOf((int) day + "D");
+
+
+                            if (compoundInterestSpinnerFrequency == 0) {
+                                myCompoundingFrequency = "Yearly";
+                            } else if (compoundInterestSpinnerFrequency == 1) {
+                                myCompoundingFrequency = "Monthly";
+                            } else if (compoundInterestSpinnerFrequency == 2) {
+                                myCompoundingFrequency = "Weekly";
+                            } else if (compoundInterestSpinnerFrequency == 3) {
+                                myCompoundingFrequency = "Daily(365/Y)";
+                            } else if (compoundInterestSpinnerFrequency == 4) {
+                                myCompoundingFrequency = "Half-Yearly";
+                            } else if (compoundInterestSpinnerFrequency == 5) {
+                                myCompoundingFrequency = "Quarterly";
+                            } else if (compoundInterestSpinnerFrequency == 6) {
+                                myCompoundingFrequency = "Daily(360/Y)";
+                            } else if (compoundInterestSpinnerFrequency == 7) {
+                                myCompoundingFrequency = "Bi-Weekly";
+                            } else if (compoundInterestSpinnerFrequency == 8) {
+                                myCompoundingFrequency = "Half-Monthly";
+                            } else if (compoundInterestSpinnerFrequency == 9) {
+                                myCompoundingFrequency = "Bi-Monthly";
+                            } else if (compoundInterestSpinnerFrequency == 10) {
+                                myCompoundingFrequency = "Bi-Annually";
+                            }
+
+
+                            Date currentTime = Calendar.getInstance().getTime();
+
+                            myTimeAsUniqueId = String.valueOf(currentTime);
+
+                            System.out.println(myTimeAsUniqueId);
+
+
+                            if (btnSimpleCompoundStatus) {
+                                dbHandlerSimple.addNewRecords(myName, myTypeSorC, myDate, myPrincipalAmount, myInterestRate, myInteresRateFrequency, myYear, myMonth, myDay, myInterestAmount, myTotalamount, myTimeAsUniqueId);
+                                dbHandler.close();
+
+
+                                Toast toast1 = new Toast(getContext());
+                                toast1.setDuration(Toast.LENGTH_SHORT);
+                                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.my_toast, null);
+                                toast1.setView(view);
+                                toast1.show();
+
+
+                            } else {
+
+
+                                dbHandler.addNewRecords(myName, myTypeSorC, myDate, myPrincipalAmount, myInterestRate, myInteresRateFrequency, myYear, myMonth, myDay, myCompoundingFrequency, myInterestAmount, myTotalamount, myTimeAsUniqueId);
+                                dbHandler.close();
+
+                                Toast toast1 = new Toast(getContext());
+                                toast1.setDuration(Toast.LENGTH_SHORT);
+                                LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.my_toast_data_saved, null);
+                                toast1.setView(view);
+                                toast1.show();
+
+                            }
+
                         }
 
-                        if(btnSimpleCompoundStatus){
-                            myTypeSorC = "Simple";
-                            numberFormatterWithSymbol.setNumber(totalSimpleInterestAmount);
-                            myInterestAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+                    });
 
-                            numberFormatterWithSymbol.setNumber(totalSimpleInterestAmount + principalAmount);
-                            myTotalamount = numberFormatterWithSymbol.getNumberAfterFormat();
+                    alertDialogBuilderUserInput.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            getActivity().getWindow().setSoftInputMode(
+                                    WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-                        } else{
-                            myTypeSorC = "Compound";
-                            numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount - principalAmount);
-                            myInterestAmount = numberFormatterWithSymbol.getNumberAfterFormat();
+                            dialogInterface.cancel();
 
-                            numberFormatterWithSymbol.setNumber(totalCompoundInterestAmount );
-                            myTotalamount = numberFormatterWithSymbol.getNumberAfterFormat();
 
                         }
+                    });
 
-
-                        calendar = Calendar.getInstance();
-                        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
-
-                        myDate = dateFormat.format(calendar.getTime());
-
-                        numberFormatterWithSymbol.setNumber(principalAmount);
-                        myPrincipalAmount = numberFormatterWithSymbol.getNumberAfterFormat();
-
-                        myInterestRate = "@" + editTextInterestRate.getText().toString() + " / ";
-
-                        if(rateTypeFrequencyYMWDHQBI == 0){
-                            myInteresRateFrequency = "Year";
-                        } else if(rateTypeFrequencyYMWDHQBI == 1){
-                            myInteresRateFrequency = "Month";
-                        }else if(rateTypeFrequencyYMWDHQBI == 2){
-                            myInteresRateFrequency = "Week";
-                        }else if(rateTypeFrequencyYMWDHQBI == 3){
-                            myInteresRateFrequency = "Day";
-                        }else if (rateTypeFrequencyYMWDHQBI == 4){
-                            myInteresRateFrequency = "Half Year";
-                        } else if (rateTypeFrequencyYMWDHQBI == 5){
-                            myInteresRateFrequency = "Quarter";
-                        } else if (rateTypeFrequencyYMWDHQBI == 6){
-                            myInteresRateFrequency = "Bi-Annual";
-                        }
-
-
-                        myYear = String.valueOf((int) year) + "Y";
-
-                        myMonth = String.valueOf((int) month + "M");
-
-                        myDay = String.valueOf((int) day + "D");
-
-
-                        if(compoundInterestSpinnerFrequency == 0 ){
-                            myCompoundingFrequency = "Yearly";
-                        } else if(compoundInterestSpinnerFrequency == 1){
-                            myCompoundingFrequency = "Monthly";
-                        } else if(compoundInterestSpinnerFrequency == 2){
-                            myCompoundingFrequency = "Weekly";
-                        } else if(compoundInterestSpinnerFrequency == 3){
-                            myCompoundingFrequency = "Daily(365/Y)";
-                        } else if(compoundInterestSpinnerFrequency == 4){
-                            myCompoundingFrequency = "Half-Yearly";
-                        } else if(compoundInterestSpinnerFrequency == 5){
-                            myCompoundingFrequency = "Quarterly";
-                        } else if(compoundInterestSpinnerFrequency == 6){
-                            myCompoundingFrequency = "Daily(360/Y)";
-                        } else if(compoundInterestSpinnerFrequency == 7){
-                            myCompoundingFrequency = "Bi-Weekly";
-                        } else if(compoundInterestSpinnerFrequency == 8) {
-                            myCompoundingFrequency = "Half-Monthly";
-                        } else if(compoundInterestSpinnerFrequency == 9){
-                            myCompoundingFrequency = "Bi-Monthly";
-                        } else if(compoundInterestSpinnerFrequency == 10){
-                            myCompoundingFrequency = "Bi-Annually";
-                        }
-
-
-
-                         Date currentTime = Calendar.getInstance().getTime();
-
-                         myTimeAsUniqueId = String.valueOf(currentTime);
-
-                        System.out.println(myTimeAsUniqueId);
-
-
-
-
-
-                        if(btnSimpleCompoundStatus){
-                            dbHandlerSimple.addNewRecords(myName,myTypeSorC,myDate,myPrincipalAmount,myInterestRate,myInteresRateFrequency,myYear,myMonth,myDay,myInterestAmount,myTotalamount,myTimeAsUniqueId);
-                            dbHandler.close();
-
-                        } else {
-
-
-                            dbHandler.addNewRecords(myName,myTypeSorC,myDate,myPrincipalAmount,myInterestRate,myInteresRateFrequency,myYear,myMonth,myDay,myCompoundingFrequency,myInterestAmount,myTotalamount,myTimeAsUniqueId);
-                            dbHandler.close();
-
-                        }
-
-                    }
-
-                });
-
-                alertDialogBuilderUserInput.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        getActivity().getWindow().setSoftInputMode(
-                                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-                        dialogInterface.cancel();
-
-
-                    }
-                });
-
-                androidx.appcompat.app.AlertDialog alertDialog = alertDialogBuilderUserInput.create();
-                alertDialog.show();
-                alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
-                alertDialog.setCancelable(false);
-
+                    androidx.appcompat.app.AlertDialog alertDialog = alertDialogBuilderUserInput.create();
+                    alertDialog.show();
+                    alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
+                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
+                    alertDialog.setCancelable(false);
 
 
 //                dbHandler.addNewRecords("5","100","1000","500","500","500","500","500","500","500","500","500");
 //                dbHandler.close();
+
+
+                } else {
+
+
+
+
+                    Toast toast1 = new Toast(getContext());
+                    toast1.setDuration(Toast.LENGTH_SHORT);
+                    LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                     view = inflater.inflate(R.layout.my_toast_calculate_save, null);
+                    toast1.setView(view);
+                    toast1.show();
+
+
+
+
+
+//                    toast
+                }
+
+
             }
+
         });
-
-
-
-
-
 
 
 
@@ -3326,6 +3364,5 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         System.out.println("inside");
         super.onPrepareOptionsMenu(menu);
     }
-
 
 }

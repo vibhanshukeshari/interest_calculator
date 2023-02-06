@@ -27,6 +27,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Bundle;
@@ -41,19 +42,20 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+
 import com.hbb20.CountryCodePicker;
+
 import com.robinhood.ticker.TickerView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
-
-
-
+    static boolean btnSCCalRecStatus;
     ImageView imageViewNotFound;
     static int compoundArrayListSize;
     static int simpleArrayListSize;
@@ -90,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         navigationView = findViewById(R.id.navigation_view);
         textViewFooterTotalAmount = findViewById(R.id.text_view_footer_total_amount);
         drawerLayout = findViewById(R.id.drawer);
-
         imageViewNotFound = findViewById(R.id.image_view_not_found);
 
         isRecordVisible = false;
@@ -129,58 +130,49 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             @Override
             public void onPageSelected(int position) {
-                switch (position) {
-                    case 0:
 
-//                        Toast.makeText(MainActivity.this, "true hai yar", Toast.LENGTH_SHORT).show();
+                switch (position) {
+
+                    case 0:
 
                         imOnCalculation = true;
 
                         mBottomNavigation.getMenu().findItem(R.id.menu_calculator).setChecked(true);
 
+                        if(bottomLinearLayout.getVisibility() == View.GONE){
+                            bottomLinearLayout.setVisibility(View.VISIBLE);
 
+                        }
 
+                        if(btnSCCalRecStatus == true){
+                            btnSimpleInterest.performClick();
 
+                        } else {
+                            btnCompoundInterest.performClick();
 
-
+                        }
 
                         break;
-
-
 
                     case 1:
 
                         mBottomNavigation.getMenu().findItem(R.id.menu_record).setChecked(true);
 
                         imOnCalculation = false;
-//
-//                        dbHandler.addNewRecords("50","100","1000","500","500","500","500","500","500","500","500","500");
-//                        dbHandler.close();
 
-//                        RecyclerView rvRecords = findViewById(R.id.RVRecords);
-//                        if (rvRecords.getVisibility() != View.VISIBLE) {
-//                            rvRecords.setVisibility(View.VISIBLE);
-//                        }
+                        if(bottomLinearLayout.getVisibility() == View.VISIBLE){
+                            bottomLinearLayout.setVisibility(View.GONE);
 
+                        }
 
-
-//                        if(compoundArrayListSize == 0 && btnSimpleCompoundStatus == false){
-//                            imageViewNotFound.setVisibility(View.VISIBLE);
-//                        } else {
-//                            imageViewNotFound.setVisibility(View.GONE);
-//                        }
-//
-//
-//                        if(simpleArrayListSize == 0 && btnSimpleCompoundStatus == true){
-//                            imageViewNotFound.setVisibility(View.VISIBLE);
-//                        } else {
-//                            imageViewNotFound.setVisibility(View.GONE);
-//                        }
-
-
-
+                        if(btnSimpleCompoundStatus == true){
+                            btnSCCalRecStatus = true;
+                        } else {
+                            btnSCCalRecStatus = false;
+                        }
 
                  break;
+
                 }
             }
 
@@ -190,43 +182,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
-
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
-//        if(btnSimpleInterest.isChecked()){
-//            btnSimpleCompoundStatus = true;
-//
-//        } else{
-//            btnSimpleCompoundStatus = false;
-//
-//        }
-
-
-
-
         SharedPreferences SC = getSharedPreferences("SimpleCompoundStatus", MODE_PRIVATE);
 
         CalculatorFragment.btnSimpleCompoundStatus = SC.getBoolean("interestStatus", true);
 
-//        Toast.makeText(this, String.valueOf(CalculatorFragment.btnSimpleCompoundStatus), Toast.LENGTH_SHORT).show();
-
         if(CalculatorFragment.btnSimpleCompoundStatus){
-
-//            CalculatorFragment.btnSimpleCompoundStatus = true;
 
             btnSimpleInterest.performClick();
 
-
         } else {
 
-//            CalculatorFragment.btnSimpleCompoundStatus = false;
-
-            btnCompoundInterest.performClick();
+           btnCompoundInterest.performClick();
 
         }
     }
@@ -235,29 +207,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onPause() {
         super.onPause();
 
-
         SharedPreferences sharedPreferencesSC = getSharedPreferences("SimpleCompoundStatus", MODE_PRIVATE);
         SharedPreferences.Editor myEditSC = sharedPreferencesSC.edit();
 
         myEditSC.clear();
         myEditSC.putBoolean("interestStatus", Boolean.parseBoolean(String.valueOf(CalculatorFragment.btnSimpleCompoundStatus)));
         myEditSC.apply();
-
-//        Toast.makeText(this, String.valueOf(CalculatorFragment.btnSimpleCompoundStatus), Toast.LENGTH_SHORT).show();
-//        CalculatorFragment.btnSimpleCompoundStatus = true;
-
-
-//        if(btnSimpleInterest.isChecked()){
-//            btnSimpleCompoundStatus = true;
-//
-//        } else{
-//            btnSimpleCompoundStatus = false;
-//
-//        }
-
-
-
-
 
     }
 
@@ -304,54 +259,51 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
 
-
             }
-
-
-
-
-
         }
 
     }
-
-
-
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.menu_calculator:
+
                 viewPager.setCurrentItem(0);
-
-
-//                Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
 
                 imOnCalculation = true;
 
+                if(bottomLinearLayout.getVisibility() == View.GONE){
+
+                    bottomLinearLayout.setVisibility(View.VISIBLE);
+
+                }
+
+                if(btnSCCalRecStatus == true){
+                    btnSimpleInterest.performClick();
+                } else {
+                    btnCompoundInterest.performClick();
+                }
 
                 break;
-            case R.id.menu_record:
-                viewPager.setCurrentItem(1);
 
+            case R.id.menu_record:
+
+                viewPager.setCurrentItem(1);
 
                 imOnCalculation = false;
 
+                if(bottomLinearLayout.getVisibility() == View.VISIBLE){
 
-//                if(compoundArrayListSize == 0 && btnSimpleCompoundStatus == false){
-//                    imageViewNotFound.setVisibility(View.VISIBLE);
-//                } else {
-//                    imageViewNotFound.setVisibility(View.GONE);
-//                }
-//
-//
-//                if(simpleArrayListSize == 0 && btnSimpleCompoundStatus == true){
-//                    imageViewNotFound.setVisibility(View.VISIBLE);
-//                } else {
-//                    imageViewNotFound.setVisibility(View.GONE);
-//                }
+                    bottomLinearLayout.setVisibility(View.GONE);
 
+                }
 
+                if(btnSimpleCompoundStatus == true){
+                    btnSCCalRecStatus = true;
+                } else {
+                    btnSCCalRecStatus = false;
+                }
 
                 break;
 
@@ -368,7 +320,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-
         switch (item.getItemId()) {
             case R.id.Reset:
 
@@ -378,12 +329,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 EditText month = findViewById(R.id.edit_text_month);
                 EditText day = findViewById(R.id.edit_text_day);
 
-
                 try {
                     hideSoftKeyboard(MainActivity.this);
                 } catch (NullPointerException ignored) {
                 }
-
 
                  alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialog);
                 alertDialoBuider.setTitle("Confirm Reset !");
@@ -394,31 +343,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
-
-
-
-
-//To be done later
-
-//                        spinnerInterestRateTypeYMWDHQBI.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                spinnerInterestRateTypeYMWDHQBI.setSelection(0);
-//                                spinnerInterestRateTypeYMWDHQBI.performClick();
-//                            }
-//                        });
-//
-//                        spinnerCompoundingFrequency.post(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                spinnerCompoundingFrequency.setSelection(0);
-//                                spinnerCompoundingFrequency.
-//                            }
-//                        });
-
-//                        spinnerInterestRateTypeYMWDHQBI.setSelection(0);
-//                        spinnerCompoundingFrequency.setSelection(0);
 
                         if(!principalAmount.getText().toString().equals("")){
 
@@ -443,12 +367,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         }
 
 
-
-
-
                         if(principalAmount.isFocused()){
                             principalAmount.clearFocus();
-//
+
                         }
                         if(interestRate.isFocused()){
                             interestRate.clearFocus();
@@ -468,11 +389,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                         }
 
-
                         NestedScrollView calculationScrollView = findViewById(R.id.calculation_scroll_view);
-
-
-
 
                         calculationScrollView.post(new Runnable() {
                             public void run() {
@@ -501,16 +418,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                 break;
 
-
             case R.id.deleteAll:
-
 
                 if(btnSimpleCompoundStatus){
 
-
                     if(simpleArrayListSize > 0){
-
-
 
                         alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialog);
                         alertDialoBuider.setTitle("Confirm Erase !");
@@ -523,20 +435,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                                 Snackbar snackbar = Snackbar.make(navigationView, "", 6000);
 
                                 snackbar.setAction("Cancel", new View.OnClickListener() {
@@ -567,12 +465,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                     @Override
                                     public void onFinish() {
 
-//                                save_button_was_pressed = true;
-
                                         deleteDatabase("recorddbsimple");
                                         viewPager.setCurrentItem(0);
-//                                RecyclerView rvCurrency = findViewById(R.id.RVRecords);
-//                                rvCurrency.setVisibility(View.GONE);
 
                                         if(!imOnCalculation){
                                             FragmentManager fm = getSupportFragmentManager();
@@ -582,57 +476,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                                         }
 
-                                        Toast toast = Toast.makeText(MainActivity.this, "Simple interest records has been deleted.", Toast.LENGTH_SHORT);
-                                        View view1 = toast.getView();
-
-                                        try {
-
-                                            TextView textView = toast.getView().findViewById(android.R.id.message);
-                                            textView.setTextColor(Color.parseColor("#ffffff"));
-
-                                        } catch (NullPointerException ignored) {
-                                        }
-
-                                        try {
-                                            assert view1 != null;
-                                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-                                        } catch (NullPointerException ignored) {
-                                        }
-                                        toast.show();
-
+                                        Toast toast1 = new Toast(getApplicationContext());
+                                        toast1.setDuration(Toast.LENGTH_SHORT);
+                                        LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                        View view = inflater.inflate(R.layout.my_toast_simple_record, null);
+                                        toast1.setView(view);
+                                        toast1.show();
 
                                     }
                                 }.start();
 
                                 snackbar.show();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                             }
 
@@ -651,71 +505,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#A52121"));
                         alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#8899a6"));
 
-
-
                     } else {
-                        // toase
 
-
-                        Toast toast = Toast.makeText(MainActivity.this, "Records are already empty.", Toast.LENGTH_SHORT);
-                        View view1 = toast.getView();
-
-                        try {
-
-                            TextView textView = toast.getView().findViewById(android.R.id.message);
-                            textView.setTextColor(Color.parseColor("#ffffff"));
-
-                        } catch (NullPointerException ignored) {
-                        }
-
-                        try {
-                            assert view1 != null;
-                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-                        } catch (NullPointerException ignored) {
-                        }
-                        toast.show();
-
+                        Toast toast1 = new Toast(getApplicationContext());
+                        toast1.setDuration(Toast.LENGTH_SHORT);
+                        LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                       View view = inflater.inflate(R.layout.my_toast_already_empty, null);
+                        toast1.setView(view);
+                        toast1.show();
 
                     }
 
-
                 } else {
 
-
-
-
-
                     if(compoundArrayListSize >0 ){
-
-
-
-
-
 
                         alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialog);
                         alertDialoBuider.setTitle("Confirm Erase !");
                         alertDialoBuider.setIcon(R.drawable.erase_all_icon);
                         alertDialoBuider.setMessage("Are you sure you want to erase all the compound interest records ?");
 
-
                         alertDialoBuider.setPositiveButton("Erase All !", new DialogInterface.OnClickListener() {
 
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                                 Snackbar snackbar = Snackbar.make(navigationView, "", 6000);
 
@@ -747,12 +560,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                     @Override
                                     public void onFinish() {
 
-//                                save_button_was_pressed = true;
-
                                         deleteDatabase("recorddbcompound");
                                         viewPager.setCurrentItem(0);
-//                                RecyclerView rvCurrency = findViewById(R.id.RVRecords);
-//                                rvCurrency.setVisibility(View.GONE);
 
                                         if(!imOnCalculation){
                                             FragmentManager fm = getSupportFragmentManager();
@@ -762,57 +571,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                                         }
 
-                                        Toast toast = Toast.makeText(MainActivity.this, "Compound interest records has been deleted.", Toast.LENGTH_SHORT);
-                                        View view1 = toast.getView();
-
-                                        try {
-
-                                            TextView textView = toast.getView().findViewById(android.R.id.message);
-                                            textView.setTextColor(Color.parseColor("#ffffff"));
-
-                                        } catch (NullPointerException ignored) {
-                                        }
-
-                                        try {
-                                            assert view1 != null;
-                                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-                                        } catch (NullPointerException ignored) {
-                                        }
-                                        toast.show();
-
+                                        Toast toast1 = new Toast(getApplicationContext());
+                                        toast1.setDuration(Toast.LENGTH_SHORT);
+                                        LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                                        View view = inflater.inflate(R.layout.my_toast_compound_record, null);
+                                        toast1.setView(view);
+                                        toast1.show();
 
                                     }
                                 }.start();
 
                                 snackbar.show();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
                             }
 
@@ -831,69 +600,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#A52121"));
                         alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#8899a6"));
 
-
-
-
-
-
                     } else {
 
-
-//                        toast
-                        Toast toast = Toast.makeText(MainActivity.this, "Records are already empty.", Toast.LENGTH_SHORT);
-                        View view1 = toast.getView();
-
-                        try {
-
-                            TextView textView = toast.getView().findViewById(android.R.id.message);
-                            textView.setTextColor(Color.parseColor("#ffffff"));
-
-                        } catch (NullPointerException ignored) {
-                        }
-
-                        try {
-                            assert view1 != null;
-                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-                        } catch (NullPointerException ignored) {
-                        }
-                        toast.show();
-
-
-
-
+                        Toast toast1 = new Toast(getApplicationContext());
+                        toast1.setDuration(Toast.LENGTH_SHORT);
+                        LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View view = inflater.inflate(R.layout.my_toast_already_empty, null);
+                        toast1.setView(view);
+                        toast1.show();
 
                     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
-
-
 
                break;
         }
-
-
-
-
-
-
-
-
 
         return super.onOptionsItemSelected(item);
     }
