@@ -63,6 +63,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
@@ -127,6 +128,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
 //    ImageButton imgBtnMoreThreeDots;
+
+    private ImageView imageViewPieNotFound,imageViewBarNotFound,imageViewTableNotFound;
     DBHandler dbHandler;
     DBHandlerSimple dbHandlerSimple;
     DrawerLayout drawerLayout;
@@ -338,6 +341,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
         shimmerFrameLayout = view.findViewById(R.id.shimmer_view_table_container);
+
+        imageViewPieNotFound = view.findViewById(R.id.image_view_pie_not_found);
+        imageViewBarNotFound = view.findViewById(R.id.image_view_bar_not_found);
+        imageViewTableNotFound = view.findViewById(R.id.image_view_table_not_found);
 
 
 
@@ -709,8 +716,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         });
 
         try {
-            mChart1.setNoDataText("Enter all three values to see Bar Graph data.");
-            pieChart.setNoDataText("Enter all three values to see Pie Chart data.");
+            mChart1.setNoDataText("");
+            pieChart.setNoDataText("");
             mChart1.setNoDataTextColor(Color.parseColor("#b49332"));
             pieChart.setNoDataTextColor(Color.parseColor("#b49332"));
         } catch (NullPointerException ignore) {
@@ -1184,6 +1191,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     getSetViews();
                     setSimmerAndAnimationTrue();
 
+
+                    imageViewPieNotFound.setVisibility(View.GONE);
+                    imageViewBarNotFound.setVisibility(View.GONE);
+                    imageViewTableNotFound.setVisibility(View.GONE);
+
                     if(recyclerViewTable.getVisibility() != View.VISIBLE){
                         recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
@@ -1214,6 +1226,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                                    (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                                            && editTextDay.getText().toString().equals("")))) {
                         resetViews();
+
+                    imageViewPieNotFound.setVisibility(View.VISIBLE);
+                    imageViewBarNotFound.setVisibility(View.VISIBLE);
+                    imageViewTableNotFound.setVisibility(View.VISIBLE);
 
 
                         if(recyclerViewTable.getVisibility() == View.VISIBLE){
@@ -1260,6 +1276,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     getSetViews();
                     setSimmerAndAnimationTrue();
 
+                    imageViewPieNotFound.setVisibility(View.GONE);
+                    imageViewBarNotFound.setVisibility(View.GONE);
+                    imageViewTableNotFound.setVisibility(View.GONE);
+
                     if(recyclerViewTable.getVisibility() != View.VISIBLE){
                         recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
@@ -1285,6 +1305,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                            && editTextDay.getText().toString().equals(""))) {
                         resetViews();
+
+                    imageViewPieNotFound.setVisibility(View.VISIBLE);
+                    imageViewBarNotFound.setVisibility(View.VISIBLE);
+                    imageViewTableNotFound.setVisibility(View.VISIBLE);
 
                         if(recyclerViewTable.getVisibility() == View.VISIBLE){
                             recyclerViewTable.setVisibility(View.GONE);
@@ -1417,6 +1441,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     getSetViews();
                     setSimmerAndAnimationTrue();
 
+                    imageViewPieNotFound.setVisibility(View.GONE);
+                    imageViewBarNotFound.setVisibility(View.GONE);
+                    imageViewTableNotFound.setVisibility(View.GONE);
+
                     if(recyclerViewTable.getVisibility() != View.VISIBLE){
                         recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
@@ -1440,6 +1468,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                            && editTextDay.getText().toString().equals(""))) {
                         resetViews();
+
+                    imageViewPieNotFound.setVisibility(View.VISIBLE);
+                    imageViewBarNotFound.setVisibility(View.VISIBLE);
+                    imageViewTableNotFound.setVisibility(View.VISIBLE);
 
                         if(recyclerViewTable.getVisibility() == View.VISIBLE){
                             recyclerViewTable.setVisibility(View.GONE);
@@ -1520,6 +1552,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     getSetViews();
                     setSimmerAndAnimationTrue();
 
+                    imageViewPieNotFound.setVisibility(View.GONE);
+                    imageViewBarNotFound.setVisibility(View.GONE);
+                    imageViewTableNotFound.setVisibility(View.GONE);
+
                     if(recyclerViewTable.getVisibility() != View.VISIBLE){
                         recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
@@ -1543,6 +1579,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                            && editTextDay.getText().toString().equals(""))) {
                         resetViews();
+
+                    imageViewPieNotFound.setVisibility(View.VISIBLE);
+                    imageViewBarNotFound.setVisibility(View.VISIBLE);
+                    imageViewTableNotFound.setVisibility(View.VISIBLE);
 
                         if(recyclerViewTable.getVisibility() == View.VISIBLE){
                             recyclerViewTable.setVisibility(View.GONE);
@@ -1626,6 +1666,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     getSetViews();
                     setSimmerAndAnimationTrue();
 
+                    imageViewPieNotFound.setVisibility(View.GONE);
+                    imageViewBarNotFound.setVisibility(View.GONE);
+                    imageViewTableNotFound.setVisibility(View.GONE);
+
                     if(recyclerViewTable.getVisibility() != View.VISIBLE){
                         recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
@@ -1649,6 +1693,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                            && editTextDay.getText().toString().equals(""))) {
                         resetViews();
+
+                    imageViewPieNotFound.setVisibility(View.VISIBLE);
+                    imageViewBarNotFound.setVisibility(View.VISIBLE);
+                    imageViewTableNotFound.setVisibility(View.VISIBLE);
 
                         if(recyclerViewTable.getVisibility() == View.VISIBLE){
                             recyclerViewTable.setVisibility(View.GONE);
@@ -2288,79 +2336,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 alertDialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
                 alertDialog.setCancelable(false);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

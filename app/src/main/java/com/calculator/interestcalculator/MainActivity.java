@@ -5,6 +5,7 @@ package com.calculator.interestcalculator;
 import static com.calculator.interestcalculator.CalculatorFragment.btnSimpleCompoundStatus;
 import static com.calculator.interestcalculator.CalculatorFragment.spinnerCompoundingFrequency;
 import static com.calculator.interestcalculator.CalculatorFragment.spinnerInterestRateTypeYMWDHQBI;
+import static com.calculator.interestcalculator.RecordFragment.isRecordVisible;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -35,6 +36,7 @@ import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -51,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
+
+    ImageView imageViewNotFound;
+    static int compoundArrayListSize;
+    static int simpleArrayListSize;
     AlertDialog alertDialog;
     MaterialAlertDialogBuilder alertDialoBuider;
     private CountDownTimer countDownTimer;
@@ -85,6 +91,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         textViewFooterTotalAmount = findViewById(R.id.text_view_footer_total_amount);
         drawerLayout = findViewById(R.id.drawer);
 
+        imageViewNotFound = findViewById(R.id.image_view_not_found);
+
+        isRecordVisible = false;
 
         ActionBarDrawerToggle toggle;
         toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -129,6 +138,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                         mBottomNavigation.getMenu().findItem(R.id.menu_calculator).setChecked(true);
 
+
+
+
+
+
+
                         break;
 
 
@@ -146,6 +161,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //                        if (rvRecords.getVisibility() != View.VISIBLE) {
 //                            rvRecords.setVisibility(View.VISIBLE);
 //                        }
+
+
+
+//                        if(compoundArrayListSize == 0 && btnSimpleCompoundStatus == false){
+//                            imageViewNotFound.setVisibility(View.VISIBLE);
+//                        } else {
+//                            imageViewNotFound.setVisibility(View.GONE);
+//                        }
+//
+//
+//                        if(simpleArrayListSize == 0 && btnSimpleCompoundStatus == true){
+//                            imageViewNotFound.setVisibility(View.VISIBLE);
+//                        } else {
+//                            imageViewNotFound.setVisibility(View.GONE);
+//                        }
+
+
 
 
                  break;
@@ -237,33 +269,47 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         } else {
 
-            MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this,R.style.alertDialog);
-            alertDialoBuider.setTitle("Confirm Exit !");
-            alertDialoBuider.setIcon(R.drawable.alert_24);
-            alertDialoBuider.setMessage("Are you sure you want to exit ?");
 
-            alertDialoBuider.setPositiveButton("Exit !", new DialogInterface.OnClickListener() {
+            if(viewPager.getCurrentItem() == 1){
 
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
+                viewPager.setCurrentItem(0);
 
-                    MainActivity.super.onBackPressed();
-                }
+            } else {
 
-            });
+                MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this,R.style.alertDialog);
+                alertDialoBuider.setTitle("Confirm Exit !");
+                alertDialoBuider.setIcon(R.drawable.alert_24);
+                alertDialoBuider.setMessage("Are you sure you want to exit ?");
 
-            alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    dialogInterface.cancel();
+                alertDialoBuider.setPositiveButton("Exit !", new DialogInterface.OnClickListener() {
 
-                }
-            });
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
 
-            AlertDialog alertDialog = alertDialoBuider.create();
-            alertDialog.show();
-            alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
-            alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
+                        MainActivity.super.onBackPressed();
+                    }
+
+                });
+
+                alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+
+                    }
+                });
+
+                AlertDialog alertDialog = alertDialoBuider.create();
+                alertDialog.show();
+                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
+                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
+
+
+            }
+
+
+
+
 
         }
 
@@ -290,6 +336,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
                 imOnCalculation = false;
+
+
+//                if(compoundArrayListSize == 0 && btnSimpleCompoundStatus == false){
+//                    imageViewNotFound.setVisibility(View.VISIBLE);
+//                } else {
+//                    imageViewNotFound.setVisibility(View.GONE);
+//                }
+//
+//
+//                if(simpleArrayListSize == 0 && btnSimpleCompoundStatus == true){
+//                    imageViewNotFound.setVisibility(View.VISIBLE);
+//                } else {
+//                    imageViewNotFound.setVisibility(View.GONE);
+//                }
 
 
 
@@ -439,171 +499,184 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
                 alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
 
-
-
-
-
-
-
-
-
-
-
                 break;
 
 
             case R.id.deleteAll:
 
 
-
-
-
                 if(btnSimpleCompoundStatus){
 
 
+                    if(simpleArrayListSize > 0){
 
 
 
+                        alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialog);
+                        alertDialoBuider.setTitle("Confirm Erase !");
+                        alertDialoBuider.setIcon(R.drawable.erase_all_icon);
+                        alertDialoBuider.setMessage("Are you sure you want to erase all the simple interest records ?");
 
 
+                        alertDialoBuider.setPositiveButton("Erase All !", new DialogInterface.OnClickListener() {
 
-                 alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialog);
-                alertDialoBuider.setTitle("Confirm Erase !");
-                alertDialoBuider.setIcon(R.drawable.erase_all_icon);
-                alertDialoBuider.setMessage("Are you sure you want to erase all the simple interest records ?");
-
-
-                alertDialoBuider.setPositiveButton("Erase All !", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                       Snackbar snackbar = Snackbar.make(navigationView, "", 6000);
-
-                        snackbar.setAction("Cancel", new View.OnClickListener() {
                             @Override
-                            public void onClick(View view) {
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
-                                countDownTimer.cancel();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                Snackbar snackbar = Snackbar.make(navigationView, "", 6000);
+
+                                snackbar.setAction("Cancel", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        countDownTimer.cancel();
+
+                                    }
+                                });
+
+                                snackbar.setActionTextColor(Color.parseColor("#3bd16f"));
+                                snackbar.setTextColor(Color.parseColor("#ffffff"));
+                                snackbar.setBackgroundTint(Color.parseColor("#10171f"));
+
+                                countDownTimer = new CountDownTimer(6000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+
+                                        if ((millisUntilFinished / 1000 == 1) || (millisUntilFinished / 1000 == 0)) {
+                                            snackbar.setText("Erasing all data in  " + millisUntilFinished / 1000 + "  Second.");
+                                            snackbar.setTextColor(Color.parseColor("#ff0000"));
+                                        } else {
+                                            snackbar.setText("Erasing all data in  " + millisUntilFinished / 1000 + "  Seconds.");
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+
+//                                save_button_was_pressed = true;
+
+                                        deleteDatabase("recorddbsimple");
+                                        viewPager.setCurrentItem(0);
+//                                RecyclerView rvCurrency = findViewById(R.id.RVRecords);
+//                                rvCurrency.setVisibility(View.GONE);
+
+                                        if(!imOnCalculation){
+                                            FragmentManager fm = getSupportFragmentManager();
+
+                                            RecordFragment fragment = (RecordFragment) (RecordFragment) fm.getFragments().get(1);
+                                            fragment.mySimple();
+
+                                        }
+
+                                        Toast toast = Toast.makeText(MainActivity.this, "Simple interest records has been deleted.", Toast.LENGTH_SHORT);
+                                        View view1 = toast.getView();
+
+                                        try {
+
+                                            TextView textView = toast.getView().findViewById(android.R.id.message);
+                                            textView.setTextColor(Color.parseColor("#ffffff"));
+
+                                        } catch (NullPointerException ignored) {
+                                        }
+
+                                        try {
+                                            assert view1 != null;
+                                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
+                                        } catch (NullPointerException ignored) {
+                                        }
+                                        toast.show();
+
+
+                                    }
+                                }.start();
+
+                                snackbar.show();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            }
+
+                        });
+
+                        alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
 
                             }
                         });
 
-                        snackbar.setActionTextColor(Color.parseColor("#3bd16f"));
-                        snackbar.setTextColor(Color.parseColor("#ffffff"));
-                        snackbar.setBackgroundTint(Color.parseColor("#10171f"));
-
-                        countDownTimer = new CountDownTimer(6000, 1000) {
-                            public void onTick(long millisUntilFinished) {
-
-                                if ((millisUntilFinished / 1000 == 1) || (millisUntilFinished / 1000 == 0)) {
-                                    snackbar.setText("Erasing all data in  " + millisUntilFinished / 1000 + "  Second.");
-                                    snackbar.setTextColor(Color.parseColor("#ff0000"));
-                                } else {
-                                    snackbar.setText("Erasing all data in  " + millisUntilFinished / 1000 + "  Seconds.");
-                                }
-
-                            }
-
-                            @Override
-                            public void onFinish() {
-
-//                                save_button_was_pressed = true;
-
-                                deleteDatabase("recorddbsimple");
-//                                RecyclerView rvCurrency = findViewById(R.id.RVRecords);
-//                                rvCurrency.setVisibility(View.GONE);
-
-                                if(!imOnCalculation){
-                                    FragmentManager fm = getSupportFragmentManager();
-
-                                    RecordFragment fragment = (RecordFragment) (RecordFragment) fm.getFragments().get(1);
-                                    fragment.mySimple();
-
-                                }
-
-                                Toast toast = Toast.makeText(MainActivity.this, "Simple interest records has been deleted.", Toast.LENGTH_SHORT);
-                                View view1 = toast.getView();
-
-                                try {
-
-                                    TextView textView = toast.getView().findViewById(android.R.id.message);
-                                    textView.setTextColor(Color.parseColor("#ffffff"));
-
-                                } catch (NullPointerException ignored) {
-                                }
-
-                                try {
-                                    assert view1 != null;
-                                    view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-                                } catch (NullPointerException ignored) {
-                                }
-                                toast.show();
-
-
-                            }
-                        }.start();
-
-                        snackbar.show();
+                        alertDialog = alertDialoBuider.create();
+                        alertDialog.show();
+                        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#A52121"));
+                        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#8899a6"));
 
 
 
+                    } else {
+                        // toase
 
 
+                        Toast toast = Toast.makeText(MainActivity.this, "Records are already empty.", Toast.LENGTH_SHORT);
+                        View view1 = toast.getView();
 
+                        try {
 
+                            TextView textView = toast.getView().findViewById(android.R.id.message);
+                            textView.setTextColor(Color.parseColor("#ffffff"));
 
+                        } catch (NullPointerException ignored) {
+                        }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        try {
+                            assert view1 != null;
+                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
+                        } catch (NullPointerException ignored) {
+                        }
+                        toast.show();
 
 
                     }
-
-                });
-
-                alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-
-                    }
-                });
-
-                 alertDialog = alertDialoBuider.create();
-                alertDialog.show();
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#A52121"));
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#8899a6"));
 
 
                 } else {
@@ -612,27 +685,23 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-
-
-
-                    alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialog);
-                    alertDialoBuider.setTitle("Confirm Erase !");
-                    alertDialoBuider.setIcon(R.drawable.erase_all_icon);
-                    alertDialoBuider.setMessage("Are you sure you want to erase all the compound interest records ?");
-
-
-                    alertDialoBuider.setPositiveButton("Erase All !", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
+                    if(compoundArrayListSize >0 ){
 
 
 
 
 
 
+                        alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialog);
+                        alertDialoBuider.setTitle("Confirm Erase !");
+                        alertDialoBuider.setIcon(R.drawable.erase_all_icon);
+                        alertDialoBuider.setMessage("Are you sure you want to erase all the compound interest records ?");
 
 
+                        alertDialoBuider.setPositiveButton("Erase All !", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
 
 
 
@@ -640,73 +709,82 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-                            Snackbar snackbar = Snackbar.make(navigationView, "", 6000);
 
-                            snackbar.setAction("Cancel", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
 
-                                    countDownTimer.cancel();
 
-                                }
-                            });
 
-                            snackbar.setActionTextColor(Color.parseColor("#3bd16f"));
-                            snackbar.setTextColor(Color.parseColor("#ffffff"));
-                            snackbar.setBackgroundTint(Color.parseColor("#10171f"));
 
-                            countDownTimer = new CountDownTimer(6000, 1000) {
-                                public void onTick(long millisUntilFinished) {
 
-                                    if ((millisUntilFinished / 1000 == 1) || (millisUntilFinished / 1000 == 0)) {
-                                        snackbar.setText("Erasing all data in  " + millisUntilFinished / 1000 + "  Second.");
-                                        snackbar.setTextColor(Color.parseColor("#ff0000"));
-                                    } else {
-                                        snackbar.setText("Erasing all data in  " + millisUntilFinished / 1000 + "  Seconds.");
+
+
+                                Snackbar snackbar = Snackbar.make(navigationView, "", 6000);
+
+                                snackbar.setAction("Cancel", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+
+                                        countDownTimer.cancel();
+
+                                    }
+                                });
+
+                                snackbar.setActionTextColor(Color.parseColor("#3bd16f"));
+                                snackbar.setTextColor(Color.parseColor("#ffffff"));
+                                snackbar.setBackgroundTint(Color.parseColor("#10171f"));
+
+                                countDownTimer = new CountDownTimer(6000, 1000) {
+                                    public void onTick(long millisUntilFinished) {
+
+                                        if ((millisUntilFinished / 1000 == 1) || (millisUntilFinished / 1000 == 0)) {
+                                            snackbar.setText("Erasing all data in  " + millisUntilFinished / 1000 + "  Second.");
+                                            snackbar.setTextColor(Color.parseColor("#ff0000"));
+                                        } else {
+                                            snackbar.setText("Erasing all data in  " + millisUntilFinished / 1000 + "  Seconds.");
+                                        }
+
                                     }
 
-                                }
-
-                                @Override
-                                public void onFinish() {
+                                    @Override
+                                    public void onFinish() {
 
 //                                save_button_was_pressed = true;
 
-                                    deleteDatabase("recorddbcompound");
+                                        deleteDatabase("recorddbcompound");
+                                        viewPager.setCurrentItem(0);
 //                                RecyclerView rvCurrency = findViewById(R.id.RVRecords);
 //                                rvCurrency.setVisibility(View.GONE);
 
-                                    if(!imOnCalculation){
-                                        FragmentManager fm = getSupportFragmentManager();
+                                        if(!imOnCalculation){
+                                            FragmentManager fm = getSupportFragmentManager();
 
-                                        RecordFragment fragment = (RecordFragment) (RecordFragment) fm.getFragments().get(1);
-                                        fragment.mySimple();
+                                            RecordFragment fragment = (RecordFragment) (RecordFragment) fm.getFragments().get(1);
+                                            fragment.mySimple();
+
+                                        }
+
+                                        Toast toast = Toast.makeText(MainActivity.this, "Compound interest records has been deleted.", Toast.LENGTH_SHORT);
+                                        View view1 = toast.getView();
+
+                                        try {
+
+                                            TextView textView = toast.getView().findViewById(android.R.id.message);
+                                            textView.setTextColor(Color.parseColor("#ffffff"));
+
+                                        } catch (NullPointerException ignored) {
+                                        }
+
+                                        try {
+                                            assert view1 != null;
+                                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
+                                        } catch (NullPointerException ignored) {
+                                        }
+                                        toast.show();
+
 
                                     }
+                                }.start();
 
-                                    Toast toast = Toast.makeText(MainActivity.this, "Compound interest records has been deleted.", Toast.LENGTH_SHORT);
-                                    View view1 = toast.getView();
-
-                                    try {
-
-                                        TextView textView = toast.getView().findViewById(android.R.id.message);
-                                        textView.setTextColor(Color.parseColor("#ffffff"));
-
-                                    } catch (NullPointerException ignored) {
-                                    }
-
-                                    try {
-                                        assert view1 != null;
-                                        view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-                                    } catch (NullPointerException ignored) {
-                                    }
-                                    toast.show();
-
-
-                                }
-                            }.start();
-
-                            snackbar.show();
+                                snackbar.show();
 
 
 
@@ -736,22 +814,55 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
+                            }
+
+                        });
+
+                        alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+
+                            }
+                        });
+
+                        alertDialog = alertDialoBuider.create();
+                        alertDialog.show();
+                        alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#A52121"));
+                        alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#8899a6"));
+
+
+
+
+
+
+                    } else {
+
+
+//                        toast
+                        Toast toast = Toast.makeText(MainActivity.this, "Records are already empty.", Toast.LENGTH_SHORT);
+                        View view1 = toast.getView();
+
+                        try {
+
+                            TextView textView = toast.getView().findViewById(android.R.id.message);
+                            textView.setTextColor(Color.parseColor("#ffffff"));
+
+                        } catch (NullPointerException ignored) {
                         }
 
-                    });
-
-                    alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.cancel();
-
+                        try {
+                            assert view1 != null;
+                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
+                        } catch (NullPointerException ignored) {
                         }
-                    });
+                        toast.show();
 
-                    alertDialog = alertDialoBuider.create();
-                    alertDialog.show();
-                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#A52121"));
-                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#8899a6"));
+
+
+
+
+                    }
 
 
 
@@ -770,17 +881,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
                 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

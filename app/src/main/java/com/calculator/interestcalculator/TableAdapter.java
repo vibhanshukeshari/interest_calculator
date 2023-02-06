@@ -50,6 +50,13 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>{
 
 
 
+            if(position % 2 == 0) {
+
+                holder.linearLayoutTable_item_layout.setBackgroundColor(Color.parseColor("#15202b"));
+            }
+
+
+
             if(tableModel.equals(tableModelList.get(0))) {
 
                 holder.balanceTextView.setTextColor(Color.parseColor("#ffffff"));
@@ -61,6 +68,8 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>{
             if(fraction != 0 ){
 
                 if(tableModel.equals(tableModelList.get((int) (myYearForTableAdapter + 1)))){
+
+
 
 
                     holder.linearLayoutTable_item_layout.setBackground(holder.linearLayoutTable_item_layout.getResources().getDrawable(R.drawable.footer_gradient_item_layout));

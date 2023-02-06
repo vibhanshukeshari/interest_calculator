@@ -675,10 +675,9 @@
                         android:layout_marginEnd="5dp"
                         android:textColor="@color/light_white"/>
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
                         android:layout_marginTop="10dp"
                         android:layout_marginStart="25dp"
                         android:layout_marginEnd="25dp">
@@ -691,8 +690,15 @@
                             />
 
 
+                        <ImageView
+                            android:id="@+id/image_view_pie_not_found"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"
+                            app:srcCompat="@drawable/pie_not_found" />
 
-                    </LinearLayout>
+
+
+                    </RelativeLayout>
 
 
                     <LinearLayout
@@ -783,11 +789,25 @@
                         android:layout_marginEnd="5dp"
                         android:textColor="@color/light_white"/>
 
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/bar_chart1"
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_marginTop="10dp"
-                        android:layout_height="300dp"/>
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp">
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/bar_chart1"
+                            android:layout_width="match_parent"
+                            android:layout_height="300dp"/>
+
+                        <ImageView
+                            android:id="@+id/image_view_bar_not_found"
+                            android:layout_width="match_parent"
+                            android:src="@drawable/bar_not_found"
+                            android:layout_height="300dp"
+                            android:contentDescription="bar_chart" />
+
+
+                    </RelativeLayout>
 
 
                     <RelativeLayout
@@ -919,14 +939,28 @@
 <!--                android:paddingTop="0.2dp"/>-->
 
 
-            <TextView
-                android:id="@+id/text_view_table_no_text"
-                android:gravity="center"
-                android:layout_gravity="center"
-                android:textColor="#b49332"
-                android:text="Enter all three values to see Table."
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="300dp"/>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/text_view_table_no_text"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:textColor="#b49332"
+                    android:text=""
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"/>
+
+                <ImageView
+                    android:id="@+id/image_view_table_not_found"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:src="@drawable/table_not_found" />
+
+
+            </RelativeLayout>
+
 
 
             <com.facebook.shimmer.ShimmerFrameLayout

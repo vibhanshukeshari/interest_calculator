@@ -1,5 +1,12 @@
 package com.calculator.interestcalculator;
 
+import static com.calculator.interestcalculator.CalculatorFragment.btnSimpleCompoundStatus;
+import static com.calculator.interestcalculator.MainActivity.compoundArrayListSize;
+import static com.calculator.interestcalculator.MainActivity.simpleArrayListSize;
+import static com.calculator.interestcalculator.RecordFragment.imageViewNotFound;
+import static com.calculator.interestcalculator.RecordFragment.isRecordVisible;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -123,25 +130,31 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
 
 
-                        Toast toast = Toast.makeText(view.getContext(), "Item Deleted.", Toast.LENGTH_SHORT);
-                        View view1 = toast.getView();
+//                        Toast toast = Toast.makeText(view.getContext(), "Item Deleted.", Toast.LENGTH_SHORT);
+//                        View view1 = toast.getView();
+//
+//                        try {
+//
+//                            TextView textView = toast.getView().findViewById(android.R.id.message);
+//                            textView.setTextColor(Color.parseColor("#ffffff"));
+//
+//                        } catch (NullPointerException ignored) {
+//                        }
+//
+//                        try {
+//                            assert view1 != null;
+//                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
+//                        } catch (NullPointerException ignored) {
+//                        }
+//                        toast.show();
 
-                        try {
 
-                            TextView textView = toast.getView().findViewById(android.R.id.message);
-                            textView.setTextColor(Color.parseColor("#ffffff"));
-
-                        } catch (NullPointerException ignored) {
-                        }
-
-                        try {
-                            assert view1 != null;
-                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-                        } catch (NullPointerException ignored) {
-                        }
-                        toast.show();
-
-
+                        Toast toast1 = new Toast(context);
+                        toast1.setDuration(Toast.LENGTH_SHORT);
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.my_toast, null);
+                        toast1.setView(view);
+                        toast1.show();
 
 
 
@@ -176,6 +189,21 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
     @Override
     public int getItemCount() {
         // returning the size of our array list
+        compoundArrayListSize = recordModalArrayList.size();
+
+        if(compoundArrayListSize == 0 && isRecordVisible && !btnSimpleCompoundStatus){
+            if(imageViewNotFound.getVisibility() != View.VISIBLE){
+                imageViewNotFound.setVisibility(View.VISIBLE);
+
+            }
+
+        } else if(compoundArrayListSize > 0 && isRecordVisible && !btnSimpleCompoundStatus){
+            if(imageViewNotFound.getVisibility() == View.VISIBLE){
+                imageViewNotFound.setVisibility(View.GONE);
+
+            }
+        }
+
         return recordModalArrayList.size();
     }
 

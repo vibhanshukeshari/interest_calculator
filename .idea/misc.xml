@@ -30,11 +30,13 @@
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/ic_baseline_feedback_24.xml" value="0.1265" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/ic_baseline_privacy_tip_24.xml" value="0.1265" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.1265" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/ic_pie_not_found_svg.xml" value="0.1575" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/icon_calc.xml" value="0.1" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/interest_cell.xml" value="0.153" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/interest_cell_item.xml" value="0.1035" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/ltb_cell.xml" value="0.153" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/marker_background.xml" value="0.1" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/not_found_icon.xml" value="0.1575" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/redirect_icon.xml" value="0.1865" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/share_new_icon.xml" value="0.167" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/simple_gradient.xml" value="0.153" />
@@ -42,6 +44,7 @@
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/simple_icon_unchecked.xml" value="0.1" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/splash_gradient.xml" value="0.1" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/splash_screen_bg.xml" value="0.1" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/toast_background.xml" value="0.1575" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/view_marker_border_interest.xml" value="0.1" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/view_marker_color_border.xml" value="0.1" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/year_cell.xml" value="0.153" />
@@ -54,9 +57,10 @@
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/drawer_switch.xml" value="0.2028985507246377" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/footer_quote.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/footer_quote_navigation.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/fragment_calculator.xml" value="0.2" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/fragment_calculator.xml" value="0.25" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/fragment_record.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/header.xml" value="0.203125" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/my_toast.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/record_rv_item_layout.xml" value="0.25" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/record_rv_item_layout_simple.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/table_item_layout.xml" value="0.203125" />

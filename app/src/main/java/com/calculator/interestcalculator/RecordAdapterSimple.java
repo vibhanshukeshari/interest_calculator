@@ -1,5 +1,9 @@
 package com.calculator.interestcalculator;
 
+import static com.calculator.interestcalculator.CalculatorFragment.btnSimpleCompoundStatus;
+import static com.calculator.interestcalculator.MainActivity.simpleArrayListSize;
+import static com.calculator.interestcalculator.RecordFragment.imageViewNotFound;
+import static com.calculator.interestcalculator.RecordFragment.isRecordVisible;
 import static com.github.mikephil.charting.utils.Utils.getPosition;
 
 import android.annotation.SuppressLint;
@@ -59,6 +63,16 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
 
 
+
+//        if(simpleArrayListSize == 0 && btnSimpleCompoundStatus &&  isRecordVisible == true){
+//            imageViewNotFound.setVisibility(View.VISIBLE);
+//
+//        } else {
+//            imageViewNotFound.setVisibility(View.GONE);
+//        }
+
+
+
         holder.name.setText(recordModalSimple.getName());
         holder.typeSorC.setText(recordModalSimple.getTypeSorC());
         holder.date.setText(recordModalSimple.getDate());
@@ -108,25 +122,37 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 //                        notifyDataSetChanged();
 
 
-                        Toast toast = Toast.makeText(view.getContext(), "Item Deleted.", Toast.LENGTH_SHORT);
-                        View view1 = toast.getView();
-
-                        try {
-
-                            TextView textView = toast.getView().findViewById(android.R.id.message);
-                            textView.setTextColor(Color.parseColor("#ffffff"));
-
-                        } catch (NullPointerException ignored) {
-                        }
-
-                        try {
-                            assert view1 != null;
-                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-                        } catch (NullPointerException ignored) {
-                        }
-                        toast.show();
 
 
+
+//                        Toast toast = Toast.makeText(view.getContext(), "Item Deleted.", Toast.LENGTH_SHORT);
+//                        View view1 = toast.getView();
+//
+//                        try {
+//
+//                            TextView textView = toast.getView().findViewById(android.R.id.message);
+//                            textView.setTextColor(Color.parseColor("#ffffff"));
+//
+//                        } catch (NullPointerException ignored) {
+//                        }
+//
+//                        try {
+//                            assert view1 != null;
+//                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
+//                        } catch (NullPointerException ignored) {
+//                        }
+//                        toast.show();
+
+
+
+
+
+                        Toast toast1 = new Toast(context);
+                        toast1.setDuration(Toast.LENGTH_SHORT);
+                        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.my_toast, null);
+                        toast1.setView(view);
+                        toast1.show();
 
 
 
@@ -176,6 +202,26 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
     @Override
     public int getItemCount() {
+        simpleArrayListSize = recordModalArrayListSimple.size();
+
+
+//        if(simpleArrayListSize ==0 && isRecordVisible && btnSimpleCompoundStatus){
+//
+//            imageViewNotFound.setVisibility(View.VISIBLE);
+//
+//        }
+//
+
+
+
+        if(simpleArrayListSize == 0 && isRecordVisible && btnSimpleCompoundStatus){
+            imageViewNotFound.setVisibility(View.VISIBLE);
+        } else if(simpleArrayListSize > 0 && isRecordVisible && btnSimpleCompoundStatus){
+            imageViewNotFound.setVisibility(View.GONE);
+        }
+
+
+
         return recordModalArrayListSimple.size();
     }
 

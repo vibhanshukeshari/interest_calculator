@@ -1,6 +1,8 @@
 package com.calculator.interestcalculator;
 
 import static com.calculator.interestcalculator.CalculatorFragment.btnSimpleCompoundStatus;
+import static com.calculator.interestcalculator.MainActivity.compoundArrayListSize;
+import static com.calculator.interestcalculator.MainActivity.simpleArrayListSize;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,12 +18,17 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class RecordFragment extends Fragment {
 
+
+
+    static boolean isRecordVisible = false;
+    static ImageView imageViewNotFound;
     View view;
     private ArrayList<RecordModal>  recordModalArrayList;
     private DBHandler dbHandler;
@@ -51,11 +58,19 @@ public class RecordFragment extends Fragment {
         // Inflate the layout for this fragment
         view =   inflater.inflate(R.layout.fragment_record, container, false);
 
+
+
 //        setRetainInstance(true);
         setHasOptionsMenu(true);
 
 
         recordRV = view.findViewById(R.id.RVRecords);
+
+        imageViewNotFound = view.findViewById(R.id.image_view_not_found);
+
+//        if(isRecordVisible){
+//            imageViewNotFound.setVisibility(View.GONE);
+//        }
 
 
 
@@ -76,6 +91,11 @@ public class RecordFragment extends Fragment {
 
 
         if(isVisibleToUser) {
+//            imageViewNotFound.setVisibility(View.GONE);
+            isRecordVisible = true;
+
+
+//            System.out.println("i am here");
 
 
 //            System.out.println("visible to user");
@@ -92,9 +112,40 @@ public class RecordFragment extends Fragment {
                 mySimple();
 
 
+
+
+
+
+//                if(compoundArrayListSize == 0 && !btnSimpleCompoundStatus){
+//                    imageViewNotFound.setVisibility(View.VISIBLE);
+//                } else {
+//                    imageViewNotFound.setVisibility(View.GONE);
+//                }
+
+
+
+
+
+
+
+
+
+
+
             }else {
 
                 myCompound();
+
+
+
+
+
+//                if(simpleArrayListSize == 0 && btnSimpleCompoundStatus){
+//                    imageViewNotFound.setVisibility(View.VISIBLE);
+//                } else {
+//                    imageViewNotFound.setVisibility(View.GONE);
+//                }
+
 
             }
 
@@ -109,6 +160,7 @@ public class RecordFragment extends Fragment {
 
         recordModalArrayListSimple  = new ArrayList<>();
         dbHandlerSimple = new DBHandlerSimple(getContext());
+
 
 
 
@@ -128,6 +180,15 @@ public class RecordFragment extends Fragment {
         recordRV.setAdapter(recordRVAdapterSimple);
 
 
+//        imageViewNotFound.setVisibility(View.GONE);
+//        if(simpleArrayListSize == 0 && btnSimpleCompoundStatus){
+//            imageViewNotFound.setVisibility(View.VISIBLE);
+//        } else {
+//            imageViewNotFound.setVisibility(View.GONE);
+//        }
+
+
+
     }
 
 
@@ -135,6 +196,7 @@ public class RecordFragment extends Fragment {
 
         recordModalArrayList = new ArrayList<>();
         dbHandler = new DBHandler(getContext());
+
 
 
         // getting our currency array
@@ -151,7 +213,12 @@ public class RecordFragment extends Fragment {
 
         recordRV.setAdapter(recordRVAdapter);
 
-
+//        imageViewNotFound.setVisibility(View.GONE);
+//        if(compoundArrayListSize == 0 && !btnSimpleCompoundStatus){
+//            imageViewNotFound.setVisibility(View.VISIBLE);
+//        } else {
+//            imageViewNotFound.setVisibility(View.GONE);
+//        }
 
 
     }

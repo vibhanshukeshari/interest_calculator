@@ -16,16 +16,12 @@
         <shape android:shape="rectangle">
             <corners android:topLeftRadius="15dp"
             android:topRightRadius="15dp"/>
+
                         <gradient
                             android:startColor="#052030"
                             android:endColor="#1da1f3"
                             android:angle="0"/>
         </shape>
     </item>
-
-
-
-
-
 
 </layer-list>
