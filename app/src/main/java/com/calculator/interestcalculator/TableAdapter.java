@@ -100,7 +100,10 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>{
             }
 
 
+
+
         }
+
 
     }
 
@@ -109,7 +112,7 @@ public class TableAdapter extends RecyclerView.Adapter<TableAdapter.ViewHolder>{
         return tableModelList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView yearTextView,interestTextView,accruedTextView,balanceTextView;
         LinearLayout linearLayoutTable_item_layout;

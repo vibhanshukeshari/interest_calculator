@@ -112,39 +112,9 @@ public class RecordFragment extends Fragment {
                 mySimple();
 
 
-
-
-
-
-//                if(compoundArrayListSize == 0 && !btnSimpleCompoundStatus){
-//                    imageViewNotFound.setVisibility(View.VISIBLE);
-//                } else {
-//                    imageViewNotFound.setVisibility(View.GONE);
-//                }
-
-
-
-
-
-
-
-
-
-
-
             }else {
 
                 myCompound();
-
-
-
-
-
-//                if(simpleArrayListSize == 0 && btnSimpleCompoundStatus){
-//                    imageViewNotFound.setVisibility(View.VISIBLE);
-//                } else {
-//                    imageViewNotFound.setVisibility(View.GONE);
-//                }
 
 
             }
@@ -161,20 +131,19 @@ public class RecordFragment extends Fragment {
         recordModalArrayListSimple  = new ArrayList<>();
         dbHandlerSimple = new DBHandlerSimple(getContext());
 
-
-
-
-
             recordModalArrayListSimple = dbHandlerSimple.readData();
 
 
         recordRVAdapterSimple = new RecordAdapterSimple(recordModalArrayListSimple,getContext());
+        recordRVAdapterSimple.setHasStableIds(true);
 
         // setting layout manager for our recycler view.
         LinearLayoutManager linearLayoutManagerSimple = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recordRV.setLayoutManager(linearLayoutManagerSimple);
 
 
+        // setting layout manager for our recycler view.
+        recordRV.setHasFixedSize(true);
 
         // setting our adapter to recycler view.
         recordRV.setAdapter(recordRVAdapterSimple);
@@ -199,17 +168,20 @@ public class RecordFragment extends Fragment {
 
 
 
-        // getting our currency array
+        // getting our record array
         // list from db handler class.
         recordModalArrayList = dbHandler.readData();
 
 
         // on below line passing our array lost to our adapter class.
         recordRVAdapter = new RecordAdapter(recordModalArrayList, getContext());
+        recordRVAdapter.setHasStableIds(true);
 
         // setting layout manager for our recycler view.
+        recordRV.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recordRV.setLayoutManager(linearLayoutManager);
+
 
         recordRV.setAdapter(recordRVAdapter);
 

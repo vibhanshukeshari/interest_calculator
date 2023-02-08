@@ -1,6 +1,7 @@
 package com.calculator.interestcalculator;
 
 import static com.calculator.interestcalculator.CalculatorFragment.btnSimpleCompoundStatus;
+import static com.calculator.interestcalculator.MainActivity.holderSimpleRecalculatePressed;
 import static com.calculator.interestcalculator.MainActivity.simpleArrayListSize;
 import static com.calculator.interestcalculator.RecordFragment.imageViewNotFound;
 import static com.calculator.interestcalculator.RecordFragment.isRecordVisible;
@@ -12,11 +13,15 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.Image;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -25,6 +30,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.widget.NestedScrollView;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -87,14 +93,145 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
         holder.timeAsUniqueId.setText(recordModalSimple.getTimeAsUniqueId());
 
 
-
-        holder.imgButtonDeleteSimple.setOnClickListener(new View.OnClickListener() {
+        holder.imgButtonReCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
 
 
 
+                CalculatorFragment myInstance = CalculatorFragment.getInstance();
+
+
+                System.out.println(myInstance.getYear());
+
+
+                if ((!myInstance.getEdittextPrincipal().equals("") && !myInstance.getEditTextInterest().replaceAll("%", "").equals("")) &&
+                        ((!myInstance.getYear().equals("") || !myInstance.getMonth().equals("") ||
+                                !myInstance.getDay().equals("")))) {
+
+
+
+                    MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(view.getContext(),R.style.alertDialog);
+                    alertDialoBuider.setTitle("Warning !");
+                    alertDialoBuider.setIcon(R.drawable.alert_24);
+                    alertDialoBuider.setMessage("You have already fed some data, which will be lost !");
+
+                    alertDialoBuider.setPositiveButton("Do anyway", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+
+                            holderSimpleRecalculatePressed = true;
+
+                            String myPrincipal = holder.principalAmount.getText().toString().replaceAll("[^\\d.]", "");
+                            String myInterest = holder.interestRate.getText().toString().replaceAll("[^\\d.]", "");
+                            String myInterestFrequency = holder.interestFrequency.getText().toString();
+                            String myYear = holder.year.getText().toString().replace("Y","");
+                            String myMonth = holder.month.getText().toString().replace("M","");
+                            String myDay = holder.day.getText().toString().replace("D","");
+
+
+
+//                     it took one day to do like this before i was creating object of Calculator fragment which was wrong;
+                            myInstance.reCalculate(myPrincipal,myInterest,myInterestFrequency, myYear, myMonth, myDay);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        }
+
+                    });
+
+                    alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+
+
+
+                        }
+                    });
+
+                    AlertDialog alertDialog = alertDialoBuider.create();
+                    alertDialog.show();
+                    alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#1da1f3"));
+                    alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#8899a6"));
+
+
+
+
+
+
+
+                } else {
+
+
+                    holderSimpleRecalculatePressed = true;
+
+                    String myPrincipal = holder.principalAmount.getText().toString().replaceAll("[^\\d.]", "");
+                    String myInterest = holder.interestRate.getText().toString().replaceAll("[^\\d.]", "");
+                    String myInterestFrequency = holder.interestFrequency.getText().toString();
+                    String myYear = holder.year.getText().toString().replace("Y","");
+                    String myMonth = holder.month.getText().toString().replace("M","");
+                    String myDay = holder.day.getText().toString().replace("D","");
+
+
+
+
+//                     it took one day to do like this before i was creating object of Calculator fragment which was wrong;
+                    myInstance.reCalculate(myPrincipal,myInterest,myInterestFrequency, myYear, myMonth, myDay);
+
+
+
+
+
+
+                }
+
+
+
+
+//                    if((myInstance.getEdittextPrincipal().equals("") || myInstance.getEditTextInterest().equals(""))
+//                && (myInstance.getYear().equals("") || myInstance.getMonth().equals("") || myInstance.getDay().equals(""))) {
+//
+//
+//
+//
+//
+//                } else {
+//
+//
+//
+//
+//
+//                }
+//
+
+
+
+
+
+            }
+        });
+
+
+
+
+        holder.imgButtonDeleteSimple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
                 MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(view.getContext(), R.style.alertDialog);
                 alertDialoBuider.setTitle("Confirm Delete !");
@@ -119,31 +256,6 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
                         recordModalArrayListSimple.remove(holder.getAdapterPosition());
                         notifyItemRemoved(holder.getAdapterPosition());
-//                        notifyDataSetChanged();
-
-
-
-
-
-//                        Toast toast = Toast.makeText(view.getContext(), "Item Deleted.", Toast.LENGTH_SHORT);
-//                        View view1 = toast.getView();
-//
-//                        try {
-//
-//                            TextView textView = toast.getView().findViewById(android.R.id.message);
-//                            textView.setTextColor(Color.parseColor("#ffffff"));
-//
-//                        } catch (NullPointerException ignored) {
-//                        }
-//
-//                        try {
-//                            assert view1 != null;
-//                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-//                        } catch (NullPointerException ignored) {
-//                        }
-//                        toast.show();
-
-
 
 
 
@@ -192,35 +304,21 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
 
 
+
     }
-
-
-//    @Override
-//    public long getItemId(int position) {
-//        return super.getItemId(position);
-//    }
 
     @Override
     public int getItemCount() {
+
         simpleArrayListSize = recordModalArrayListSimple.size();
-
-
-//        if(simpleArrayListSize ==0 && isRecordVisible && btnSimpleCompoundStatus){
-//
-//            imageViewNotFound.setVisibility(View.VISIBLE);
-//
-//        }
-//
-
-
 
         if(simpleArrayListSize == 0 && isRecordVisible && btnSimpleCompoundStatus){
             imageViewNotFound.setVisibility(View.VISIBLE);
+
         } else if(simpleArrayListSize > 0 && isRecordVisible && btnSimpleCompoundStatus){
             imageViewNotFound.setVisibility(View.GONE);
+
         }
-
-
 
         return recordModalArrayListSimple.size();
     }
@@ -231,6 +329,7 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
 
         private final ImageButton imgButtonDeleteSimple;
+        private final ImageButton imgButtonReCalculate;
 
         private final TextView name;
         private final TextView typeSorC;
@@ -252,6 +351,7 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
 
             imgButtonDeleteSimple = itemView.findViewById(R.id.deleteSimple);
+            imgButtonReCalculate = itemView.findViewById(R.id.reCalculate);
 
             name = itemView.findViewById(R.id.name);
             typeSorC = itemView.findViewById(R.id.type_SorC);

@@ -55,6 +55,7 @@ import com.robinhood.ticker.TickerView;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
+    static boolean holderSimpleRecalculatePressed = false;
     static boolean btnSCCalRecStatus;
     ImageView imageViewNotFound;
     static int compoundArrayListSize;
@@ -145,10 +146,20 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         }
 
                         if(btnSCCalRecStatus == true){
-                            btnSimpleInterest.performClick();
+
+                            if(!holderSimpleRecalculatePressed){
+                                btnSimpleInterest.performClick();
+                            }
+
+                            holderSimpleRecalculatePressed = false;
 
                         } else {
-                            btnCompoundInterest.performClick();
+
+                            if(!holderSimpleRecalculatePressed){
+                                btnCompoundInterest.performClick();
+                            }
+
+                            holderSimpleRecalculatePressed = false;
 
                         }
 
@@ -188,6 +199,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     protected void onResume() {
         super.onResume();
 
+        try {
+            hideSoftKeyboard(MainActivity.this);
+        }catch (NullPointerException ignored){}
+
+
         SharedPreferences SC = getSharedPreferences("SimpleCompoundStatus", MODE_PRIVATE);
 
         CalculatorFragment.btnSimpleCompoundStatus = SC.getBoolean("interestStatus", true);
@@ -211,10 +227,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         SharedPreferences.Editor myEditSC = sharedPreferencesSC.edit();
 
         myEditSC.clear();
-        myEditSC.putBoolean("interestStatus", Boolean.parseBoolean(String.valueOf(CalculatorFragment.btnSimpleCompoundStatus)));
+
+        boolean status = Boolean.parseBoolean(String.valueOf(btnSimpleCompoundStatus));
+
+        myEditSC.putBoolean("interestStatus", status);
         myEditSC.apply();
 
     }
+
 
     @Override
     public void onBackPressed() {
@@ -280,9 +300,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
 
                 if(btnSCCalRecStatus == true){
-                    btnSimpleInterest.performClick();
+
+                    if(!holderSimpleRecalculatePressed){
+                        btnSimpleInterest.performClick();
+                    }
+
+
+                    holderSimpleRecalculatePressed = false;
+
+
+
                 } else {
-                    btnCompoundInterest.performClick();
+
+                    if(!holderSimpleRecalculatePressed){
+                        btnCompoundInterest.performClick();
+                    }
+
+                    holderSimpleRecalculatePressed = false;
+
                 }
 
                 break;
@@ -629,4 +664,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
+
+
+
+    public void switchBottomNavigation(){
+        viewPager.setCurrentItem(0);
+    }
+
+
+
+
 }

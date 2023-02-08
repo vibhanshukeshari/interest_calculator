@@ -129,9 +129,11 @@ import java.util.concurrent.TimeUnit;
 public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
 
-//    ImageButton imgBtnMoreThreeDots;
+    //    ImageButton imgBtnMoreThreeDots;
+// this declaration is used to call reCalculate method from RecordAdapterSimple;
+    private static CalculatorFragment instance = null;
 
-    private ImageView imageViewPieNotFound,imageViewBarNotFound,imageViewTableNotFound;
+    private ImageView imageViewPieNotFound, imageViewBarNotFound, imageViewTableNotFound;
     DBHandler dbHandler;
     DBHandlerSimple dbHandlerSimple;
     DrawerLayout drawerLayout;
@@ -140,7 +142,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     boolean checkScrollPieChartVisible = true;
     boolean checkScrollBarGraphVisible = true;
 
-//    private TextView dateTimeDisplay;
+    //    private TextView dateTimeDisplay;
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
 //    private String date;
@@ -160,7 +162,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     private String myTimeAsUniqueId;
 
 
-
     static double myYearForTableAdapter;
     boolean edit = true;
     View view;
@@ -178,7 +179,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     String[] compoundingFrequency = {"Yearly", "Monthly(12/Y)", "Weekly(52/Y)", "Daily(365/Y)", "Half-Yearly(2/Y)", "Quarterly(4/Y)", "Daily(360/Y)", "Bi-Weekly(26/Y)", "Half-Monthly(24/Y)", "Bi-Monthly(6/Y)", "Bi-Anually(0.5/Y)"};
 
 
-//    private DBHandler dbHandler;
+    //    private DBHandler dbHandler;
     List<TableModel> tableModelList;
     private NestedScrollView calculationScrollView;
     private static String countryName;
@@ -262,6 +263,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         // this is very important for calling onPrepareOptionsMenu method below i.e delete all button hide ;
         setHasOptionsMenu(true);
+
+        // this  is used to call reCalculate method from RecordAdapterSimple;
+        instance = this;
 
 
         spinnerInterestRateTypeYMWDHQBI = view.findViewById(R.id.spinner_interest_rate_period);
@@ -349,7 +353,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         imageViewTableNotFound = view.findViewById(R.id.image_view_table_not_found);
 
 
-
         shimmerFrameLayout.hideShimmer();
 
 //        dbHandler = new DBHandler(getContext());
@@ -358,38 +361,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //        imgBtnMoreThreeDots = findViewById(R.id.more_three_dots);
 
 
-
-
-
-
-
         dbHandler = new DBHandler(getContext());
         dbHandlerSimple = new DBHandlerSimple(getContext());
 //        dbHandler.addNewRecords("500","500","500","500","500","500","500","500","500","500","500","500");
 //        dbHandler.close();
 
 
-
-
-
-
-
 //        dbHandler.addNewRecords("1000","500","500","500","500","500","500","500","500","500","500","500");
 //        dbHandler.close();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         calculationFragmentParentFarmeLayout = view.findViewById(R.id.calculation_fragment_parent_FrameLayout);
@@ -451,12 +430,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         }
 
 
-        if(linearLayoutTableHeader.getVisibility() == View.VISIBLE) {
+        if (linearLayoutTableHeader.getVisibility() == View.VISIBLE) {
 
             linearLayoutTableHeader.setVisibility(View.GONE);
 
         }
-
 
 
         btnSimple.setOnClickListener(new View.OnClickListener() {
@@ -470,7 +448,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                getFragmentManager().findFragmentByTag(fragmentName);
 
 
-                if(!imOnCalculation){
+                if (!imOnCalculation) {
                     FragmentManager fm = getFragmentManager();
                     //below i tried radomly and works perfectly; other wise i had to use interface
                     //before i was using fm.findFragmentById();
@@ -479,8 +457,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     recordFragment.mySimple();
 
                 }
-
-
 
 
                 if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
@@ -507,8 +483,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     }, 700);
 
 
-
-
                     getSetViews();
                     setSimmerAndAnimationTrue();
 
@@ -529,7 +503,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     LayoutCompoundFrequencyFadeOut(linearLayoutCompoundingFrequency);
 
 
-                } catch (NullPointerException ignored) {}
+                } catch (NullPointerException ignored) {
+                }
 
             }
         });
@@ -541,8 +516,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 btnSimpleCompoundStatus = false;
 
 
-
-                if(!imOnCalculation){
+                if (!imOnCalculation) {
                     FragmentManager fm = getFragmentManager();
                     //below i tried radomly and works perfectly; other wise i had to use interface
                     //before i was using fm.findFragmentById();
@@ -562,7 +536,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     textViewLableBarGraph0.setText("Compound Interest");
 
 
-
                     shimmerFrameLayout.showShimmer(true);
                     shimmerFrameLayout.startShimmer();
 //                    shimmerFrameLayout.startShimmer();
@@ -577,7 +550,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                         }
                     }, 700);
-
 
 
                     getSetViews();
@@ -788,24 +760,24 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                     setSimmerAndAnimationTrue();
 
-                    if(editTextPrincipalAmount.isFocused()){
+                    if (editTextPrincipalAmount.isFocused()) {
                         editTextPrincipalAmount.clearFocus();
 
                     }
-                    if(editTextInterestRate.isFocused()){
+                    if (editTextInterestRate.isFocused()) {
                         editTextInterestRate.clearFocus();
 
                     }
 
-                    if(editTextYear.isFocused()){
+                    if (editTextYear.isFocused()) {
                         editTextYear.clearFocus();
 
                     }
-                    if(editTextMonth.isFocused()){
+                    if (editTextMonth.isFocused()) {
                         editTextMonth.clearFocus();
 
                     }
-                    if(editTextDay.isFocused()){
+                    if (editTextDay.isFocused()) {
                         editTextDay.clearFocus();
 
                     }
@@ -819,19 +791,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         public void run() {
 
 
-
-
-
                             drawerLayout.closeDrawer(navigationView);
-
-
 
 
                         }
                     }, 500);
 
 
-                     handler = new Handler(Looper.getMainLooper());
+                    handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -846,7 +813,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 } else {
 //                    Toast.makeText(getContext(), "reset view", Toast.LENGTH_SHORT).show();
-                 Handler   handler = new Handler(Looper.getMainLooper());
+                    Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -1141,7 +1108,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         });
 
 //--------------------------------------Text Watcher principal amount----------------------------------------------------------------
-
+// gotoPrincipalTextWatcher
         editTextPrincipalAmount.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -1198,8 +1165,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     imageViewBarNotFound.setVisibility(View.GONE);
                     imageViewTableNotFound.setVisibility(View.GONE);
 
-                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
-                        recyclerViewTable.setVisibility(View.VISIBLE);
+                    if (recyclerViewTable.getVisibility() != View.VISIBLE) {
+                        // this was creating ui slow rendring problem so i did very clever things
+//                        it  will show recycler view only if  table layout will be visible
+//                        recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
                         textViewTableNoText.setVisibility(View.GONE);
                     }
@@ -1227,23 +1196,22 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //
 //                                    (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                                            && editTextDay.getText().toString().equals("")))) {
-                        resetViews();
+                    resetViews();
 
                     imageViewPieNotFound.setVisibility(View.VISIBLE);
                     imageViewBarNotFound.setVisibility(View.VISIBLE);
                     imageViewTableNotFound.setVisibility(View.VISIBLE);
 
 
-                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
-                            recyclerViewTable.setVisibility(View.GONE);
-                            linearLayoutTableHeader.setVisibility(View.GONE);
-                            textViewTableNoText.setVisibility(View.VISIBLE);
-                        }
+//                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                    recyclerViewTable.setVisibility(View.GONE);
+                    linearLayoutTableHeader.setVisibility(View.GONE);
+                    textViewTableNoText.setVisibility(View.VISIBLE);
+//                        }
 //                        tableModelList = new ArrayList<>();
 
 
-
-                    }
+                }
 
 //                }
             }
@@ -1282,12 +1250,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     imageViewBarNotFound.setVisibility(View.GONE);
                     imageViewTableNotFound.setVisibility(View.GONE);
 
-                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
-                        recyclerViewTable.setVisibility(View.VISIBLE);
+                    if (recyclerViewTable.getVisibility() != View.VISIBLE) {
+//                        recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
                         textViewTableNoText.setVisibility(View.GONE);
                     }
-
 
 
                     if (btnSimpleCompoundStatus) {
@@ -1306,17 +1273,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
 //                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                            && editTextDay.getText().toString().equals(""))) {
-                        resetViews();
+                    resetViews();
 
                     imageViewPieNotFound.setVisibility(View.VISIBLE);
                     imageViewBarNotFound.setVisibility(View.VISIBLE);
                     imageViewTableNotFound.setVisibility(View.VISIBLE);
 
-                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
-                            recyclerViewTable.setVisibility(View.GONE);
-                            linearLayoutTableHeader.setVisibility(View.GONE);
-                            textViewTableNoText.setVisibility(View.VISIBLE);
-                        }
+//                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                    recyclerViewTable.setVisibility(View.GONE);
+                    linearLayoutTableHeader.setVisibility(View.GONE);
+                    textViewTableNoText.setVisibility(View.VISIBLE);
+//                        }
 //                    }
 
                 }
@@ -1447,8 +1414,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     imageViewBarNotFound.setVisibility(View.GONE);
                     imageViewTableNotFound.setVisibility(View.GONE);
 
-                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
-                        recyclerViewTable.setVisibility(View.VISIBLE);
+                    if (recyclerViewTable.getVisibility() != View.VISIBLE) {
+//                        recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
                         textViewTableNoText.setVisibility(View.GONE);
                     }
@@ -1469,17 +1436,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
 //                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                            && editTextDay.getText().toString().equals(""))) {
-                        resetViews();
+                    resetViews();
 
                     imageViewPieNotFound.setVisibility(View.VISIBLE);
                     imageViewBarNotFound.setVisibility(View.VISIBLE);
                     imageViewTableNotFound.setVisibility(View.VISIBLE);
 
-                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
-                            recyclerViewTable.setVisibility(View.GONE);
-                            linearLayoutTableHeader.setVisibility(View.GONE);
-                            textViewTableNoText.setVisibility(View.VISIBLE);
-                        }
+//                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                    recyclerViewTable.setVisibility(View.GONE);
+                    linearLayoutTableHeader.setVisibility(View.GONE);
+                    textViewTableNoText.setVisibility(View.VISIBLE);
+//                        }
 //                    }
 
                 }
@@ -1558,8 +1525,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     imageViewBarNotFound.setVisibility(View.GONE);
                     imageViewTableNotFound.setVisibility(View.GONE);
 
-                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
-                        recyclerViewTable.setVisibility(View.VISIBLE);
+                    if (recyclerViewTable.getVisibility() != View.VISIBLE) {
+//                        recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
                         textViewTableNoText.setVisibility(View.GONE);
                     }
@@ -1580,18 +1547,18 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
 //                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                            && editTextDay.getText().toString().equals(""))) {
-                        resetViews();
+                    resetViews();
 
                     imageViewPieNotFound.setVisibility(View.VISIBLE);
                     imageViewBarNotFound.setVisibility(View.VISIBLE);
                     imageViewTableNotFound.setVisibility(View.VISIBLE);
 
-                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
-                            recyclerViewTable.setVisibility(View.GONE);
-                            linearLayoutTableHeader.setVisibility(View.GONE);
-                            textViewTableNoText.setVisibility(View.VISIBLE);
-                        }
-                    }
+//                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                    recyclerViewTable.setVisibility(View.GONE);
+                    linearLayoutTableHeader.setVisibility(View.GONE);
+                    textViewTableNoText.setVisibility(View.VISIBLE);
+//                        }
+                }
 
 //                }
 
@@ -1672,8 +1639,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     imageViewBarNotFound.setVisibility(View.GONE);
                     imageViewTableNotFound.setVisibility(View.GONE);
 
-                    if(recyclerViewTable.getVisibility() != View.VISIBLE){
-                        recyclerViewTable.setVisibility(View.VISIBLE);
+                    if (recyclerViewTable.getVisibility() != View.VISIBLE) {
+//                        recyclerViewTable.setVisibility(View.VISIBLE);
                         linearLayoutTableHeader.setVisibility(View.VISIBLE);
                         textViewTableNoText.setVisibility(View.GONE);
                     }
@@ -1694,17 +1661,17 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
 //                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
 //                            && editTextDay.getText().toString().equals(""))) {
-                        resetViews();
+                    resetViews();
 
                     imageViewPieNotFound.setVisibility(View.VISIBLE);
                     imageViewBarNotFound.setVisibility(View.VISIBLE);
                     imageViewTableNotFound.setVisibility(View.VISIBLE);
 
-                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
-                            recyclerViewTable.setVisibility(View.GONE);
-                            linearLayoutTableHeader.setVisibility(View.GONE);
-                            textViewTableNoText.setVisibility(View.VISIBLE);
-                        }
+//                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
+                    recyclerViewTable.setVisibility(View.GONE);
+                    linearLayoutTableHeader.setVisibility(View.GONE);
+                    textViewTableNoText.setVisibility(View.VISIBLE);
+//                        }
 //                    }
 
                 }
@@ -2070,17 +2037,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onClick(View view) {
 
 
-
-
-
-
             }
         });
 
 
-
 //-----------------------------------------------------End---------------------------------------------------------------------------------
-
 
 
 //        fromDateEditText.setOnClickListener(new View.OnClickListener() {
@@ -2091,16 +2052,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 //        });
 
 
-
 //        Took 4 hours to do this, changing device language to arabic it changes app numeric to arabic also;
         Locale.setDefault(new Locale("en", "US"));
 
 
-
-
-
-
-
+// goto shimmer
         calculationScrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
             @Override
             public void onScrollChanged() {
@@ -2108,10 +2064,15 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 calculationScrollView.getHitRect(scrollBounds);
                 if (shimmerFrameLayout.getLocalVisibleRect(scrollBounds)) {
 
-                    if(checkScrollShimmerTableVisisble){
+                    recyclerViewTable.setVisibility(View.VISIBLE);
+
+                    if (checkScrollShimmerTableVisisble) {
 
                         shimmerFrameLayout.showShimmer(true);
 
+
+                    } else {
+//                        recyclerViewTable.setVisibility(View.);
                     }
 
                     final Handler handler = new Handler(Looper.getMainLooper());
@@ -2125,17 +2086,21 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         }
                     }, 700);
 
+                } else {
+                    recyclerViewTable.setVisibility(View.GONE);
                 }
-                if(pieChart.getLocalVisibleRect(scrollBounds)){
+                if (pieChart.getLocalVisibleRect(scrollBounds)) {
 
-                    if(checkScrollPieChartVisible){
+                    if (checkScrollPieChartVisible) {
                         pieChart.animateY(1400, Easing.EaseInOutQuad);
                         checkScrollPieChartVisible = false;
-                }
+                    }
                 }
 
 
-                if(mChart1.getLocalVisibleRect(scrollBounds)) {
+                if (mChart1.getLocalVisibleRect(scrollBounds)) {
+
+
                     if (checkScrollBarGraphVisible) {
 
                         mChart1.animateY(1400, Easing.EaseInOutQuad);
@@ -2144,7 +2109,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 }
             }
         });
-
 
 
         mChart1.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
@@ -2169,8 +2133,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 mChart1.setHighlightPerDragEnabled(false);
 
 
-
-
             }
 
             @Override
@@ -2178,10 +2140,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
             }
         });
-
-
-
-
 
 
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -2261,7 +2219,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                             } else if (rateTypeFrequencyYMWDHQBI == 3) {
                                 myInteresRateFrequency = "Day";
                             } else if (rateTypeFrequencyYMWDHQBI == 4) {
-                                myInteresRateFrequency = "Half Year";
+                                myInteresRateFrequency = "Half-Year";
                             } else if (rateTypeFrequencyYMWDHQBI == 5) {
                                 myInteresRateFrequency = "Quarter";
                             } else if (rateTypeFrequencyYMWDHQBI == 6) {
@@ -2316,7 +2274,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                                 Toast toast1 = new Toast(getContext());
                                 toast1.setDuration(Toast.LENGTH_SHORT);
                                 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                                @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.my_toast, null);
+                                @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.my_toast_data_saved, null);
                                 toast1.setView(view);
                                 toast1.show();
 
@@ -2366,17 +2324,12 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 } else {
 
 
-
-
                     Toast toast1 = new Toast(getContext());
                     toast1.setDuration(Toast.LENGTH_SHORT);
                     LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                     view = inflater.inflate(R.layout.my_toast_calculate_save, null);
+                    view = inflater.inflate(R.layout.my_toast_calculate_save, null);
                     toast1.setView(view);
                     toast1.show();
-
-
-
 
 
 //                    toast
@@ -2386,9 +2339,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             }
 
         });
-
-
-
 
 
         return view;
@@ -2436,7 +2386,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         data.getDataSet().setValueTextColor(Color.WHITE);
 
 
-
         pieChart.setData(data);
         pieChart.invalidate();
 
@@ -2468,7 +2417,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         pieChart.getDescription().setTextColor(Color.parseColor("#8899a6"));
         pieChart.setHoleColor(Color.parseColor("#15202b"));
         pieChart.setEntryLabelColor(Color.WHITE);
-
 
 
         Legend l = pieChart.getLegend();
@@ -2658,7 +2606,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     simpleInterest.setTime(fraction);
 
 
-
                     double myPredeccessorSI = simpleInterest.getTotalSimpleInterestAmount();
 
                     if (duration < 1.0) {
@@ -2668,7 +2615,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                                 new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
                                 getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
 //                        tableModelList = new ArrayList<>();
-                        setRecyclerViewTable((int) time,totalSimpleInterestAmount,totalSimpleInterestAmount,principalAmount + totalSimpleInterestAmount);
+                        setRecyclerViewTable((int) time, totalSimpleInterestAmount, totalSimpleInterestAmount, principalAmount + totalSimpleInterestAmount);
 
                     } else {
 
@@ -2678,7 +2625,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         yVals1.add(new BarEntry((float) time,
                                 new float[]{(float) principalAmount, (float) totalSimpleInterestAmount + (float) myPredeccessorSI},
                                 getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
-                        setRecyclerViewTable((int) time,  totalSimpleInterestAmount,totalSimpleInterestAmount + myPredeccessorSI,principalAmount + totalSimpleInterestAmount + myPredeccessorSI);
+                        setRecyclerViewTable((int) time, totalSimpleInterestAmount, totalSimpleInterestAmount + myPredeccessorSI, principalAmount + totalSimpleInterestAmount + myPredeccessorSI);
 
 //                        counter = false;
 
@@ -2698,14 +2645,14 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     yVals1.add(new BarEntry((float) time,
                             new float[]{(float) principalAmount, (float) totalSimpleInterestAmount},
                             getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
-                    if(time == 1){
+                    if (time == 1) {
 
-                        setRecyclerViewTable((int) time,totalSimpleInterestAmount,totalSimpleInterestAmount,principalAmount + totalSimpleInterestAmount);
+                        setRecyclerViewTable((int) time, totalSimpleInterestAmount, totalSimpleInterestAmount, principalAmount + totalSimpleInterestAmount);
 //                    Toast.makeText(getContext(), String.valueOf(myPInterestForTable), Toast.LENGTH_SHORT).show();
 
                     } else {
 
-                        setRecyclerViewTable((int) time,(totalSimpleInterestAmount + principalAmount) - previousBalance,totalSimpleInterestAmount,principalAmount + totalSimpleInterestAmount);
+                        setRecyclerViewTable((int) time, (totalSimpleInterestAmount + principalAmount) - previousBalance, totalSimpleInterestAmount, principalAmount + totalSimpleInterestAmount);
 //                    Toast.makeText(getContext(), String.valueOf(myPInterestForTable), Toast.LENGTH_SHORT).show();
 
                     }
@@ -2737,7 +2684,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     }
 
                 } else {
-                     previousBalanceCompound = totalCompoundInterestAmount - principalAmount;
+                    previousBalanceCompound = totalCompoundInterestAmount - principalAmount;
                     compoundInterest.setTime(time);
                     totalCompoundInterestAmount = compoundInterest.getTotalCompoundInterestAmount();
 
@@ -2747,19 +2694,19 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                         new float[]{(float) principalAmount, (float) (totalCompoundInterestAmount - principalAmount)},
                         getResources().getDrawable(R.drawable.ic_baseline_feedback_24)));
 
-               if(time == 1){
-                   setRecyclerViewTable((int) time, (totalCompoundInterestAmount - principalAmount),totalCompoundInterestAmount - principalAmount,totalCompoundInterestAmount);
+                if (time == 1) {
+                    setRecyclerViewTable((int) time, (totalCompoundInterestAmount - principalAmount), totalCompoundInterestAmount - principalAmount, totalCompoundInterestAmount);
 
-               } else {
-                   setRecyclerViewTable((int) time, (totalCompoundInterestAmount - principalAmount) - previousBalanceCompound,totalCompoundInterestAmount - principalAmount,totalCompoundInterestAmount);
+                } else {
+                    setRecyclerViewTable((int) time, (totalCompoundInterestAmount - principalAmount) - previousBalanceCompound, totalCompoundInterestAmount - principalAmount, totalCompoundInterestAmount);
 
-               }
+                }
 
             }
 
         }
 
-        myYearForTableAdapter =  duration;
+        myYearForTableAdapter = duration;
 
         if (btnSimpleCompoundStatus) {
             simpleInterest.setTime(Double.parseDouble(String.format("%.2f", durationAndDate.getDuration())));
@@ -2925,7 +2872,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         setupPieChart();
 
 
-
     }
 
     public void getSetViews() {
@@ -3020,8 +2966,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
         upDateData();
-
-
 
 
     }
@@ -3249,31 +3193,30 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         }
 
 
-
-        if(editTextPrincipalAmount.isFocused()){
+        if (editTextPrincipalAmount.isFocused()) {
             editTextPrincipalAmount.clearFocus();
 
         }
-        if(editTextInterestRate.isFocused()){
+        if (editTextInterestRate.isFocused()) {
             editTextInterestRate.clearFocus();
 
         }
 
-        if(editTextYear.isFocused()){
+        if (editTextYear.isFocused()) {
             editTextYear.clearFocus();
 
         }
-        if(editTextMonth.isFocused()){
+        if (editTextMonth.isFocused()) {
             editTextMonth.clearFocus();
 
         }
-        if(editTextDay.isFocused()){
+        if (editTextDay.isFocused()) {
             editTextDay.clearFocus();
 
         }
 
 
-        if(btnSimpleCompoundStatus){
+        if (btnSimpleCompoundStatus) {
 
 
             btnSimple.setBackgroundColor(Color.parseColor("#1da1f3"));
@@ -3292,6 +3235,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             btnCompound.setTextColor(Color.parseColor("#ffffff"));
             btnCompound.setCompoundDrawablesWithIntrinsicBounds(R.drawable.compound_icon, 0, 0, 0);
 
+
             LayoutCompoundFrequencyFadeIn(linearLayoutCompoundingFrequency);
             LayoutCompoundFrequencyFadeOut(linearLayoutDurationBottomLine);
 
@@ -3303,6 +3247,146 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         }
 
     }
+
+
+    public void reCalculateCompound(String myPrincipalAmount, String myRate, String myInterestFrequency
+            , String myFrequency, String myYear, String myMonth, String myDay) {
+
+
+
+        if (myInterestFrequency.equals("Year")) {
+            spinnerInterestRateTypeYMWDHQBI.setSelection(0);
+
+        } else if (myInterestFrequency.equals("Month")) {
+            spinnerInterestRateTypeYMWDHQBI.setSelection(1);
+
+        } else if (myInterestFrequency.equals("Week")) {
+            spinnerInterestRateTypeYMWDHQBI.setSelection(2);
+
+        } else if (myInterestFrequency.equals("Day")) {
+            spinnerInterestRateTypeYMWDHQBI.setSelection(3);
+
+        } else if (myInterestFrequency.equals("Half-Year")) {
+            spinnerInterestRateTypeYMWDHQBI.setSelection(4);
+
+        } else if (myInterestFrequency.equals("Quarter")) {
+            spinnerInterestRateTypeYMWDHQBI.setSelection(5);
+
+        } else if (myInterestFrequency.equals("Bi-Annual")) {
+            spinnerInterestRateTypeYMWDHQBI.setSelection(6);
+
+        }
+
+
+
+        if(myFrequency.equals("Yearly")){
+            spinnerCompoundingFrequency.setSelection(0);
+
+        } else if(myFrequency.equals("Monthly")){
+            spinnerCompoundingFrequency.setSelection(1);
+
+        } else if(myFrequency.equals("Weekly")){
+            spinnerCompoundingFrequency.setSelection(2);
+
+        } else if(myFrequency.equals("Daily(365/Y)")){
+            spinnerCompoundingFrequency.setSelection(3);
+
+        } else if(myFrequency.equals("Half-Yearly")){
+            spinnerCompoundingFrequency.setSelection(4);
+
+        } else if(myFrequency.equals("Quarterly")){
+            spinnerCompoundingFrequency.setSelection(5);
+
+        } else if(myFrequency.equals("Daily(360/Y)")){
+            spinnerCompoundingFrequency.setSelection(6);
+
+        } else if(myFrequency.equals("Bi-Weekly")){
+            spinnerCompoundingFrequency.setSelection(7);
+
+        } else if(myFrequency.equals("Half-Monthly")){
+            spinnerCompoundingFrequency.setSelection(8);
+
+        } else if(myFrequency.equals("Bi-Monthly")){
+            spinnerCompoundingFrequency.setSelection(9);
+
+        } else if(myFrequency.equals("Bi-Anually")){
+            spinnerCompoundingFrequency.setSelection(10);
+
+        }
+
+
+        editTextPrincipalAmount.setText(String.valueOf(myPrincipalAmount));
+        editTextInterestRate.setText(String.valueOf(myRate));
+        editTextYear.setText(String.valueOf(myYear));
+        editTextMonth.setText(String.valueOf(myMonth));
+        editTextDay.setText(String.valueOf(myDay));
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                ((MainActivity) getActivity()).switchBottomNavigation();
+
+            }
+        }, 300);
+
+        editTextPrincipalAmount.setSelection(editTextPrincipalAmount.getText().length());
+
+    }
+
+
+
+    public void reCalculate( String myPrincipalAmount, String myRate, String myInterestFrequency
+    , String myYear, String myMonth, String myDay){
+
+        if(myInterestFrequency.equals("Year")){
+            spinnerInterestRateTypeYMWDHQBI.setSelection(0);
+
+        }else if(myInterestFrequency.equals("Month")){
+            spinnerInterestRateTypeYMWDHQBI.setSelection(1);
+
+        } else if(myInterestFrequency.equals("Week")){
+            spinnerInterestRateTypeYMWDHQBI.setSelection(2);
+
+        } else if(myInterestFrequency.equals("Day")){
+            spinnerInterestRateTypeYMWDHQBI.setSelection(3);
+
+        } else if(myInterestFrequency.equals("Half-Year")){
+            spinnerInterestRateTypeYMWDHQBI.setSelection(4);
+
+        } else if(myInterestFrequency.equals("Quarter")){
+            spinnerInterestRateTypeYMWDHQBI.setSelection(5);
+
+        } else if (myInterestFrequency.equals("Bi-Annual")){
+            spinnerInterestRateTypeYMWDHQBI.setSelection(6);
+
+        }
+
+        editTextPrincipalAmount .setText(String.valueOf(myPrincipalAmount));
+        editTextInterestRate.setText(String.valueOf(myRate));
+        editTextYear.setText(String.valueOf(myYear));
+        editTextMonth.setText(String.valueOf(myMonth));
+        editTextDay.setText(String.valueOf(myDay));
+
+        final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        ((MainActivity)getActivity()).switchBottomNavigation();
+
+                    }
+                }, 300);
+
+        editTextPrincipalAmount.setSelection(editTextPrincipalAmount.getText().length());
+
+    }
+
+
+
+
+
 
     @Override
     public void onPause() {
@@ -3318,35 +3402,44 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
     }
 
-    public void setRecyclerViewTable(int time, double interest, double accruedInterest, double balance){
+    public void setRecyclerViewTable(int time, double interest, double accruedInterest, double balance) {
         recyclerViewTable.setHasFixedSize(true);
         recyclerViewTable.setLayoutManager(new LinearLayoutManager(this.getContext()));
-        tableAdapter =  new TableAdapter(this.getContext(),getList(time,interest,accruedInterest,balance));
+        tableAdapter = new TableAdapter(this.getContext(), getList(time, interest, accruedInterest, balance));
+        tableAdapter.setHasStableIds(true);
+
+//goto recycler adapter
+
+        // it slow down UI i tried alot to solve but couldn't ;(
+
+        recyclerViewTable.setVisibility(View.GONE);
         recyclerViewTable.setAdapter(tableAdapter);
+//        recyclerViewTable.setVisibility(View.GONE);
+
     }
 
-    private List<TableModel> getList(int time, double interest, double accruedInterest,double balance){
+    private List<TableModel> getList(int time, double interest, double accruedInterest, double balance) {
 
-         numberFormatterWithSymbol.setNumber(interest);
+        numberFormatterWithSymbol.setNumber(interest);
         String myInterest = numberFormatterWithSymbol.getNumberAfterFormat();
-         numberFormatterWithSymbol.setNumber(accruedInterest);
+        numberFormatterWithSymbol.setNumber(accruedInterest);
         String myAccruedInterest = numberFormatterWithSymbol.getNumberAfterFormat();
-         numberFormatterWithSymbol.setNumber(balance);
+        numberFormatterWithSymbol.setNumber(balance);
         String myBalance = numberFormatterWithSymbol.getNumberAfterFormat();
         numberFormatterWithSymbol.setNumber(principalAmount);
         String myPrincipalAmount = numberFormatterWithSymbol.getNumberAfterFormat();
 
-        if(counter == true){
-            tableModelList.add(new TableModel(  "0Y","-","-",myPrincipalAmount));
+        if (counter == true) {
+            tableModelList.add(new TableModel("0Y", "-", "-", myPrincipalAmount));
 
             counter = false;
         }
-        tableModelList.add(new TableModel(String.valueOf(time) + "Y",myInterest,myAccruedInterest,myBalance));
+        tableModelList.add(new TableModel(String.valueOf(time) + "Y", myInterest, myAccruedInterest, myBalance));
 
         return tableModelList;
     }
 
-    void setSimmerAndAnimationTrue(){
+    void setSimmerAndAnimationTrue() {
 
         checkScrollShimmerTableVisisble = true;
         checkScrollPieChartVisible = true;
@@ -3361,8 +3454,40 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         menu.findItem(R.id.Share).setVisible(true);
         menu.findItem(R.id.Reset).setVisible(true);
 
-        System.out.println("inside");
         super.onPrepareOptionsMenu(menu);
+    }
+
+    // this method is used to call reCalculate method from RecordAdapterSimple;
+    public static CalculatorFragment getInstance() {
+
+        return instance;
+    }
+
+
+    public String getEdittextPrincipal(){
+
+        return editTextPrincipalAmount.getText().toString();
+    }
+
+    public String getEditTextInterest(){
+
+        return editTextInterestRate.getText().toString();
+    }
+
+
+    public String getYear(){
+
+        return  editTextYear.getText().toString();
+    }
+
+    public String getMonth(){
+
+     return  editTextMonth.getText().toString();
+    }
+
+    public String getDay(){
+
+        return  editTextDay.getText().toString();
     }
 
 }
