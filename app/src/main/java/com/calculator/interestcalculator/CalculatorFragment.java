@@ -132,7 +132,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     //    ImageButton imgBtnMoreThreeDots;
 // this declaration is used to call reCalculate method from RecordAdapterSimple;
     private static CalculatorFragment instance = null;
-
+    private Handler handler;
     private ImageView imageViewPieNotFound, imageViewBarNotFound, imageViewTableNotFound;
     DBHandler dbHandler;
     DBHandlerSimple dbHandlerSimple;
@@ -176,7 +176,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
     String[] rateTypeFrequency = {"Yearly", "Monthly", "Weekly", "Daily", "Half-Yearly", "Quarterly", "Bi-Annually"};
-    String[] compoundingFrequency = {"Yearly", "Monthly(12/Y)", "Weekly(52/Y)", "Daily(365/Y)", "Half-Yearly(2/Y)", "Quarterly(4/Y)", "Daily(360/Y)", "Bi-Weekly(26/Y)", "Half-Monthly(24/Y)", "Bi-Monthly(6/Y)", "Bi-Anually(0.5/Y)"};
+    String[] compoundingFrequency = {"Yearly", "Monthly(12/Y)", "Weekly(52/Y)", "Daily(365/Y)", "Half-Yearly(2/Y)", "Quarterly(4/Y)", "Daily(360/Y)", "Bi-Weekly(26/Y)", "Half-Monthly(24/Y)", "Bi-Monthly(6/Y)", "Bi-Annually(0.5/Y)"};
 
 
     //    private DBHandler dbHandler;
@@ -886,122 +886,154 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 if (i == 0) {
+
+                    compoundInterestSpinnerFrequency = 0;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 0;
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 1) {
+
+                   compoundInterestSpinnerFrequency = 1;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 1;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 2) {
+
+                    compoundInterestSpinnerFrequency = 2;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 2;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 3) {
+
+                    compoundInterestSpinnerFrequency = 3;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 3;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 4) {
+
+                    compoundInterestSpinnerFrequency = 4;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 4;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 5) {
+
+                    compoundInterestSpinnerFrequency = 5;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 5;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 6) {
+
+                    compoundInterestSpinnerFrequency = 6;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 6;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 7) {
+
+                    compoundInterestSpinnerFrequency = 7;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 7;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 8) {
+
+                    compoundInterestSpinnerFrequency = 8;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 8;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 9) {
+
+                    compoundInterestSpinnerFrequency = 9;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 9;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 10) {
+
+                    compoundInterestSpinnerFrequency = 10;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        compoundInterestSpinnerFrequency = 10;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
@@ -1021,78 +1053,99 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
                 if (i == 0) {
+
+                    rateTypeFrequencyYMWDHQBI = 0;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        rateTypeFrequencyYMWDHQBI = 0;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 1) {
+
+                    rateTypeFrequencyYMWDHQBI = 1;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        rateTypeFrequencyYMWDHQBI = 1;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 2) {
+
+                    rateTypeFrequencyYMWDHQBI = 2;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        rateTypeFrequencyYMWDHQBI = 2;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 3) {
+
+                    rateTypeFrequencyYMWDHQBI = 3;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        rateTypeFrequencyYMWDHQBI = 3;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 4) {
+
+                    rateTypeFrequencyYMWDHQBI = 4;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        rateTypeFrequencyYMWDHQBI = 4;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 5) {
+
+                    rateTypeFrequencyYMWDHQBI = 5;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        rateTypeFrequencyYMWDHQBI = 5;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
                     }
                 } else if (i == 6) {
+
+                    rateTypeFrequencyYMWDHQBI = 6;
+
                     if ((!editTextPrincipalAmount.getText().toString().equals("") && !editTextInterestRate.getText().toString().replaceAll("%", "").equals("")) &&
                             ((!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("") ||
                                     !editTextDay.getText().toString().equals("")) ||
                                     (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-                        rateTypeFrequencyYMWDHQBI = 6;
+
                         getSetViews();
                         setSimmerAndAnimationTrue();
 
@@ -3309,31 +3362,47 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         } else if(myFrequency.equals("Bi-Monthly")){
             spinnerCompoundingFrequency.setSelection(9);
 
-        } else if(myFrequency.equals("Bi-Anually")){
+        } else if(myFrequency.equals("Bi-Annually")){
             spinnerCompoundingFrequency.setSelection(10);
 
         }
 
 
-        editTextPrincipalAmount.setText(String.valueOf(myPrincipalAmount));
-        editTextInterestRate.setText(String.valueOf(myRate));
-        editTextYear.setText(String.valueOf(myYear));
-        editTextMonth.setText(String.valueOf(myMonth));
-        editTextDay.setText(String.valueOf(myDay));
 
-        final Handler handler = new Handler(Looper.getMainLooper());
+        handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
 
                 ((MainActivity) getActivity()).switchBottomNavigation();
 
+                calculationScrollView.fullScroll(View.FOCUS_UP);
+
             }
         }, 300);
 
-        editTextPrincipalAmount.setSelection(editTextPrincipalAmount.getText().length());
+
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+                editTextPrincipalAmount.setText(String.valueOf(myPrincipalAmount));
+                editTextInterestRate.setText(String.valueOf(myRate));
+                editTextYear.setText(String.valueOf(myYear));
+                editTextMonth.setText(String.valueOf(myMonth));
+                editTextDay.setText(String.valueOf(myDay));
+                editTextPrincipalAmount.setSelection(editTextPrincipalAmount.getText().length());
+
+            }
+        }, 500);
+
+
 
     }
+
+
+
+
 
 
 
@@ -3363,30 +3432,39 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         }
 
-        editTextPrincipalAmount .setText(String.valueOf(myPrincipalAmount));
-        editTextInterestRate.setText(String.valueOf(myRate));
-        editTextYear.setText(String.valueOf(myYear));
-        editTextMonth.setText(String.valueOf(myMonth));
-        editTextDay.setText(String.valueOf(myDay));
 
-        final Handler handler = new Handler(Looper.getMainLooper());
+
+
+
+         handler = new Handler(Looper.getMainLooper());
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
                         ((MainActivity)getActivity()).switchBottomNavigation();
 
+                        calculationScrollView.fullScroll(View.FOCUS_UP);
+
                     }
                 }, 300);
 
-        editTextPrincipalAmount.setSelection(editTextPrincipalAmount.getText().length());
+
+//        handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                editTextPrincipalAmount .setText(String.valueOf(myPrincipalAmount));
+                editTextInterestRate.setText(String.valueOf(myRate));
+                editTextYear.setText(String.valueOf(myYear));
+                editTextMonth.setText(String.valueOf(myMonth));
+                editTextDay.setText(String.valueOf(myDay));
+
+                editTextPrincipalAmount.setSelection(editTextPrincipalAmount.getText().length());
+
+            }
+        }, 500);
 
     }
-
-
-
-
-
 
     @Override
     public void onPause() {
@@ -3488,6 +3566,112 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     public String getDay(){
 
         return  editTextDay.getText().toString();
+    }
+
+
+    public String getInterestFrequency(){
+
+        int index;
+        String myString;
+
+        index = spinnerInterestRateTypeYMWDHQBI.getSelectedItemPosition();
+
+
+        if(index == 0){
+            myString = "Year";
+        } else if(index == 1){
+            myString =  "Month";
+        } else if(index == 2){
+            myString =  "Week";
+        } else if(index == 3){
+            myString =  "Day";
+        } else if(index == 4){
+            myString =  "Half-Year";
+        } else if(index == 5){
+            myString =  "Quarter";
+        } else {
+            myString =  "Bi-Annual";
+        }
+
+
+    return myString;
+    }
+
+    public String myTtlSimpleInterestAmount(){
+
+        return String.valueOf(totalSimpleInterestAmount);
+    }
+
+    public String myTtlAmountSimple(){
+
+        return String.valueOf(totalSimpleInterestAmount + principalAmount);
+    }
+
+
+
+    public String myTtlCompoundInterestAmount(){
+
+        return String.valueOf(totalCompoundInterestAmount - principalAmount);
+    }
+
+    public String myTtlAmountCompound(){
+
+        return String.valueOf(totalCompoundInterestAmount);
+    }
+
+
+
+
+    public String myFrequencyCompound(){
+
+        int myFrequency;
+        String myString;
+
+        myFrequency = spinnerCompoundingFrequency.getSelectedItemPosition();
+
+        if(myFrequency == 0){
+            myString = "Yearly";
+
+        } else if(myFrequency == 1){
+            myString = "Monthly(12/Y)";
+
+        } else if(myFrequency == 2){
+            myString = "Weekly(52/Y)";
+
+        } else if(myFrequency == 3){
+            myString = "Daily(365/Y)";
+
+        } else if(myFrequency == 4){
+            myString = "Half-Yearly(2/Y)";
+
+        } else if(myFrequency == 5){
+            myString = "Quarterly(4/Y)";
+
+        } else if(myFrequency == 6){
+            myString = "Daily(360/Y)";
+
+        } else if(myFrequency == 7){
+            myString = "Bi-Weekly(26/Y)";
+
+        } else if(myFrequency == 8){
+            myString = "Half-Monthly(24/Y)";
+
+        } else if(myFrequency == 9){
+            myString = "Bi-Monthly(6/Y)";
+
+        } else {
+            myString = "Bi-Annually(0.5/Y)";
+
+        }
+
+
+
+
+
+
+
+
+        return myString;
     }
 
 }

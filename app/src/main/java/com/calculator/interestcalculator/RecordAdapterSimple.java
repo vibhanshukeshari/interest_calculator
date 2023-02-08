@@ -10,6 +10,7 @@ import static com.github.mikephil.charting.utils.Utils.getPosition;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.Image;
@@ -35,6 +36,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimple.ViewHolder>{
@@ -293,6 +295,67 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
 
 
+        holder.imgButtonShareSimple.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+//                scroll up karna hai
+
+
+                String name = holder.name.getText().toString();
+                String typeSorC = holder.typeSorC.getText().toString();
+                String date = holder.date.getText().toString();
+                String myPrincipal = holder.principalAmount.getText().toString();
+                String myInterest = holder.interestRate.getText().toString();
+                String myInterestFrequency = holder.interestFrequency.getText().toString();
+                String myYear = holder.year.getText().toString();
+                String myMonth = holder.month.getText().toString();
+                String myDay = holder.day.getText().toString();
+                String interestAmount = holder.interestAmount.getText().toString();
+                String totalAmount = holder.totalAmount.getText().toString();
+
+
+
+
+
+                StringBuilder forShare = new StringBuilder();
+
+
+                // keep screen on feature have to use ;remember
+                forShare.append("Interest Type : ").append(typeSorC);
+                forShare.append('\n');
+                forShare.append("Date : ").append(date);
+                forShare.append('\n');
+
+                forShare.append("Name : ").append(name);
+                forShare.append('\n');
+                forShare.append('\n');
+                forShare.append("Principal Amount : " );
+                forShare.append(myPrincipal);
+                forShare.append('\n');
+                forShare.append("Interest Rate : ");
+                forShare.append(myInterest).append(myInterestFrequency);
+                forShare.append('\n');
+                forShare.append("Duration : ").append(myYear).append(" | ").append(myMonth).append(" | ").append(myDay);
+                forShare.append('\n');
+                forShare.append("Interest Amount : ").append(interestAmount);
+                forShare.append('\n');
+                forShare.append("Total Amount : ").append(totalAmount);
+                forShare.append('\n');
+                forShare.append('\n');
+                forShare.append("https://play.google.com/store/apps/details?id=com.vibhunorby.totalpaisa");
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, (Serializable) forShare);
+                sendIntent.setType("text/plain");
+                context.startActivity(sendIntent);
+
+            }
+
+
+        });
+
 
 
 
@@ -328,8 +391,10 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
 
 
+
         private final ImageButton imgButtonDeleteSimple;
         private final ImageButton imgButtonReCalculate;
+        private final ImageButton imgButtonShareSimple;
 
         private final TextView name;
         private final TextView typeSorC;
@@ -352,6 +417,7 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
             imgButtonDeleteSimple = itemView.findViewById(R.id.deleteSimple);
             imgButtonReCalculate = itemView.findViewById(R.id.reCalculate);
+            imgButtonShareSimple = itemView.findViewById(R.id.image_btn_share_simple);
 
             name = itemView.findViewById(R.id.name);
             typeSorC = itemView.findViewById(R.id.type_SorC);

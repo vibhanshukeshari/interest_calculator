@@ -455,7 +455,7 @@
                     android:src="@drawable/delete_icon" />
 
                 <ImageButton
-                    android:id="@+id/more_three_dots"
+                    android:id="@+id/image_btn_share_simple"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/highlight_blue"

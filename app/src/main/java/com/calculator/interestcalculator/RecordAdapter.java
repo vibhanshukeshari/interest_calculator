@@ -10,6 +10,7 @@ import static com.calculator.interestcalculator.RecordFragment.isRecordVisible;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.media.Image;
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder>{
@@ -275,6 +277,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                     String myPrincipal = holder.principalAmount.getText().toString().replaceAll("[^\\d.]", "");
                     String myInterest = holder.interestRate.getText().toString().replaceAll("[^\\d.]", "");
                     String myInterestFrequency = holder.interestFrequency.getText().toString();
+                    String myFrequency = holder.compoundingFrequency.getText().toString();
                     String myYear = holder.year.getText().toString().replace("Y","");
                     String myMonth = holder.month.getText().toString().replace("M","");
                     String myDay = holder.day.getText().toString().replace("D","");
@@ -282,9 +285,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
 
 
-//                     it took one day to do like this before i was creating object of Calculator fragment which was wrong;
-                    myInstance.reCalculate(myPrincipal,myInterest,myInterestFrequency, myYear, myMonth, myDay);
-
+//                  it took one day to do like this before i was creating object of Calculator fragment which was wrong;
+                            myInstance.reCalculateCompound(myPrincipal,myInterest,myInterestFrequency,myFrequency, myYear, myMonth, myDay);
 
 
 
@@ -296,6 +298,66 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
 
 
+
+
+            }
+        });
+
+
+
+        holder.imageButtonShareCompound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+
+                String name = holder.name.getText().toString();
+                String typeSorC = holder.typeSorC.getText().toString();
+                String date = holder.date.getText().toString();
+                String myPrincipal = holder.principalAmount.getText().toString();
+                String myInterest = holder.interestRate.getText().toString();
+                String myInterestFrequency = holder.interestFrequency.getText().toString();
+                String myYear = holder.year.getText().toString();
+                String myMonth = holder.month.getText().toString();
+                String myDay = holder.day.getText().toString();
+                String compoundingFrequency = holder.compoundingFrequency.getText().toString();
+                String interestAmount = holder.interestAmount.getText().toString();
+                String totalAmount = holder.totalAmount.getText().toString();
+
+
+                StringBuilder forShare = new StringBuilder();
+
+
+                // keep screen on feature have to use ;remember
+                forShare.append("Interest Type : ").append(typeSorC);
+                forShare.append('\n');
+                forShare.append("Date : ").append(date);
+                forShare.append('\n');
+
+                forShare.append("Name : ").append(name);
+                forShare.append('\n');
+                forShare.append('\n');
+                forShare.append("Principal Amount : " );
+                forShare.append(myPrincipal);
+                forShare.append('\n');
+                forShare.append("Interest Rate : ");
+                forShare.append(myInterest).append(myInterestFrequency);
+                forShare.append('\n');
+                forShare.append("Duration : ").append(myYear).append(" | ").append(myMonth).append(" | ").append(myDay);
+                forShare.append('\n');
+                forShare.append("Compounding Freq. : ").append(compoundingFrequency);
+                forShare.append('\n');
+                forShare.append("Interest Amount : ").append(interestAmount);
+                forShare.append('\n');
+                forShare.append("Total Amount : ").append(totalAmount);
+                forShare.append('\n');
+                forShare.append('\n');
+                forShare.append("https://play.google.com/store/apps/details?id=com.vibhunorby.totalpaisa");
+                Intent sendIntent = new Intent();
+                sendIntent.setAction(Intent.ACTION_SEND);
+                sendIntent.putExtra(Intent.EXTRA_TEXT, (Serializable) forShare);
+                sendIntent.setType("text/plain");
+                context.startActivity(sendIntent);
 
 
             }
@@ -332,6 +394,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
         ImageButton imageButtonDeleteCompound;
         ImageButton imageButtonRecalculateCompound;
+        ImageButton imageButtonShareCompound;
 
         private final TextView name;
         private final TextView typeSorC;
@@ -357,6 +420,8 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
             imageButtonDeleteCompound = itemView.findViewById(R.id.deleteCompound);
             imageButtonRecalculateCompound = itemView.findViewById(R.id.reCalculateCompound);
+            imageButtonShareCompound = itemView.findViewById(R.id.image_btn_share_compound);
+
 
             name = itemView.findViewById(R.id.name);
         typeSorC = itemView.findViewById(R.id.type_SorC);

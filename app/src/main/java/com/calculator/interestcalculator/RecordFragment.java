@@ -149,12 +149,6 @@ public class RecordFragment extends Fragment {
         recordRV.setAdapter(recordRVAdapterSimple);
 
 
-//        imageViewNotFound.setVisibility(View.GONE);
-//        if(simpleArrayListSize == 0 && btnSimpleCompoundStatus){
-//            imageViewNotFound.setVisibility(View.VISIBLE);
-//        } else {
-//            imageViewNotFound.setVisibility(View.GONE);
-//        }
 
 
 
@@ -172,7 +166,6 @@ public class RecordFragment extends Fragment {
         // list from db handler class.
         recordModalArrayList = dbHandler.readData();
 
-
         // on below line passing our array lost to our adapter class.
         recordRVAdapter = new RecordAdapter(recordModalArrayList, getContext());
         recordRVAdapter.setHasStableIds(true);
@@ -182,16 +175,7 @@ public class RecordFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recordRV.setLayoutManager(linearLayoutManager);
 
-
         recordRV.setAdapter(recordRVAdapter);
-
-//        imageViewNotFound.setVisibility(View.GONE);
-//        if(compoundArrayListSize == 0 && !btnSimpleCompoundStatus){
-//            imageViewNotFound.setVisibility(View.VISIBLE);
-//        } else {
-//            imageViewNotFound.setVisibility(View.GONE);
-//        }
-
 
     }
 

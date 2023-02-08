@@ -3,6 +3,7 @@ package com.calculator.interestcalculator;
 //Started on 27/12/22
 
 import static com.calculator.interestcalculator.CalculatorFragment.btnSimpleCompoundStatus;
+import static com.calculator.interestcalculator.CalculatorFragment.numberFormatterWithSymbol;
 import static com.calculator.interestcalculator.CalculatorFragment.spinnerCompoundingFrequency;
 import static com.calculator.interestcalculator.CalculatorFragment.spinnerInterestRateTypeYMWDHQBI;
 import static com.calculator.interestcalculator.RecordFragment.isRecordVisible;
@@ -23,10 +24,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -52,6 +56,12 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hbb20.CountryCodePicker;
 
 import com.robinhood.ticker.TickerView;
+
+import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
 
@@ -83,6 +93,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.myToolBar);
         setSupportActionBar(toolbar);
+
+        // it is used after getting feedback of a user on total paisa;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
         viewPager = findViewById(R.id.view_pager);
         mBottomNavigation = findViewById(R.id.bottom_navigation);
@@ -379,27 +392,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        if(!principalAmount.getText().toString().equals("")){
+                        spinnerInterestRateTypeYMWDHQBI.setSelection(0);
+                        spinnerCompoundingFrequency.setSelection(0);
 
                             principalAmount.setText("");
-                        }
 
-
-                        if(!interestRate.getText().toString().equals("")){
                             interestRate.setText("");
-                        }
 
-                        if(!years.getText().toString().equals("")) {
                             years.setText("");
-                        }
 
-                        if(!month.getText().toString().equals("")) {
                             month.setText("");
-                        }
 
-                        if(!day.getText().toString().equals("")) {
                             day.setText("");
-                        }
 
 
                         if(principalAmount.isFocused()){
@@ -433,6 +437,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                             }
                         });
+
+
+
 
                     }
 
@@ -649,6 +656,263 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
 
                break;
+
+
+            case R.id.Share:
+
+
+
+
+
+
+                    FragmentManager fm = getSupportFragmentManager();
+
+//if you added fragment via layout xml
+                CalculatorFragment fragment = (CalculatorFragment) fm.getFragments().get(0);
+
+                Calendar calendar = Calendar.getInstance();
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
+
+
+                String typeSorC = "Simple";
+                String  date = dateFormat.format(calendar.getTime());
+                String myPrincipalNoFormat = fragment.getEdittextPrincipal();
+                String myInterest = fragment.getEditTextInterest();
+                String myInterestFrequency = fragment.getInterestFrequency();
+                String myYear = fragment.getYear();
+                String myMonth = fragment.getMonth();
+                String myDay = fragment.getDay();
+                String myCompoundingFrequency = fragment.myFrequencyCompound();
+                String interestAmountNoFormat = fragment.myTtlSimpleInterestAmount();
+                String totalAmountNoFormat = fragment.myTtlAmountSimple();
+
+                String interestAmountCompoundNoFormat = fragment.myTtlCompoundInterestAmount();
+                String totalAmountCompoundNoFormat = fragment.myTtlAmountCompound();
+
+
+
+                if(btnSimpleCompoundStatus){
+
+
+
+
+
+                    if ((!myPrincipalNoFormat.equals("") && !myInterest.equals("")) &&
+                            ((!myYear.equals("") || !myMonth.equals("") ||
+                                    !myDay.equals("")))) {
+
+
+
+                        StringBuilder forShare = new StringBuilder();
+
+
+                        numberFormatterWithSymbol.setNumber(Double.parseDouble(myPrincipalNoFormat));
+                        String myPrincipal = String.valueOf(numberFormatterWithSymbol.getNumberAfterFormat());
+
+
+                        numberFormatterWithSymbol.setNumber(Double.parseDouble(interestAmountNoFormat));
+                        String interestAmount = String.valueOf(numberFormatterWithSymbol.getNumberAfterFormat());
+
+
+                        numberFormatterWithSymbol.setNumber(Double.parseDouble(totalAmountNoFormat));
+                        String totalAmount = String.valueOf(numberFormatterWithSymbol.getNumberAfterFormat());
+
+
+                        // keep screen on feature have to use ;remember
+                        forShare.append("Interest Type : ").append(typeSorC);
+                        forShare.append('\n');
+                        forShare.append("Date : ").append(date);
+                        forShare.append('\n');
+                        forShare.append('\n');
+
+                        forShare.append("Principal Amount : " );
+                        forShare.append(myPrincipal);
+                        forShare.append('\n');
+                        forShare.append("Interest Rate : ");
+                        forShare.append(myInterest).append(" / ").append(myInterestFrequency);
+                        forShare.append('\n');
+
+
+                        forShare.append("Duration : ");
+
+                        if(myYear.equals("")){
+                            forShare.append("0Y");
+                        } else {
+                            forShare.append(myYear).append("Y | ");
+                        }
+
+                        if(myMonth.equals("")){
+                            forShare.append("0M |");
+                        } else {
+                            forShare.append(myMonth).append("M | ");
+                        }
+
+                        if(myDay.equals("")){
+                            forShare.append(" 0D");
+                        } else {
+                            forShare.append(myDay).append("D");
+                        }
+
+
+                        forShare.append('\n');
+                        forShare.append("Interest Amount : ").append(interestAmount);
+                        forShare.append('\n');
+                        forShare.append("Total Amount : ").append(totalAmount);
+                        forShare.append('\n');
+                        forShare.append('\n');
+                        forShare.append("https://play.google.com/store/apps/details?id=com.vibhunorby.totalpaisa");
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, (Serializable) forShare);
+                        sendIntent.setType("text/plain");
+                        startActivity(sendIntent);
+
+
+
+                    } else {
+
+
+                        Toast toast1 = new Toast(getApplicationContext());
+                        toast1.setDuration(Toast.LENGTH_SHORT);
+                        LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View view = inflater.inflate(R.layout.my_toast_calculate_save, null);
+                        toast1.setView(view);
+                        toast1.show();
+
+
+
+
+                    }
+
+
+                } else {
+
+
+// for compound
+
+
+
+                    if ((!myPrincipalNoFormat.equals("") && !myInterest.equals("")) &&
+                            ((!myYear.equals("") || !myMonth.equals("") ||
+                                    !myDay.equals("")))) {
+
+
+
+                        StringBuilder forShare = new StringBuilder();
+
+
+                        numberFormatterWithSymbol.setNumber(Double.parseDouble(myPrincipalNoFormat));
+                        String myPrincipal = String.valueOf(numberFormatterWithSymbol.getNumberAfterFormat());
+
+
+                        numberFormatterWithSymbol.setNumber(Double.parseDouble(interestAmountCompoundNoFormat));
+                        String interestAmount = String.valueOf(numberFormatterWithSymbol.getNumberAfterFormat());
+
+
+                        numberFormatterWithSymbol.setNumber(Double.parseDouble(totalAmountCompoundNoFormat));
+                        String totalAmount = String.valueOf(numberFormatterWithSymbol.getNumberAfterFormat());
+
+
+
+
+                        // keep screen on feature have to use ;remember
+                        forShare.append("Interest Type : ").append(typeSorC);
+                        forShare.append('\n');
+                        forShare.append("Date : ").append(date);
+                        forShare.append('\n');
+                        forShare.append('\n');
+
+                        forShare.append("Principal Amount : " );
+                        forShare.append(myPrincipal);
+                        forShare.append('\n');
+                        forShare.append("Interest Rate : ");
+                        forShare.append(myInterest).append(" / ").append(myInterestFrequency);
+                        forShare.append('\n');
+
+
+                        forShare.append("Duration : ");
+
+                        if(myYear.equals("")){
+                            forShare.append("0Y");
+                        } else {
+                            forShare.append(myYear).append("Y | ");
+                        }
+
+                        if(myMonth.equals("")){
+                            forShare.append("0M |");
+                        } else {
+                            forShare.append(myMonth).append("M | ");
+                        }
+
+                        if(myDay.equals("")){
+                            forShare.append(" 0D");
+                        } else {
+                            forShare.append(myDay).append("D");
+                        }
+
+
+                        forShare.append('\n');
+                        forShare.append("Compounding Freq. : ").append(myCompoundingFrequency);
+                        forShare.append('\n');
+                        forShare.append("Interest Amount : ").append(interestAmount);
+                        forShare.append('\n');
+                        forShare.append("Total Amount : ").append(totalAmount);
+                        forShare.append('\n');
+                        forShare.append('\n');
+                        forShare.append("https://play.google.com/store/apps/details?id=com.vibhunorby.totalpaisa");
+                        Intent sendIntent = new Intent();
+                        sendIntent.setAction(Intent.ACTION_SEND);
+                        sendIntent.putExtra(Intent.EXTRA_TEXT, (Serializable) forShare);
+                        sendIntent.setType("text/plain");
+                        startActivity(sendIntent);
+
+
+
+                    } else {
+
+
+                        Toast toast1 = new Toast(getApplicationContext());
+                        toast1.setDuration(Toast.LENGTH_SHORT);
+                        LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                        View view = inflater.inflate(R.layout.my_toast_calculate_save, null);
+                        toast1.setView(view);
+                        toast1.show();
+
+
+
+
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+                break;
         }
 
         return super.onOptionsItemSelected(item);

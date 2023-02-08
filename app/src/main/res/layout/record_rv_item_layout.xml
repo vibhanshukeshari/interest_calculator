@@ -494,7 +494,7 @@
                     android:background="?attr/selectableItemBackgroundBorderless"/>
 
                 <ImageButton
-                    android:id="@+id/more_three_dots"
+                    android:id="@+id/image_btn_share_compound"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:textColor="@color/highlight_blue"
