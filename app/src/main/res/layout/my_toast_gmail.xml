@@ -8,8 +8,8 @@
         android:padding="15dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/toast_background"
         android:textColor="#ffffff"
-        android:text="Item Deleted."/>
+        android:background="@drawable/toast_background"
+        android:text="Gmail app not found."/>
 
 </LinearLayout>

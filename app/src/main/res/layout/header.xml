@@ -10,7 +10,7 @@
         android:layout_height="50dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:src="@drawable/icon_calc"/>
+        android:src="@drawable/splash_header"/>
 
     <TextView
         android:layout_width="wrap_content"

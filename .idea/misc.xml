@@ -42,6 +42,7 @@
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/simple_gradient.xml" value="0.153" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/simple_icon.xml" value="0.161" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/simple_icon_unchecked.xml" value="0.1" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/splach_icon.xml" value="0.138" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/splash_gradient.xml" value="0.1" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/splash_screen_bg.xml" value="0.1" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/drawable/toast_background.xml" value="0.1575" />
@@ -57,7 +58,7 @@
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/drawer_switch.xml" value="0.2028985507246377" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/footer_quote.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/footer_quote_navigation.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/fragment_calculator.xml" value="0.25" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/fragment_calculator.xml" value="0.22" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/fragment_record.xml" value="0.25" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/header.xml" value="0.203125" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/my_toast.xml" value="0.20416666666666666" />
@@ -65,6 +66,7 @@
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/my_toast_calculate_save.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/my_toast_compound_record.xml" value="0.203125" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/my_toast_data_saved.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/my_toast_gmail.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/my_toast_simple_record.xml" value="0.203125" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/record_rv_item_layout.xml" value="0.5" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/layout/record_rv_item_layout_simple.xml" value="0.20416666666666666" />
@@ -73,6 +75,7 @@
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/menu/menu_bottom.xml" value="0.203125" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/menu/navigation_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/menu/three_dots_options.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Users/vibhu/AndroidStudioProjects/InterestCalculator/app/src/main/res/xml/footer_quote.xml" value="0.14074074074074075" />
       </map>
     </option>

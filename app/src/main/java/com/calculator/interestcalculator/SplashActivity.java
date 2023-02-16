@@ -2,24 +2,20 @@ package com.calculator.interestcalculator;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-
-        //     I was noticed this after 5 months and then searched about this;
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            getWindow().setNavigationBarColor(Color.parseColor("#1da1f3"));
-//        }
-
 
 
         // It is used to prevent app to intent multiple activity in the stack . It happens after user press home button and then open app again.
@@ -39,11 +35,14 @@ public class SplashActivity extends AppCompatActivity {
             window.setStatusBarColor(Color.parseColor("#1da1f3"));
         }
 
-
         Intent intent=new Intent(SplashActivity.this,MainActivity.class);
         startActivity(intent);
         finish();
 
+
+
     }
+
+
 
 }

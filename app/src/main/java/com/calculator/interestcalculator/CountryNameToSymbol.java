@@ -7,11 +7,15 @@ public class CountryNameToSymbol{
     String mYcountryName;
     String mYcountryCurrency;
     String mYcountrySymbol;
+    Boolean mCommaOrPeriod;
 
 
+//    public void setmCommaOrPeriod(Boolean mCommaOrPeriod) {
+//        this.mCommaOrPeriod = mCommaOrPeriod;
+//    }
 
 
-
+    // this feature is currently not supported, in future i will think about adding it;
     public String getmYcountryCurrency() {
         if(mYcountryName.equals("India")){
             mYcountryCurrency = "Indian Rupee";
@@ -221,39 +225,76 @@ public class CountryNameToSymbol{
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public String getmYcountrySymbol() {
         if(mYcountryName.equals("India")){
             mYcountrySymbol = "₹";
         } else if(mYcountryName.equals("Afghanistan")){
             mYcountrySymbol = "؋";
-        } else if(mYcountryName.equals("Åland Islands")){
-            mYcountrySymbol = "€";
+
         }else if(mYcountryName.equals("Albania")){
             mYcountrySymbol = "L";
+
         }else if(mYcountryName.equals("Algeria")){
             mYcountrySymbol = "دج";
-        }else if(mYcountryName.equals("American Samoa")){
-            mYcountrySymbol = "$";
+
         }else if(mYcountryName.equals("Andorra")){
             mYcountrySymbol = "€";
+
         }else if(mYcountryName.equals("Angola")){
             mYcountrySymbol = "Kz";
-        }else if(mYcountryName.equals("Anguilla")){
-            mYcountrySymbol = "$";
-        }else if(mYcountryName.equals("Antarctica")){
-            mYcountrySymbol = "$";
+
         }else if(mYcountryName.equals("Antigua and Barbuda")){
             mYcountrySymbol = "$";
+
         }else if(mYcountryName.equals("Argentina")){
             mYcountrySymbol = "$";
+
         }else if(mYcountryName.equals("Armenia")){
             mYcountrySymbol = "֏";
+
         }else if(mYcountryName.equals("Aruba")){
             mYcountrySymbol = "ƒ";
+
         }else if(mYcountryName.equals("Australia")){
             mYcountrySymbol = " $";
+
         }else if(mYcountryName.equals("Austria")){
             mYcountrySymbol = "€";
+
         }else if(mYcountryName.equals("")){
             mYcountrySymbol = "";
         }else if(mYcountryName.equals("")){
@@ -542,6 +583,54 @@ public class CountryNameToSymbol{
 
 
 
+
+
+
+
+
+    public Boolean getmCommaOrPeriod() {
+
+        if(mYcountryName.equals("India")){
+            mCommaOrPeriod = true;
+
+        }else if(mYcountryName.equals("Afghanistan")){
+            mCommaOrPeriod = true;
+
+        }else if(mYcountryName.equals("Albania")){
+            mCommaOrPeriod = false;
+        }else if(mYcountryName.equals("Algeria")){
+            mCommaOrPeriod = true;
+
+        } else if (mYcountryName.equals("American Samoa")){
+            mCommaOrPeriod = true;
+
+        } else if (mYcountryName.equals("Andorra")){
+            mCommaOrPeriod = false;
+
+        } else if (mYcountryName.equals("Angola")){
+            mCommaOrPeriod = false;
+
+        } else if (mYcountryName.equals("Anguilla")){
+            mCommaOrPeriod = true;
+
+        }
+
+
+
+
+
+
+
+
+        // need to remove warning warning warning n
+        else {
+            mCommaOrPeriod = false;
+        }
+
+
+
+        return mCommaOrPeriod;
+    }
 
 
 

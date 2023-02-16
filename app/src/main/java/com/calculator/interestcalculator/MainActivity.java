@@ -13,6 +13,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -28,6 +29,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
@@ -36,6 +38,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
@@ -63,7 +66,17 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+// pending tasks;
+// add link of share app
+// add link of rate us;
+// add link of feedback;
+// add link of privacy policy;
+// add link of terms of service;
+// add link of share data from  action bar simple compound as well as from recaycler view share (both Simple and compound);
+// add the currency and it's symbol of all countries
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener,NavigationView.OnNavigationItemSelectedListener{
+
+
 
     static boolean holderSimpleRecalculatePressed = false;
     static boolean btnSCCalRecStatus;
@@ -90,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.myToolBar);
         setSupportActionBar(toolbar);
@@ -124,6 +139,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         ccp = MenuItemCompat.getActionView(menu.findItem(R.id.currency)).findViewById(R.id.ccp);
         textViewCurrencySymbol = MenuItemCompat.getActionView(menu.findItem(R.id.currency)).findViewById(R.id.text_view_currency_symbol);
 
+
         mBottomNavigation.setOnNavigationItemSelectedListener(this);
 
          mViewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -146,6 +162,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             public void onPageSelected(int position) {
 
                 switch (position) {
+
 
                     case 0:
 
@@ -179,6 +196,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         break;
 
                     case 1:
+
+
+                        final Handler handler = new Handler(Looper.getMainLooper());
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                FragmentManager fm = getSupportFragmentManager();
+                                CalculatorFragment fragment = (CalculatorFragment)  fm.getFragments().get(0);
+                                fragment.removeBadge();
+
+
+                            }
+                        }, 1000);
+
+
+//                        FragmentManager fm = getSupportFragmentManager();
+
+//                        CalculatorFragment fragment = (CalculatorFragment) fm.getFragments().get(1);
+//                        fragment.removeBadge();
+
+
+
+
 
                         mBottomNavigation.getMenu().findItem(R.id.menu_record).setChecked(true);
 
@@ -339,6 +380,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                 viewPager.setCurrentItem(1);
 
+                final Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        FragmentManager fm = getSupportFragmentManager();
+                        CalculatorFragment fragment = (CalculatorFragment)  fm.getFragments().get(0);
+                        fragment.removeBadge();
+
+
+                    }
+                }, 1000);
+
+
+//                FragmentManager fm = getSupportFragmentManager();
+//
+//                CalculatorFragment fragment = (CalculatorFragment) fm.getFragments().get(1);
+//                fragment.removeBadge();
+
+
                 imOnCalculation = false;
 
                 if(bottomLinearLayout.getVisibility() == View.VISIBLE){
@@ -354,6 +415,87 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 }
 
                 break;
+
+
+            case R.id.share_app:
+
+
+                StringBuilder forShareLink = new StringBuilder();
+                forShareLink.append("Hey, I am using this  Interest Calculator app, the most flexible application available on the play store.");
+                forShareLink.append('\n');
+                forShareLink.append("https://play.google.com/store/apps/details?id=com.vibhunorby.totalpaisa");
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.putExtra(Intent.EXTRA_TEXT, (Serializable) forShareLink);
+                intent.setType("text/plain");
+                startActivity(intent);
+
+
+
+                break;
+
+            case R.id.rate_us:
+
+
+
+                Uri uri = Uri.parse("https://play.google.com/store/apps/details?id=com.vibhunorby.totalpaisa");
+                 intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+
+
+
+                break;
+
+            case R.id.feedback:
+
+                Intent feedbackEmail = new Intent(Intent.ACTION_SEND);
+                feedbackEmail.setType("message/rfc822");
+                feedbackEmail.putExtra(Intent.EXTRA_EMAIL, new String[]{"vibhanshu.keshari@gmail.com"});
+                feedbackEmail.putExtra(Intent.EXTRA_SUBJECT, "Feedback for Interest Calculator");
+                feedbackEmail.setPackage("com.google.android.gm");
+                if (feedbackEmail.resolveActivity(getPackageManager()) != null) {
+                    startActivity(feedbackEmail);
+                } else {
+
+
+                    Toast toast1 = new Toast(getApplicationContext());
+                    toast1.setDuration(Toast.LENGTH_SHORT);
+                    LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                    View view = inflater.inflate(R.layout.my_toast_gmail, null);
+                    toast1.setView(view);
+                    toast1.show();
+
+
+                }
+
+
+
+                break;
+
+
+            case R.id.privacy:
+
+
+                //                flycricket is used to host this privacy free of cost.
+//                Generated by github users nishant and contributors.
+                uri = Uri.parse("https://total-paisa.flycricket.io/privacy.html");
+                intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+
+                break;
+
+            case R.id.term_and_condition:
+
+
+                uri = Uri.parse("https://total-paisa.flycricket.io/terms.html");
+                intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+
+
+                break;
+
+
+
 
         }
         return true;
@@ -675,7 +817,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-                String typeSorC = "Simple";
+                String typeS = "Simple";
+                String typeC = "Compound";
                 String  date = dateFormat.format(calendar.getTime());
                 String myPrincipalNoFormat = fragment.getEdittextPrincipal();
                 String myInterest = fragment.getEditTextInterest();
@@ -720,7 +863,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
                         // keep screen on feature have to use ;remember
-                        forShare.append("Interest Type : ").append(typeSorC);
+                        forShare.append("Interest Type : ").append(typeS);
                         forShare.append('\n');
                         forShare.append("Date : ").append(date);
                         forShare.append('\n');
@@ -737,13 +880,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         forShare.append("Duration : ");
 
                         if(myYear.equals("")){
-                            forShare.append("0Y");
+                            forShare.append("0Y | ");
                         } else {
                             forShare.append(myYear).append("Y | ");
                         }
 
                         if(myMonth.equals("")){
-                            forShare.append("0M |");
+                            forShare.append("0M | ");
                         } else {
                             forShare.append(myMonth).append("M | ");
                         }
@@ -776,7 +919,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         Toast toast1 = new Toast(getApplicationContext());
                         toast1.setDuration(Toast.LENGTH_SHORT);
                         LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        View view = inflater.inflate(R.layout.my_toast_calculate_save, null);
+                        View view = inflater.inflate(R.layout.my_toast_cant_share, null);
                         toast1.setView(view);
                         toast1.show();
 
@@ -815,9 +958,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-
-                        // keep screen on feature have to use ;remember
-                        forShare.append("Interest Type : ").append(typeSorC);
+                        forShare.append("Interest Type : ").append(typeC);
                         forShare.append('\n');
                         forShare.append("Date : ").append(date);
                         forShare.append('\n');
@@ -834,19 +975,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         forShare.append("Duration : ");
 
                         if(myYear.equals("")){
-                            forShare.append("0Y");
+                            forShare.append("0Y | ");
                         } else {
                             forShare.append(myYear).append("Y | ");
                         }
 
                         if(myMonth.equals("")){
-                            forShare.append("0M |");
+                            forShare.append("0M | ");
                         } else {
                             forShare.append(myMonth).append("M | ");
                         }
 
                         if(myDay.equals("")){
-                            forShare.append(" 0D");
+                            forShare.append("0D");
                         } else {
                             forShare.append(myDay).append("D");
                         }
@@ -875,7 +1016,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         Toast toast1 = new Toast(getApplicationContext());
                         toast1.setDuration(Toast.LENGTH_SHORT);
                         LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                        View view = inflater.inflate(R.layout.my_toast_calculate_save, null);
+                        View view = inflater.inflate(R.layout.my_toast_cant_share, null);
                         toast1.setView(view);
                         toast1.show();
 
@@ -884,32 +1025,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 }
-
-
-
-
-
-
-
-
-
 
 
                 break;
@@ -917,6 +1033,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         return super.onOptionsItemSelected(item);
     }
+
 
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);

@@ -35,16 +35,7 @@ public class NumberFormatterWithSymbol {
             numberAfterFormat = numberFormat.format(number).replace("AFN",  "؋" + " ");
 
 
-        } else if(countryName.equals("Åland Islands")){
-            locale = new Locale("sv","AX");
-
-            numberFormat = NumberFormat.getCurrencyInstance(locale);
-            numberFormat.setMaximumFractionDigits(2);
-            numberFormat.setMinimumFractionDigits(2);
-
-            numberAfterFormat = numberFormat.format(number)/*.replace("","", + " ")*/;
-
-        } else if(countryName.equals("Albania")){
+        }  else if(countryName.equals("Albania")){
             locale = new Locale("sq","AL");
 
             numberFormat = NumberFormat.getCurrencyInstance(locale);
@@ -62,16 +53,26 @@ public class NumberFormatterWithSymbol {
 
             numberAfterFormat = numberFormat.format(number).replace("DZD",  "دج" + " ");
 
-        } else if(countryName.equals("American Samoa")){
-            locale = new Locale("en","AS");
+        }  else if(countryName.equals("Andorra")){
+            locale = new Locale("ca","AD");
 
             numberFormat = NumberFormat.getCurrencyInstance(locale);
             numberFormat.setMaximumFractionDigits(2);
             numberFormat.setMinimumFractionDigits(2);
 
-            numberAfterFormat = numberFormat.format(number).replace("$",  "$" + " ");
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Angola")){
+            locale = new Locale("pt","AO");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
 
         }
+
 
 
 

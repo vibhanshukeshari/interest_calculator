@@ -5,11 +5,7 @@
 
         <shape android:shape="rectangle">
 
-            <gradient
-                android:startColor="#052030"
-                android:centerColor="#116091"
-                android:endColor="#1da1f3"
-                android:angle="270"/>
+           <solid android:color="@color/highlight_blue"/>
         </shape>
     </item>
 

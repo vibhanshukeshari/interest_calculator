@@ -52,7 +52,7 @@
                     android:id="@+id/edit_text_principal_amount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:longClickable="false"
                     android:importantForAutofill="no"
                     android:padding="6dp"
@@ -82,7 +82,6 @@
                     android:text="Interest Rate Type :"
                     android:textColor="@color/light_white"
                     android:textSize="18sp" />
-
 
 
                     <Spinner
@@ -802,9 +801,9 @@
                         <ImageView
                             android:id="@+id/image_view_bar_not_found"
                             android:layout_width="match_parent"
-                            android:src="@drawable/bar_not_found"
                             android:layout_height="300dp"
-                            android:contentDescription="bar_chart" />
+                            android:contentDescription="bar_chart"
+                            android:src="@drawable/bar_not_found" />
 
 
                     </RelativeLayout>

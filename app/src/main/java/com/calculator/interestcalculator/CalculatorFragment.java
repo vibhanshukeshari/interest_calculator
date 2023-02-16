@@ -15,6 +15,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import java.nio.charset.StandardCharsets;
+import java.text.DecimalFormatSymbols;
 import java.time.Duration;
 import org.joda.time.*;
 
@@ -40,9 +41,11 @@ import android.os.Handler;
 import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -97,6 +100,7 @@ import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -123,12 +127,15 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.NavigableMap;
 import java.util.Objects;
+import java.util.StringTokenizer;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 public class CalculatorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
 
+    public static boolean commaOrPeriods;
+    BottomNavigationView bottomNavigationView;
     //    ImageButton imgBtnMoreThreeDots;
 // this declaration is used to call reCalculate method from RecordAdapterSimple;
     private static CalculatorFragment instance = null;
@@ -344,6 +351,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         drawerLayout = requireActivity().findViewById(R.id.drawer);
         navigationView = requireActivity().findViewById(R.id.navigation_view);
+        bottomNavigationView = requireActivity().findViewById(R.id.bottom_navigation);
 
 
         shimmerFrameLayout = view.findViewById(R.id.shimmer_view_table_container);
@@ -435,6 +443,56 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             linearLayoutTableHeader.setVisibility(View.GONE);
 
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//        editTextInterestRate.setLongClickable(false);
+//        editTextInterestRate.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                return false;
+//            }
+//        });
+
+
+
+
+
+
+
+
+
+//        changeSepratorToComma();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         btnSimple.setOnClickListener(new View.OnClickListener() {
@@ -700,11 +758,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         countryName = ((MainActivity) Objects.requireNonNull(requireActivity())).ccp.getSelectedCountryEnglishName();
 
+
+
         CountryNameToSymbol countryNameToCurrency = new CountryNameToSymbol();
         countryNameToCurrency.setCountryName(countryName);
 
+
+
         countrySymbol = countryNameToCurrency.getmYcountrySymbol();
         countryCurrency = countryNameToCurrency.getmYcountryCurrency();
+        commaOrPeriods = countryNameToCurrency.getmCommaOrPeriod();
         ((MainActivity) Objects.requireNonNull(requireActivity())).textViewCurrencySymbol.setText(countrySymbol);
 
 
@@ -714,9 +777,32 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 countryName = ((MainActivity) Objects.requireNonNull(requireActivity())).ccp.getSelectedCountryEnglishName();
 
+
+
+
+
                 countryNameToCurrency.setCountryName(countryName);
                 countrySymbol = countryNameToCurrency.getmYcountrySymbol();
                 countryCurrency = countryNameToCurrency.getmYcountryCurrency();
+                commaOrPeriods = countryNameToCurrency.getmCommaOrPeriod();
+
+
+                if(!editTextInterestRate.getText().toString().equals("")){
+
+                    if(commaOrPeriods){
+                        String oldValue = editTextInterestRate.getText().toString().replace(",",".");
+                        editTextInterestRate.setText(oldValue);
+                        editTextInterestRate.clearFocus();
+
+                    } else {
+                        String oldValue = editTextInterestRate.getText().toString().replace(".",",");
+                        editTextInterestRate.setText(oldValue);
+                        editTextInterestRate.clearFocus();
+
+                    }
+
+                }
+
 
                 arrayListInterestRateType.remove(1);
                 arrayListInterestRateType.add(countryCurrency + " (" + countrySymbol + ")");
@@ -1281,98 +1367,112 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 // --------------------------------------Text Watcher interest amount----------------------------------------------------------------
 
 
+
+
+
         editTextInterestRate.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
                 cursorPosition = editTextInterestRate.getSelectionEnd();
+
             }
+
+
+
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
 
-                if (!editTextPrincipalAmount.getText().toString().equals("") &&
-                        !editTextInterestRate.getText().toString().replaceAll("%", "").equals("") &&
-                        (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
-                                || !editTextDay.getText().toString().equals(""))) {
-
-                    getSetViews();
-                    setSimmerAndAnimationTrue();
-
-                    imageViewPieNotFound.setVisibility(View.GONE);
-                    imageViewBarNotFound.setVisibility(View.GONE);
-                    imageViewTableNotFound.setVisibility(View.GONE);
-
-                    if (recyclerViewTable.getVisibility() != View.VISIBLE) {
-//                        recyclerViewTable.setVisibility(View.VISIBLE);
-                        linearLayoutTableHeader.setVisibility(View.VISIBLE);
-                        textViewTableNoText.setVisibility(View.GONE);
-                    }
+                    if (!editTextPrincipalAmount.getText().toString().equals("") &&
+                            !editTextInterestRate.getText().toString().replaceAll("%", "").equals("") &&
+                            (!editTextYear.getText().toString().equals("") || !editTextMonth.getText().toString().equals("")
+                                    || !editTextDay.getText().toString().equals(""))) {
 
 
-                    if (btnSimpleCompoundStatus) {
 
-                        textViewLableBarGraph0.setText("Simple Interest");
-                        textViewLableBarGraph.setText("Bar Graph");
+
+                        getSetViews();
+                        setSimmerAndAnimationTrue();
+
+                        imageViewPieNotFound.setVisibility(View.GONE);
+                        imageViewBarNotFound.setVisibility(View.GONE);
+                        imageViewTableNotFound.setVisibility(View.GONE);
+
+                        if (recyclerViewTable.getVisibility() != View.VISIBLE) {
+
+                            linearLayoutTableHeader.setVisibility(View.VISIBLE);
+                            textViewTableNoText.setVisibility(View.GONE);
+                        }
+
+
+                        if (btnSimpleCompoundStatus) {
+
+                            textViewLableBarGraph0.setText("Simple Interest");
+                            textViewLableBarGraph.setText("Bar Graph");
+
+                        } else {
+
+                            textViewLableBarGraph.setText("Bar Graph");
+                            textViewLableBarGraph0.setText("Compound Interest");
+                        }
 
                     } else {
 
-                        textViewLableBarGraph.setText("Bar Graph");
-                        textViewLableBarGraph0.setText("Compound Interest");
+                        resetViews();
+
+                        imageViewPieNotFound.setVisibility(View.VISIBLE);
+                        imageViewBarNotFound.setVisibility(View.VISIBLE);
+                        imageViewTableNotFound.setVisibility(View.VISIBLE);
+
+                        recyclerViewTable.setVisibility(View.GONE);
+                        linearLayoutTableHeader.setVisibility(View.GONE);
+                        textViewTableNoText.setVisibility(View.VISIBLE);
+
                     }
 
-                } else {
-//                    if (editTextPrincipalAmount.getText().toString().equals("")
-//                            || editTextInterestRate.getText().toString().replaceAll("%", "").equals("")
-//                            || (editTextYear.getText().toString().equals("") && editTextMonth.getText().toString().equals("")
-//                            && editTextDay.getText().toString().equals(""))) {
-                    resetViews();
-
-                    imageViewPieNotFound.setVisibility(View.VISIBLE);
-                    imageViewBarNotFound.setVisibility(View.VISIBLE);
-                    imageViewTableNotFound.setVisibility(View.VISIBLE);
-
-//                        if(recyclerViewTable.getVisibility() == View.VISIBLE){
-                    recyclerViewTable.setVisibility(View.GONE);
-                    linearLayoutTableHeader.setVisibility(View.GONE);
-                    textViewTableNoText.setVisibility(View.VISIBLE);
-//                        }
-//                    }
-
-                }
-
-                double rate;
-                rate = Double.parseDouble("0" + editTextInterestRate.getText().toString().replaceAll("%", ""));
-                if (rate > 1000) {
-                    editTextLayoutInterestRate.setHelperText(" Rate > 1000 is not Allowed.");
-
-                    editTextLayoutInterestRate.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
-                    editTextLayoutInterestRate.setBoxStrokeColor(Color.parseColor("#ff0000"));
-                    editTextLayoutInterestRate.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
-
-                    editTextInterestRate.setText("");
-
-                    final Handler handler = new Handler(Looper.getMainLooper());
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            editTextLayoutInterestRate.setHelperText("");
-                            editTextLayoutInterestRate.setBoxStrokeColor(Color.parseColor("#1da1f3"));
-                            editTextLayoutInterestRate.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+                    double rate;
 
 
-                        }
-                    }, 1000);
+
+                    rate = Double.parseDouble("0" + editTextInterestRate.getText().toString().replace("%", "").replace(",","."));
+                    if (rate > 1000) {
+                        editTextLayoutInterestRate.setHelperText(" Rate > 1000 is not Allowed.");
+
+                        editTextLayoutInterestRate.setHelperTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                        editTextLayoutInterestRate.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                        editTextLayoutInterestRate.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                        editTextInterestRate.setText("");
+
+                        final Handler handler = new Handler(Looper.getMainLooper());
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                editTextLayoutInterestRate.setHelperText("");
+                                editTextLayoutInterestRate.setBoxStrokeColor(Color.parseColor("#1da1f3"));
+                                editTextLayoutInterestRate.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#1da1f3")));
+
+
+                            }
+                        }, 1000);
 //
-                }
+                    }
 
 
-                if (rate == 0) {
+                    if (rate == 0) {
 
-                    editTextInterestRate.removeTextChangedListener(this);
-                    editTextInterestRate.setText("");
-                    editTextInterestRate.addTextChangedListener(this);
-                }
+                        editTextInterestRate.removeTextChangedListener(this);
+                        editTextInterestRate.setText("");
+                        editTextInterestRate.addTextChangedListener(this);
+                    }
+
+
+
+
+//                }
+
 
             }
 
@@ -1380,31 +1480,120 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void afterTextChanged(Editable editable) {
                 String myBeforePercentText;
 
-                if (!editTextInterestRate.getText().toString().equals("")) {
+//           this took 2 days to do that;
 
 
-                    if (edit) {
-                        edit = false;
-                        myBeforePercentText = editTextInterestRate.getText().toString().replaceAll("%", "");
-                        editTextInterestRate.setText(myBeforePercentText + "%");
-                        edit = true;
 
+                commaOrPeriod(editable);
+
+
+
+
+
+                    if (!editTextInterestRate.getText().toString().equals("")) {
+
+
+                        if (edit) {
+                            edit = false;
+//                        String temp2;
+                            myBeforePercentText = editTextInterestRate.getText().toString().replace("%", "");
+
+                            editTextInterestRate.setText(myBeforePercentText + "%");
+//                            editTextInterestRate.setFilters(new InputFilter[]{new MoneyValueFilter(2)});
+//
+
+
+                            edit = true;
+
+                        }
+
+                        editTextInterestRate.setSelection(cursorPosition);
+
+//
                     }
 
-                    editTextInterestRate.setSelection(cursorPosition);
+                    if (editTextInterestRate.getText().toString().equals("%")) {
+                        editTextInterestRate.setText("");
+                    }
+
+                    double rate;
+                    rate = Double.parseDouble( "0" + editTextInterestRate.getText().toString().replace("%", "").replace(",","."));
 
 
-                }
-
-                if (editTextInterestRate.getText().toString().equals("%")) {
-                    editTextInterestRate.setText("");
-                }
-
-                double rate = Double.parseDouble("0" + editTextInterestRate.getText().toString().replaceAll("%", ""));
 
 
             }
         });
+
+
+//
+//        localeDecimalInput(editTextInterestRate);
+//
+//
+//
+//
+//
+
+
+
+
+
+
+
+
+
+
+
+
+//        TextWatcher amountTextWatcher = new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                int cursorPosition = editTextInterestRate.getSelectionEnd();
+//                String originalStr = editTextInterestRate.getText().toString();
+//
+//                //To restrict only two digits after decimal place
+//                editTextInterestRate.setFilters(new InputFilter[]{new MoneyValueFilter(Integer.parseInt(String.valueOf(2)))});
+//
+//                try {
+//                    editTextInterestRate.removeTextChangedListener(this);
+//                    String value = editTextInterestRate.getText().toString();
+//
+//                    if (value != null && !value.equals("")) {
+//                        if (value.startsWith(".")) {
+//                            editTextInterestRate.setText("0.");
+//                        }
+//                        if (value.startsWith("0") && !value.startsWith("0.")) {
+//                            editTextInterestRate.setText("");
+//                        }
+//                        String str = editTextInterestRate.getText().toString().replaceAll(",", "");
+//                        if (!value.equals(""))
+//                            editTextInterestRate.setText(getDecimalFormattedString(str));
+//
+//                        int diff = editTextInterestRate.getText().toString().length() - originalStr.length();
+//                        editTextInterestRate.setSelection(cursorPosition + diff);
+//                    }
+//                    editTextInterestRate.addTextChangedListener(this);
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                    editTextInterestRate.addTextChangedListener(this);
+//                }
+//            }
+//        };
+//        editTextInterestRate.addTextChangedListener(amountTextWatcher);
+
+
+
+
+
 
 
 //-----------------------------------------------------End---------------------------------------------------------------------------------
@@ -2331,6 +2520,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                                 toast1.setView(view);
                                 toast1.show();
 
+                                setBadge();
 
                             } else {
 
@@ -2344,6 +2534,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                                 @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.my_toast_data_saved, null);
                                 toast1.setView(view);
                                 toast1.show();
+
+                                setBadge();
 
                             }
 
@@ -2370,10 +2562,6 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     alertDialog.setCancelable(false);
 
 
-//                dbHandler.addNewRecords("5","100","1000","500","500","500","500","500","500","500","500","500");
-//                dbHandler.close();
-
-
                 } else {
 
 
@@ -2385,13 +2573,15 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     toast1.show();
 
 
-//                    toast
                 }
 
 
             }
 
         });
+
+
+
 
 
         return view;
@@ -2967,7 +3157,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         }
 
-        interestRate = Double.parseDouble(0 + editTextInterestRate.getText().toString().replaceAll("%", ""));
+        interestRate = Double.parseDouble(0 + editTextInterestRate.getText().toString().replace("%", "").replace(",","."));
 
         year = Integer.parseInt(0 + editTextYear.getText().toString());
         month = Integer.parseInt(0 + editTextMonth.getText().toString());
@@ -3665,13 +3855,60 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         }
 
 
-
-
-
-
-
-
         return myString;
+    }
+
+    public void setBadge(){
+
+        bottomNavigationView.getOrCreateBadge(bottomNavigationView.getMenu().getItem(1).getItemId()).setVisible(true);
+        bottomNavigationView.getOrCreateBadge(bottomNavigationView.getMenu().getItem(1).getItemId()).setBackgroundColor(Color.parseColor("#1da1f3"));
+
+    }
+
+    public void removeBadge(){
+
+        bottomNavigationView.getOrCreateBadge(bottomNavigationView.getMenu().getItem(1).getItemId()).setVisible(false);
+
+    }
+
+
+
+
+//    public void changeSepratorToComma(){
+//
+//        editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789" + ","));
+//
+//    }
+
+
+
+//    public void changeSepratorToPeriod(){
+//        editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789" + ","));
+//    }
+
+
+
+   public void commaOrPeriod(Editable editable){
+
+        if(commaOrPeriods){
+
+            if(editable.toString().contains("."))
+                editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
+            else
+                editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789" + "."));
+
+            editTextInterestRate.setLongClickable(false);
+        }else {
+
+            if(editable.toString().contains(","))
+                editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
+            else
+                editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789" + ","));
+
+            editTextInterestRate.setLongClickable(false);
+        }
+
+
     }
 
 }

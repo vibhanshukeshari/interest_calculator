@@ -1,6 +1,7 @@
 package com.calculator.interestcalculator;
 
 import static com.calculator.interestcalculator.CalculatorFragment.btnSimpleCompoundStatus;
+import static com.calculator.interestcalculator.CalculatorFragment.commaOrPeriods;
 import static com.calculator.interestcalculator.MainActivity.holderSimpleRecalculatePressed;
 import static com.calculator.interestcalculator.MainActivity.simpleArrayListSize;
 import static com.calculator.interestcalculator.RecordFragment.imageViewNotFound;
@@ -127,8 +128,20 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
                             holderSimpleRecalculatePressed = true;
 
-                            String myPrincipal = holder.principalAmount.getText().toString().replaceAll("[^\\d.]", "");
-                            String myInterest = holder.interestRate.getText().toString().replaceAll("[^\\d.]", "");
+                            String myPrincipalOld = holder.principalAmount.getText().toString().replaceAll("[^\\d]","");
+                            String myPrincipal = myPrincipalOld.substring(0,myPrincipalOld.length()-2);
+
+
+
+                            String myInterest;
+                            if(commaOrPeriods){
+                                 myInterest = holder.interestRate.getText().toString().replace(",",".").replaceAll("[^\\d.]", "");
+
+                            } else {
+                                 myInterest = holder.interestRate.getText().toString().replace(".",",").replaceAll("[^\\d,]", "");
+
+                            }
+
                             String myInterestFrequency = holder.interestFrequency.getText().toString();
                             String myYear = holder.year.getText().toString().replace("Y","");
                             String myMonth = holder.month.getText().toString().replace("M","");
@@ -182,8 +195,18 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
                     holderSimpleRecalculatePressed = true;
 
-                    String myPrincipal = holder.principalAmount.getText().toString().replaceAll("[^\\d.]", "");
-                    String myInterest = holder.interestRate.getText().toString().replaceAll("[^\\d.]", "");
+
+                    String myPrincipalOld = holder.principalAmount.getText().toString().replaceAll("[^\\d]","");
+                    String myPrincipal = myPrincipalOld.substring(0,myPrincipalOld.length()-2);
+
+                    String myInterest;
+                    if(commaOrPeriods){
+                        myInterest = holder.interestRate.getText().toString().replace(",",".").replaceAll("[^\\d.]", "");
+
+                    } else {
+                        myInterest = holder.interestRate.getText().toString().replace(".",",").replaceAll("[^\\d,]", "");
+
+                    }
                     String myInterestFrequency = holder.interestFrequency.getText().toString();
                     String myYear = holder.year.getText().toString().replace("Y","");
                     String myMonth = holder.month.getText().toString().replace("M","");
