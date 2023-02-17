@@ -92,7 +92,6 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
-import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.formatter.StackedValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
@@ -718,12 +717,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
             public void onClick(View view) {
 
                 durationThenDate = false;
+
                 LayoutCompoundFrequencyFadeOut(linearLayoutDuration);
-//                linearLayoutDuration.setVisibility(View.GONE);
                 LayoutCompoundFrequencyFadeIn(linearLayoutDate);
-//                linearLayoutDate.setVisibility(View.VISIBLE);
                 LayoutCompoundFrequencyFadeOut(linearLayoutDurationBottomLine);
-//                linearLayoutDurationBottomLine.setVisibility(View.GONE);
 
 
                 if (fromDateEditText.getText().toString().equals("") && toDateEditText.getText().toString().equals("")) {
@@ -758,6 +755,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         countryName = ((MainActivity) Objects.requireNonNull(requireActivity())).ccp.getSelectedCountryEnglishName();
 
+//        System.out.println(countryName);
 
 
         CountryNameToSymbol countryNameToCurrency = new CountryNameToSymbol();
@@ -766,7 +764,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
         countrySymbol = countryNameToCurrency.getmYcountrySymbol();
-        countryCurrency = countryNameToCurrency.getmYcountryCurrency();
+//        countryCurrency = countryNameToCurrency.getmYcountryCurrency(); // it may be used in future
         commaOrPeriods = countryNameToCurrency.getmCommaOrPeriod();
         ((MainActivity) Objects.requireNonNull(requireActivity())).textViewCurrencySymbol.setText(countrySymbol);
 
@@ -783,7 +781,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 countryNameToCurrency.setCountryName(countryName);
                 countrySymbol = countryNameToCurrency.getmYcountrySymbol();
-                countryCurrency = countryNameToCurrency.getmYcountryCurrency();
+//                countryCurrency = countryNameToCurrency.getmYcountryCurrency(); // it may be used in future
                 commaOrPeriods = countryNameToCurrency.getmCommaOrPeriod();
 
 
@@ -841,7 +839,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                                 !editTextDay.getText().toString().equals("")) ||
                                 (!fromDateEditText.getText().toString().equals("") && (!toDateEditText.getText().toString().equals(""))))) {
 
-//                    Toast.makeText(getContext(), "view is not empty", Toast.LENGTH_SHORT).show();
+
                     getSetViews();
 
                     setSimmerAndAnimationTrue();
@@ -898,7 +896,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
                 } else {
-//                    Toast.makeText(getContext(), "reset view", Toast.LENGTH_SHORT).show();
+
                     Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -2601,6 +2599,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         ArrayList<PieEntry> entries = new ArrayList<>();
 
         if (btnSimpleCompoundStatus) {
+
+//            numberFormatterWithSymbol.setNumber(principalAmount);
+//            double afterFormattedPrincipal = Double.parseDouble(numberFormatterWithSymbol.getNumberAfterFormat());
             entries.add(new PieEntry((float) principalAmount, "Principal Amount"));
             entries.add(new PieEntry((float) totalSimpleInterestAmount, "Total Interest"));
 
@@ -2623,10 +2624,16 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         PieData data = new PieData(dataSet);
 
         data.setDrawValues(true);
-        data.setValueFormatter(new PercentFormatter(pieChart));
+
+        // this is custom percentFormatter because of comma and period problem
+        PercentFormatter percentFormatter = new PercentFormatter(pieChart);
+        data.setValueFormatter(percentFormatter);
+
+
         data.setValueTextSize(12f);
         data.setValueTextColor(Color.WHITE);
         data.getDataSet().setValueTextColor(Color.WHITE);
+
 
 
         pieChart.setData(data);
@@ -3020,9 +3027,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                         vibhuFormattedValue = countrySymbol + " " + String.valueOf(format((long) value));
 
+
                     }
 
-                    return vibhuFormattedValue;
+
+                        return vibhuFormattedValue;
 
                 }
             });
@@ -3327,9 +3336,18 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         Long divideBy = e.getKey();
         String suffix = e.getValue();
 
+
         long truncated = value / (divideBy / 10); //the number part of the output times 10
         boolean hasDecimal = truncated < 100 && (truncated / 10d) != (truncated / 10);
-        return hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix;
+
+
+        if(commaOrPeriods){
+            return (hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix).replace(",",".");
+
+        }else {
+            return (hasDecimal ? (truncated / 10d) + suffix : (truncated / 10) + suffix).replace(".",",");
+
+        }
     }
 
     private void LayoutCompoundFrequencyFadeOut(final LinearLayout layout) {
