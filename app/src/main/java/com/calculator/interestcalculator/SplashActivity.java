@@ -2,6 +2,7 @@ package com.calculator.interestcalculator;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -16,6 +17,8 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
 
         // It is used to prevent app to intent multiple activity in the stack . It happens after user press home button and then open app again.

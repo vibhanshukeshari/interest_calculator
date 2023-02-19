@@ -4,11 +4,13 @@
     android:opacity="opaque">
 
 
+
     <item android:drawable="@drawable/splash_bg"/>
     <item>
         <bitmap
             android:gravity="center"
             android:src="@drawable/splash_ic"/>
+
         <bitmap/>
     </item>
 <!--    <item android:bottom="60dp">-->
@@ -20,5 +22,6 @@
 
 
 <!--    </item>-->
+
 
 </layer-list>

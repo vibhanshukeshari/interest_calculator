@@ -351,7 +351,7 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
                 forShare.append("Date : ").append(date);
                 forShare.append('\n');
 
-                forShare.append("Name : ").append(name);
+                forShare.append("Label : ").append(name);
                 forShare.append('\n');
                 forShare.append('\n');
                 forShare.append("Principal Amount : " );

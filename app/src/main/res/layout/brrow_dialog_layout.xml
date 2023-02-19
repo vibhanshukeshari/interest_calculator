@@ -10,7 +10,7 @@
         android:id="@+id/dialogTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter lable:"
+        android:text="Enter label:"
         android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
