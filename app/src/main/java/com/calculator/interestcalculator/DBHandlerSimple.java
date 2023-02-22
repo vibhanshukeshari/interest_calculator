@@ -117,6 +117,7 @@ class DBHandlerSimple extends SQLiteOpenHelper {
         // after adding all values we are passing
         // content values to our table.
         dbSimple.insert(TABLE_NAME, null, values);
+//        System.out.println("i was called");
 
         // at last we are closing our
         // database after adding database.
@@ -125,6 +126,10 @@ class DBHandlerSimple extends SQLiteOpenHelper {
 
     // we have created a new method for reading all the courses.
     public ArrayList<RecordModalSimple> readData() {
+
+
+
+
         // on below line we are creating a
         // database for reading our database.
         SQLiteDatabase dbSimple = this.getReadableDatabase();
@@ -138,8 +143,12 @@ class DBHandlerSimple extends SQLiteOpenHelper {
         // moving our cursor to first position.
         if (cursorRecordsSimple.moveToLast()) {
             do {
+
+
                 // on below line we are adding the data from cursor to our array list.
                 recordModalArrayListSimple.add(new RecordModalSimple(cursorRecordsSimple.getString(1),
+
+
                         cursorRecordsSimple.getString(2),
                         cursorRecordsSimple.getString(3),
                         cursorRecordsSimple.getString(4),
@@ -151,6 +160,9 @@ class DBHandlerSimple extends SQLiteOpenHelper {
                         cursorRecordsSimple.getString(10),
                         cursorRecordsSimple.getString(11),
                         cursorRecordsSimple.getString(12)
+
+
+
 
                 ));
             } while (cursorRecordsSimple.moveToPrevious());

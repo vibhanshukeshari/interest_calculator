@@ -196,7 +196,7 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                 CalculatorFragment myInstance = CalculatorFragment.getInstance();
 
 
-                System.out.println(myInstance.getYear());
+//                System.out.println(myInstance.getYear());
 
 
                 if ((!myInstance.getEdittextPrincipal().equals("") && !myInstance.getEditTextInterest().replaceAll("%", "").equals("")) &&
@@ -386,6 +386,17 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
 
 
+    }
+
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override

@@ -108,7 +108,7 @@ public class CountryNameToSymbol{
 
                 break;
             case "Algeria":
-                mYcountrySymbol = "دج";
+                mYcountrySymbol = "DZD";
 
                 break;
             case "Andorra":
@@ -149,7 +149,7 @@ public class CountryNameToSymbol{
 
                 break;
             case "Bahrain":
-                mYcountrySymbol = ".د.ب";
+                mYcountrySymbol = "BD";
 
                 break;
             case "Bangladesh":
@@ -405,375 +405,375 @@ public class CountryNameToSymbol{
 
                 break;
             case "Indonesia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Rp";
 
                 break;
             case "Iran, Islamic Republic Of":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "IRR";
 
                 break;
             case "Iraq":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "IQD";
 
                 break;
             case "Ireland":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Israel":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₪";
 
                 break;
             case "Italy":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Jamaica":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Japan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "￥";
 
                 break;
             case "Jordan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "JOD";
 
                 break;
             case "Kazakhstan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₸";
 
                 break;
             case "Kenya":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Ksh";
 
                 break;
             case "Kiribati":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Kuwait":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "KD";
 
                 break;
             case "Kyrgyzstan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "сом";
 
                 break;
             case "Lao People's Democratic Republic":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₭";
 
                 break;
             case "Latvia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Lebanon":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "LBP";
 
                 break;
             case "Lesotho":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "R";
 
                 break;
             case "Liberia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Libya":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "LD";
 
                 break;
             case "Liechtenstein":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "CHF";
 
                 break;
             case "Lithuania":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Luxembourg":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Macedonia (FYROM)":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Ден";
 
                 break;
             case "Madagascar":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Ar";
 
                 break;
             case "Malawi":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "MK";
 
                 break;
             case "Malaysia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "RM";
 
                 break;
             case "Maldives":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "MVR";
 
                 break;
             case "Mali":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "CFA";
 
                 break;
             case "Malta":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Marshall Islands":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Mauritania":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "UM";
 
                 break;
             case "Mauritius":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Rs";
 
                 break;
             case "Mexico":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Micronesia, Federated States Of":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "US$";
 
                 break;
             case "Moldova, Republic Of":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "L";
 
                 break;
             case "Monaco":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Mongolia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₮";
 
                 break;
             case "Montenegro":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Morocco":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "MAD";
 
                 break;
             case "Mozambique":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "MTn";
 
                 break;
             case "Myanmar":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "K";
 
                 break;
             case "Namibia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Nauru":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Nepal":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "रु॰";
 
                 break;
             case "Netherlands":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "New Zealand":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Nicaragua":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "C$";
 
                 break;
             case "Niger":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "CFA";
 
                 break;
             case "Nigeria":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₦";
 
                 break;
             case "North Korea":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₩";
 
                 break;
             case "Norway":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "kr";
 
                 break;
             case "Oman":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "OMR";
 
                 break;
             case "Pakistan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Rs";
 
                 break;
             case "Palau":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "US$";
 
                 break;
             case "Palestine":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₪";
 
                 break;
             case "Panama":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "B/.";
 
                 break;
             case "Papua New Guinea":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "K";
 
                 break;
             case "Paraguay":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₲";
 
                 break;
             case "Peru":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "S/";
 
                 break;
             case "Philippines":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₱";
 
                 break;
             case "Poland":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "zł";
 
                 break;
             case "Portugal":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Qatar":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "QR";
 
                 break;
             case "Romania":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "RON";
 
                 break;
             case "Russian Federation":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₽";
 
                 break;
             case "Rwanda":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "RF";
 
                 break;
             case "Saint Kitts and Nevis":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Saint Lucia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Saint Vincent & The Grenadines":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Samoa":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "WS$";
 
                 break;
             case "San Marino":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
-            case "Sao Tome and Principe":
-                mYcountrySymbol = "";
+            case "Sao Tome And Principe":
+                mYcountrySymbol = "Db";
 
                 break;
             case "Saudi Arabia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "SR ";
 
                 break;
             case "Senegal":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "CFA";
 
                 break;
             case "Serbia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "RSD";
 
                 break;
             case "Seychelles":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "SR";
 
                 break;
             case "Sierra Leone":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Le";
 
                 break;
             case "Singapore":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Slovakia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Slovenia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Solomon Islands":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Somalia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "S";
 
                 break;
             case "South Africa":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "R";
 
                 break;
             case "South Korea":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₩";
 
                 break;
             case "South Sudan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "£";
 
                 break;
             case "Spain":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "€";
 
                 break;
             case "Sri Lanka":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Rs.";
 
                 break;
             case "Sudan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "SDG";
 
                 break;
             case "Suriname":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Swaziland":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "E";
 
                 break;
             case "Sweden":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "kr";
 
                 break;
             case "Switzerland":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "CHF";
 
                 break;
             case "Syrian Arab Republic":
@@ -1274,375 +1274,472 @@ public class CountryNameToSymbol{
 
                 break;
             case "Indonesia":
+                mCommaOrPeriod = false;
 
 
 
                 break;
             case "Iran, Islamic Republic Of":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Iraq":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Ireland":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Israel":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Italy":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Jamaica":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Japan":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Jordan":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Kazakhstan":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Kenya":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Kiribati":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Kuwait":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Kyrgyzstan":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Lao People's Democratic Republic":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Latvia":
-
+                mCommaOrPeriod = false;
 
                 break;
             case "Lebanon":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Lesotho":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Liberia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Libya":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Liechtenstein":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Lithuania":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Luxembourg":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Macedonia (FYROM)":
+                mCommaOrPeriod = false;
+
 
 
                 break;
             case "Madagascar":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Malawi":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Malaysia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Maldives":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Mali":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Malta":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Marshall Islands":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Mauritania":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Mauritius":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Mexico":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Micronesia, Federated States Of":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Moldova, Republic Of":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Monaco":
+                mCommaOrPeriod = false;
+
 
 
                 break;
             case "Mongolia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Montenegro":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Morocco":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Mozambique":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Myanmar":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Namibia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Nauru":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Nepal":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Netherlands":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "New Zealand":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Nicaragua":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Niger":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Nigeria":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "North Korea":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Norway":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Oman":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Pakistan":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Palau":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Palestine":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Panama":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Papua New Guinea":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Paraguay":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Peru":
-
+                // it is not confirmed whether this is comma or period;
+                // wikipediea says that in peru , is used as decimal separator and . is also usesd as decimal separator but only in currency numbers
+                mCommaOrPeriod = true;
+//                we have set some special condition to make chage . to comma
 
                 break;
             case "Philippines":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Poland":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Portugal":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Qatar":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Romania":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Russian Federation":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Rwanda":
+                // it uses three types of separators(in future we may look);
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Saint Kitts and Nevis":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Saint Lucia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Saint Vincent & The Grenadines":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Samoa":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "San Marino":
+                mCommaOrPeriod = false;
 
 
                 break;
-            case "Sao Tome and Principe":
+            case "Sao Tome And Principe":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Saudi Arabia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Senegal":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Serbia":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Seychelles":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Sierra Leone":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Singapore":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Slovakia":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Slovenia":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Solomon Islands":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Somalia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "South Africa":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "South Korea":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "South Sudan":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Spain":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Sri Lanka":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Sudan":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Suriname":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Swaziland":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Sweden":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Switzerland":
+                mCommaOrPeriod = true;
 
 
                 break;

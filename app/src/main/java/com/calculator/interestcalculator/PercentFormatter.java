@@ -1,6 +1,7 @@
 package com.calculator.interestcalculator;
 
 import static com.calculator.interestcalculator.CalculatorFragment.commaOrPeriods;
+import static com.calculator.interestcalculator.CalculatorFragment.countryName;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.PieEntry;
@@ -28,7 +29,14 @@ public class PercentFormatter extends ValueFormatter {
 
         // this is used to change comma to period or period to comma as per country number system
         if(commaOrPeriods){
-            return mFormat.format(value).replace(",",".") + " %";
+
+            // special case for peru
+            if(!countryName.equals("Peru")){
+                return mFormat.format(value).replace(",",".") + " %";
+            } else {
+                return mFormat.format(value).replace(".",",") + " %";
+            }
+
         } else {
             return mFormat.format(value).replace(".",",") + " %";
         }

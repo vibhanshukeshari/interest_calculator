@@ -188,7 +188,7 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
     //    private DBHandler dbHandler;
     List<TableModel> tableModelList;
     private NestedScrollView calculationScrollView;
-    private static String countryName;
+    public static String countryName;
     private static String countrySymbol;
     private static String countryCurrency;
     static boolean interestRatePercentageSelected = true;
@@ -788,9 +788,22 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                 if(!editTextInterestRate.getText().toString().equals("")){
 
                     if(commaOrPeriods){
-                        String oldValue = editTextInterestRate.getText().toString().replace(",",".");
-                        editTextInterestRate.setText(oldValue);
-                        editTextInterestRate.clearFocus();
+
+
+                        // special case for peru ref. wikipedia peru  decimal separator
+                        if(!countryName.equals("Peru")){
+                            String oldValue = editTextInterestRate.getText().toString().replace(",",".");
+                            editTextInterestRate.setText(oldValue);
+                            editTextInterestRate.clearFocus();
+
+
+                        } else {
+                            String oldValue = editTextInterestRate.getText().toString().replace(".",",");
+                            editTextInterestRate.setText(oldValue);
+                            editTextInterestRate.clearFocus();
+
+                        }
+
 
                     } else {
                         String oldValue = editTextInterestRate.getText().toString().replace(".",",");
@@ -1515,6 +1528,8 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                     }
 
                     double rate;
+
+
                     rate = Double.parseDouble( "0" + editTextInterestRate.getText().toString().replace("%", "").replace(",","."));
 
 
@@ -2499,11 +2514,15 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                             }
 
 
-                            Date currentTime = Calendar.getInstance().getTime();
+//                            Date currentTime = Calendar.getInstance().getTime();
 
-                            myTimeAsUniqueId = String.valueOf(currentTime);
+                            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                            myTimeAsUniqueId = simpleDateFormat.format(new Date());
 
-                            System.out.println(myTimeAsUniqueId);
+//                            myTimeAsUniqueId = String.valueOf(currentTime);
+                            Toast.makeText(getContext(), myTimeAsUniqueId, Toast.LENGTH_SHORT).show();
+
+//                            System.out.println(myTimeAsUniqueId);
 
 
                             if (btnSimpleCompoundStatus) {
@@ -3910,10 +3929,30 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
         if(commaOrPeriods){
 
-            if(editable.toString().contains("."))
-                editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
-            else
-                editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789" + "."));
+
+
+// special case because peru use monetary decimal separator . and normal decimal separator ,  .
+            if(!countryName.equals("Peru")){
+
+                if(editable.toString().contains("."))
+                    editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
+                else
+                    editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789" + "."));
+
+            } else {
+
+                if(editable.toString().contains(","))
+                    editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789"));
+                else
+                    editTextInterestRate.setKeyListener(DigitsKeyListener.getInstance("0123456789" + ","));
+
+                editTextInterestRate.setLongClickable(false);
+            }
+
+
+
+
+
 
             editTextInterestRate.setLongClickable(false);
         }else {

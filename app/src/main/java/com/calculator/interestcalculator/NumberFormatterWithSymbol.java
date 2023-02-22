@@ -32,7 +32,7 @@ public class NumberFormatterWithSymbol {
             numberFormat.setMaximumFractionDigits(2);
             numberFormat.setMinimumFractionDigits(2);
 
-            numberAfterFormat = numberFormat.format(number).replace("AFN",  " ؋");
+            numberAfterFormat = numberFormat.format(number).replace("AFN",  "؋ ");
 
 
         }  else if(countryName.equals("Albania")){
@@ -51,7 +51,8 @@ public class NumberFormatterWithSymbol {
             numberFormat.setMaximumFractionDigits(2);
             numberFormat.setMinimumFractionDigits(2);
 
-            numberAfterFormat = numberFormat.format(number);
+            numberAfterFormat = numberFormat.format(number).replace("د.ج.", "DZD");
+            System.out.println(numberAfterFormat);
 
         }  else if(countryName.equals("Andorra")){
             locale = new Locale("ca","AD");
@@ -141,7 +142,7 @@ public class NumberFormatterWithSymbol {
             numberFormat.setMaximumFractionDigits(2);
             numberFormat.setMinimumFractionDigits(2);
 
-            numberAfterFormat = numberFormat.format(number).replace("BHD",".د.ب ");
+            numberAfterFormat = numberFormat.format(number).replace("BHD","BD ");
 
         } else if(countryName.equals("Bangladesh")){
             locale = new Locale("en","BD");
@@ -718,7 +719,848 @@ public class NumberFormatterWithSymbol {
 
             numberAfterFormat = numberFormat.format(number).replace("ISK","Kr");
 
+        } else if(countryName.equals("Indonesia")){
+            locale = new Locale("id","ID");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("Rp","Rp ");
+
+        } else if(countryName.equals("Iran, Islamic Republic Of")){
+            locale = new Locale("en","IR");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("IRR","IRR ");
+
+        } else if(countryName.equals("Iraq")){
+            locale = new Locale("en","IQ");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("IQD","IQD ");
+
+        } else if(countryName.equals("Ireland")){
+            locale = new Locale("ga","IE");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("€","€ ");
+
+        } else if(countryName.equals("Israel")){
+            locale = new Locale("he","IL");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Italy")){
+            locale = new Locale("it","IT");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Jamaica")){
+            locale = new Locale("en","JM");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        } else if(countryName.equals("Japan")){
+            locale = new Locale("ja","JP");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Jordan")){
+            locale = new Locale("en","JO");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("JOD","JOD ");
+
+        } else if(countryName.equals("Kazakhstan")){
+            locale = new Locale("kk","KZ");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Kenya")){
+            locale = new Locale("sw","KE");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Kiribati")){
+            locale = new Locale("en","KI");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        } else if(countryName.equals("Kuwait")){
+            locale = new Locale("en","KW");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("KWD","KD ");
+
+        } else if(countryName.equals("Kyrgyzstan")){
+            locale = new Locale("ky","KG");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Lao People's Democratic Republic")){
+            locale = new Locale("lo","LA");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("₭","₭ ");
+
+        } else if(countryName.equals("Latvia")){
+            locale = new Locale("lv","LV");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Lebanon")){
+            locale = new Locale("en","LB");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("LBP","LBP ");
+
+        } else if(countryName.equals("Lesotho")){
+            locale = new Locale("en","LS");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("R","R ");
+
+        } else if(countryName.equals("Liberia")){
+            locale = new Locale("en","LR");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        } else if(countryName.equals("Libya")){
+            locale = new Locale("ar","LY");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("د.ل.","LD");
+            System.out.println(numberAfterFormat);
+
+        } else if(countryName.equals("Liechtenstein")){
+            locale = new Locale("de","LI");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Lithuania")){
+            locale = new Locale("lt","LT");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Luxembourg")){
+            locale = new Locale("lb","LU");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Macedonia (FYROM)")){
+            locale = new Locale("mk","MK");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Madagascar")){
+            locale = new Locale("mg","MG");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Malawi")){
+            locale = new Locale("en","MW");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("MK","MK ");
+
+        } else if(countryName.equals("Malaysia")){
+            locale = new Locale("ms","MY");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("RM","RM ");
+
+        } else if(countryName.equals("Maldives")){
+            locale = new Locale("dv","MV");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("MVR","MVR ");
+
+        } else if(countryName.equals("Mali")){
+            locale = new Locale("fr","ML");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Malta")){
+            locale = new Locale("mt","MT");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("€","€ ");
+
+        } else if(countryName.equals("Marshall Islands")){
+            locale = new Locale("en","MH");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        } else if(countryName.equals("Mauritania")){
+            locale = new Locale("en","MR");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("MRU","UM ");
+
+        } else if(countryName.equals("Mauritius")){
+            locale = new Locale("en","MU");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("Rs","Rs ");
+
+        } else if(countryName.equals("Mexico")){
+            locale = new Locale("es","MX");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        } else if(countryName.equals("Micronesia, Federated States Of")){
+            locale = new Locale("en","FM");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("US$","US$ ");
+
+        } else if(countryName.equals("Moldova, Republic Of")){
+            locale = new Locale("ro","MD");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Monaco")){
+            locale = new Locale("fr","MC");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Mongolia")){
+            locale = new Locale("mn","MN");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Montenegro")){
+            locale = new Locale("sr","ME");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Morocco")){
+            locale = new Locale("ar","MA");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("د.م.","MAD ");
+
+        } else if(countryName.equals("Mozambique")){
+            locale = new Locale("pt","MZ");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Myanmar")){
+            locale = new Locale("en","MM");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("MMK","K ");
+
+        } else if(countryName.equals("Namibia")){
+            locale = new Locale("en","NA");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        } else if(countryName.equals("Nauru")){
+            locale = new Locale("en","NR");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        } else if(countryName.equals("Nepal")){
+            locale = new Locale("en","NP");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("NPR","NPR ");
+
+        } else if(countryName.equals("Netherlands")){
+            locale = new Locale("nl","NL");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("New Zealand")){
+            locale = new Locale("en","NZ");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        } else if(countryName.equals("Nicaragua")){
+            locale = new Locale("es","NI");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("C$","C$ ");
+
+        } else if(countryName.equals("Niger")){
+            locale = new Locale("fr","NE");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Nigeria")){
+            locale = new Locale("en","NG");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("₦","₦ ");
+
+        } else if(countryName.equals("North Korea")){
+            locale = new Locale("ko","KP");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("KPW","₩ ");
+
+        } else if(countryName.equals("Norway")){
+            locale = new Locale("no","NO");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        } else if(countryName.equals("Oman")){
+            locale = new Locale("en","OM");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("OMR","OMR ");
+
+        } else if(countryName.equals("Pakistan")){
+            locale = new Locale("en","PK");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("Rs","Rs ");
+
+        } else if(countryName.equals("Palau")){
+            locale = new Locale("en","PW");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("US$","US$ ");
+
+        } else if(countryName.equals("Palestine")){
+            locale = new Locale("en","PS");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("₪","₪ ");
+
+        } else if(countryName.equals("Panama")){
+            locale = new Locale("es","PA");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("B/.","B/. ");
+
+        } else if(countryName.equals("Papua New Guinea")){
+            locale = new Locale("en","PG");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("K","K ");
+
+        }else if(countryName.equals("Paraguay")){
+            locale = new Locale("es","PY");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("Gs.","₲");
+
+        }else if(countryName.equals("Peru")){
+            locale = new Locale("es","PE");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("S/","S/ ");
+
+        }else if(countryName.equals("Philippines")){
+            locale = new Locale("en","PH");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("₱","₱ ");
+
+        }else if(countryName.equals("Poland")){
+            locale = new Locale("pl","PL");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Portugal")){
+            locale = new Locale("pt","PT");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Qatar")){
+            locale = new Locale("en","QA");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("QAR","QR ");
+
+        }else if(countryName.equals("Romania")){
+            locale = new Locale("ro","RO");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Russian Federation")){
+            locale = new Locale("ru","RU");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Rwanda")){
+            locale = new Locale("rw","RW");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Saint Kitts and Nevis")){
+            locale = new Locale("en","KN");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$", "$ ");
+
+        }else if(countryName.equals("Saint Lucia")){
+            locale = new Locale("en","LC");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$", "$ ");
+
+        }else if(countryName.equals("Saint Vincent & The Grenadines")){
+            locale = new Locale("en","VC");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$", "$ ");
+
+        }else if(countryName.equals("Samoa")){
+            locale = new Locale("en","WS");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("WS$", "WS$ ");
+
+        }else if(countryName.equals("San Marino")){
+            locale = new Locale("it","SM");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Sao Tome And Principe")){
+            locale = new Locale("pt","ST");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Saudi Arabia")){
+            locale = new Locale("en","SA");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("SAR","SR ");
+
+        }else if(countryName.equals("Senegal")){
+//            wo also supports wolof language grouping separator is . but in fr it is space
+            locale = new Locale("fr","SN");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Serbia")){
+            locale = new Locale("sr","RS");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Seychelles")){
+            locale = new Locale("fr","SC");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Sierra Leone")){
+            locale = new Locale("en","SL");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("Le","Le ");
+
+        }else if(countryName.equals("Singapore")){
+            locale = new Locale("en","SG");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        }else if(countryName.equals("Slovakia")){
+            locale = new Locale("sk","SK");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Slovenia")){
+            locale = new Locale("sl","SL");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Solomon Islands")){
+            locale = new Locale("en","SB");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("$","$ ");
+
+        }else if(countryName.equals("Somalia")){
+            locale = new Locale("so","SO");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("S ","S ");
+
+        }else if(countryName.equals("South Africa")){
+            locale = new Locale("en","ZA");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("R","R ");
+
+        }else if(countryName.equals("South Korea")){
+            locale = new Locale("ko","KR");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("₩","₩ ");
+
+        }else if(countryName.equals("South Sudan")){
+            locale = new Locale("en","SS");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("£","£ ");
+
+        }else if(countryName.equals("Spain")){
+            locale = new Locale("es","ES");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Sri Lanka")){
+            // si also supports
+            locale = new Locale("ta","LK");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Sudan")){
+            locale = new Locale("en","SD");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("SDG","SDG ");
+
+        }else if(countryName.equals("Suriname")){
+            locale = new Locale("nl","SR");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Swaziland")){
+            locale = new Locale("en","SZ");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number).replace("E","E ");
+
+        }else if(countryName.equals("Sweden")){
+            locale = new Locale("sv","SE");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
+        }else if(countryName.equals("Switzerland")){
+            locale = new Locale("de","CH");
+
+            numberFormat = NumberFormat.getCurrencyInstance(locale);
+            numberFormat.setMaximumFractionDigits(2);
+            numberFormat.setMinimumFractionDigits(2);
+
+            numberAfterFormat = numberFormat.format(number);
+
         }
+
 
 
 

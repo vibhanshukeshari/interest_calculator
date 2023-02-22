@@ -18,7 +18,6 @@
         app:ccp_showPhoneCode="false"
         app:ccp_showFullName="false"
         app:ccp_contentColor="@color/highlight_blue"
-        app:ccp_arrowSize="30dp"
         app:ccpDialog_showCloseIcon="true"
         app:ccp_countryPreference="US,IN"
         app:ccp_excludedCountries="AS,AQ,AX,AI,AW,BM,IO,VG,KY,CX,CC,CK,CW,FK,FO,GF,PF,GL,GP,GI,GU,GG,HK,IM,JE,XK,MO,MQ,YT,MS,NC,NU,NF,MP,PN,PR,RE,BL,SH,MF,PM,SX,TW,TK,TC,VI,WF"
@@ -41,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="20dp"/>
+        android:textSize="16dp"/>
 
 
 
