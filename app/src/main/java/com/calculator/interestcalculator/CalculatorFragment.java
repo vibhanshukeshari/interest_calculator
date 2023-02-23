@@ -2519,15 +2519,11 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
                             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
                             myTimeAsUniqueId = simpleDateFormat.format(new Date());
 
-//                            myTimeAsUniqueId = String.valueOf(currentTime);
-                            Toast.makeText(getContext(), myTimeAsUniqueId, Toast.LENGTH_SHORT).show();
-
-//                            System.out.println(myTimeAsUniqueId);
 
 
                             if (btnSimpleCompoundStatus) {
                                 dbHandlerSimple.addNewRecords(myName, myTypeSorC, myDate, myPrincipalAmount, myInterestRate, myInteresRateFrequency, myYear, myMonth, myDay, myInterestAmount, myTotalamount, myTimeAsUniqueId);
-                                dbHandler.close();
+                                dbHandlerSimple.close();
 
 
                                 Toast toast1 = new Toast(getContext());

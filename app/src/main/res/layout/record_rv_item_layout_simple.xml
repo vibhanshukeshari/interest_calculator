@@ -374,8 +374,8 @@
 
         <TextView
             android:id="@+id/time_as_unique_id"
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
+            android:layout_width="0dp"
+            android:layout_height="0dp"/>
 
 
         <View

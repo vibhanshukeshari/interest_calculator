@@ -40,7 +40,7 @@
 
 
     <style name="myPrefixTextSize" parent="TextAppearance.AppCompat.Medium">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 <!--    <style name="WhiteColorAccent">-->
 <!--        <item name="colorAccent">#ffffff</item>-->

@@ -41,6 +41,10 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 //    private  ImageButton btnImageMoreThreeDots;
 
     public RecordAdapter(ArrayList<RecordModal> recordModalArrayList, Context context) {
+
+        setHasStableIds(true);
+
+
         this.recordModalArrayList = recordModalArrayList;
         this.context = context;
 
@@ -105,19 +109,6 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
                         DBHandler dbCompound = new DBHandler(context);
 
 
-
-//                        String name = holder.name.getText().toString();
-//                        String typeSorC = holder.typeSorC.getText().toString();
-//                        String date = holder.date.getText().toString();
-//                        String principalAmount = holder.principalAmount.getText().toString();
-//                        String interestRate = holder.interestAmount.getText().toString();
-//                        String interestRateFrequency = holder.interestFrequency.getText().toString();
-//                        String year = holder.year.getText().toString();
-//                        String month = holder.month.getText().toString();
-//                        String day = holder.day.getText().toString();
-//                        String compoundingFrequency = holder.compoundingFrequency.getText().toString();
-//                        String interestAmount = holder.interestAmount.getText().toString();
-//                        String totalAmount = holder.totalAmount.getText().toString();
                         String timeAsUniqueId = holder.timeAsUniqueId.getText().toString();
 
 
@@ -128,29 +119,13 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
 
 
-                        recordModalArrayList.remove(holder.getAdapterPosition());
-                        notifyItemRemoved(holder.getAdapterPosition());
-//                        notifyDataSetChanged();
+                            //  this is used to check conditions if position is 0 or not if position is zero, notifyDataSetChanded() has to be called
+//                        but the problem with it is that it does not show delete animation, so it took 5 hrs to get know
+
+                        removeItem(holder.getAdapterPosition());
 
 
 
-//                        Toast toast = Toast.makeText(view.getContext(), "Item Deleted.", Toast.LENGTH_SHORT);
-//                        View view1 = toast.getView();
-//
-//                        try {
-//
-//                            TextView textView = toast.getView().findViewById(android.R.id.message);
-//                            textView.setTextColor(Color.parseColor("#ffffff"));
-//
-//                        } catch (NullPointerException ignored) {
-//                        }
-//
-//                        try {
-//                            assert view1 != null;
-//                            view1.getBackground().setColorFilter(Color.parseColor("#10171f"), PorterDuff.Mode.SRC_IN);
-//                        } catch (NullPointerException ignored) {
-//                        }
-//                        toast.show();
 
 
                         Toast toast1 = new Toast(context);
@@ -476,5 +451,24 @@ public class RecordAdapter extends RecyclerView.Adapter<RecordAdapter.ViewHolder
 
 
         }
+
+
     }
+    public void removeItem(int position) {
+        if (position > 0) {
+            recordModalArrayList.remove(position);
+            notifyItemRemoved(position);
+
+
+        } else {
+            recordModalArrayList.remove(position);
+            notifyItemRemoved(position);
+            notifyDataSetChanged();
+
+
+        }
+
+    }
+
+
 }

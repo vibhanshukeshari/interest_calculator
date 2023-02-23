@@ -40,7 +40,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimple.ViewHolder>{
+public class RecordAdapterSimple<important> extends RecyclerView.Adapter<RecordAdapterSimple.ViewHolder>{
 
 
     private final ArrayList<RecordModalSimple> recordModalArrayListSimple;
@@ -48,8 +48,14 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 //    private  ImageButton btnImageMoreThreeDots;
 
     public RecordAdapterSimple(ArrayList<RecordModalSimple> recordModalArrayListSimple, Context context) {
+
+        setHasStableIds(true);
+
+
+
         this.recordModalArrayListSimple = recordModalArrayListSimple;
         this.context = context;
+
 
     }
 
@@ -59,6 +65,7 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
     public RecordAdapterSimple.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.record_rv_item_layout_simple, parent, false);
+
 
         return new ViewHolder(view);
     }
@@ -99,6 +106,8 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
         holder.imgButtonReCalculate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
 
 
 
@@ -279,8 +288,18 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
 
 
-                        recordModalArrayListSimple.remove(holder.getAdapterPosition());
-                        notifyItemRemoved(holder.getAdapterPosition());
+//                        recordModalArrayListSimple.remove(holder.getAdapterPosition());
+//                        notifyItemRemoved(holder.getAdapterPosition());
+
+
+                        removeItem(holder.getAdapterPosition());
+//                        notifyDataSetChanged();
+
+
+//                        notifyItemChanged(holder.getAdapterPosition());
+//                        RecordAdapterSimple.this.notify();
+
+
 
 
 
@@ -314,9 +333,6 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
             }
         });
-
-
-
 
         holder.imgButtonShareSimple.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -379,20 +395,11 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
         });
 
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
+
+//    these first two methods are very important because if i don't call them they will create duplicate item in recycler view
+//        i noticed them after a month' 31/02/2023 12:17 pm amrit hostel with abhishek agrahari
     @Override
     public long getItemId(int position) {
         return position;
@@ -471,5 +478,21 @@ public class RecordAdapterSimple extends RecyclerView.Adapter<RecordAdapterSimpl
 
 
         }
+    }
+
+    public void removeItem(int position) {
+        if (position > 0) {
+            recordModalArrayListSimple.remove(position);
+            notifyItemRemoved(position);
+
+
+        } else {
+            recordModalArrayListSimple.remove(position);
+            notifyItemRemoved(position);
+            notifyDataSetChanged();
+
+
+        }
+
     }
 }

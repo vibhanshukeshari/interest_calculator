@@ -183,6 +183,8 @@ class DBHandlerSimple extends SQLiteOpenHelper {
         dbSimple.delete(TABLE_NAME, "time_as_unique_id_col=?", new String[]{id});
         dbSimple.close();
 
+
+
     }
 
     @Override

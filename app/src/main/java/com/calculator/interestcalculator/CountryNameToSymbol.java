@@ -777,110 +777,113 @@ public class CountryNameToSymbol{
 
                 break;
             case "Syrian Arab Republic":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "£S";
 
                 break;
             case "Tajikistan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "сом.";
 
                 break;
             case "Tanzania, United Republic Of":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "TSh";
 
                 break;
             case "Thailand":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "฿";
 
                 break;
             case "Timor-leste":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "US$";
 
                 break;
             case "Togo":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "CFA";
 
                 break;
             case "Tonga":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "T$";
 
                 break;
             case "Trinidad & Tobago":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Tunisia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "DT";
 
                 break;
             case "Turkey":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₺";
 
                 break;
             case "Turkmenistan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "TMT";
 
                 break;
             case "Tuvalu":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Uganda":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "USh";
 
                 break;
             case "Ukraine":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₴";
 
                 break;
-            case "United Arab Emirates":
-                mYcountrySymbol = "";
+            case "United Arab Emirates (UAE)":
+                mYcountrySymbol = "AED";
 
                 break;
             case "United Kingdom":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "£";
 
                 break;
             case "United States":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Uruguay":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "$";
 
                 break;
             case "Uzbekistan":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "so'm";
 
                 break;
             case "Vanuatu":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "VT";
 
                 break;
             case "Venezuela, Bolivarian Republic Of":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "Bs.";
 
                 break;
             case "Vietnam":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "₫";
 
                 break;
             case "Yemen":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "YER";
 
                 break;
             case "Zambia":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "K";
 
                 break;
             case "Zimbabwe":
-                mYcountrySymbol = "";
+                mYcountrySymbol = "US$";
 
                 break;
-            case "":
-                mYcountrySymbol = "";
 
-                break;
+            default:
+                mYcountrySymbol = "$";
+
+
+
         }
+
 
 
 
@@ -889,18 +892,6 @@ public class CountryNameToSymbol{
 
         return mYcountrySymbol;
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public Boolean getmCommaOrPeriod() {
@@ -1744,109 +1735,132 @@ public class CountryNameToSymbol{
 
                 break;
             case "Syrian Arab Republic":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Tajikistan":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Tanzania, United Republic Of":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Thailand":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Timor-leste":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Togo":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Tonga":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Trinidad & Tobago":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Tunisia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Turkey":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Turkmenistan":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Tuvalu":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Uganda":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Ukraine":
+                mCommaOrPeriod = false;
 
 
                 break;
-            case "United Arab Emirates":
+            case "United Arab Emirates (UAE)":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "United Kingdom":
+                mCommaOrPeriod = true;
 
 
                 break;
-            case "United States":
 
-
-                break;
             case "Uruguay":
+                mCommaOrPeriod = false;
+
+
 
 
                 break;
             case "Uzbekistan":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Vanuatu":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Venezuela, Bolivarian Republic Of":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Vietnam":
+                mCommaOrPeriod = false;
 
 
                 break;
             case "Yemen":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Zambia":
+                mCommaOrPeriod = true;
 
 
                 break;
             case "Zimbabwe":
+                mCommaOrPeriod = true;
 
 
                 break;
 
-            // need to remove warning warning warning n
+            // it is used only for USA because "United Stated" string was not comparing properly by CCP.
             default:
-//                mCommaOrPeriod = false;
+                mCommaOrPeriod = true;
                 break;
         }
 
