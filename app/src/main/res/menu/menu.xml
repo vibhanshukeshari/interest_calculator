@@ -18,4 +18,9 @@
         android:icon="@drawable/ic_baseline_share_24"
         android:id="@+id/Share"
         app:showAsAction="ifRoom"/>
+    <item
+        android:title="Remove Ads Pro"
+        android:icon="@drawable/crown"
+        android:id="@+id/Remove_ad"
+        app:showAsAction="ifRoom"/>
 </menu>

@@ -21,7 +21,9 @@
         app:ccpDialog_showCloseIcon="true"
         app:ccp_excludedCountries="AS,AQ,AX,AI,AW,BM,IO,VG,KY,CX,CC,CK,CW,FK,FO,GF,PF,GL,GP,GI,GU,GG,HK,IM,JE,XK,MO,MQ,YT,MS,NC,NU,NF,MP,PN,PR,RE,BL,SH,MF,PM,SX,TW,TK,TC,VI,WF"
         tools:ccp_contentColor="#fcfdfd"
+        app:ccp_defaultNameCode="US"
         app:ccp_rememberLastSelection="true"
+        app:ccp_defaultLanguage="ENGLISH"
         android:backgroundTint="@color/highlight_blue"
         app:ccp_arrowColor="@color/highlight_blue"
         app:ccpDialog_textColor="@color/light_white"
@@ -39,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="16dp"/>
+        android:textSize="18dp"/>
 
 
 

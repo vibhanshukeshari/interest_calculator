@@ -1,9 +1,7 @@
 <resources>
-    <string name="app_name">Interest Calculator</string>
+    <string name="app_name">Loan Interest Calculator</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="at_the_rate">U+0040  </string>
-    <string name="lessthan"> &lt; teste </string>
+
 </resources>

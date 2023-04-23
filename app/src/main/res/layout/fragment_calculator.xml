@@ -7,7 +7,7 @@
     android:forceDarkAllowed="false"
     android:id="@+id/calculation_fragment_parent_FrameLayout"
     android:background="@color/dark_blue"
-    tools:context=".CalculatorFragment">
+    tools:context="com.loan.interest.rate.calculator.simple.CalculatorFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/calculation_scroll_view"
@@ -778,6 +778,43 @@
                         android:orientation="horizontal"
                         android:paddingTop="0.2dp" />
 
+
+
+                    <com.google.android.ads.nativetemplates.TemplateView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/nativeAds"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        app:gnt_template_type="@layout/gnt_medium_template_view"/>
+
+
+                    <LinearLayout
+                        android:id="@+id/dividerNativeAd1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#39434d"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:paddingTop="0.2dp" />
+                    <LinearLayout
+                        android:id="@+id/dividerNativeAd2"
+                        android:layout_width="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_height="5dp"
+                        android:visibility="gone"
+                        android:background="@color/dark_blue"/>
+
+                    <LinearLayout
+                        android:id="@+id/dividerNativeAd3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#39434d"
+                        android:visibility="gone"
+                        android:orientation="horizontal"
+                        android:paddingTop="0.2dp" />
+
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -917,6 +954,66 @@
                 android:background="#39434d"
                 android:orientation="horizontal"
                 android:paddingTop="0.2dp"/>
+
+
+
+
+
+
+
+
+
+            <com.google.android.ads.nativetemplates.TemplateView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/nativeAds2"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:gnt_template_type="@layout/gnt_medium_template_view"/>
+
+
+            <LinearLayout
+                android:id="@+id/dividerNativeAd4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#39434d"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:paddingTop="0.2dp" />
+            <LinearLayout
+                android:id="@+id/dividerNativeAd5"
+                android:layout_width="match_parent"
+                android:orientation="horizontal"
+                android:layout_height="5dp"
+                android:visibility="gone"
+                android:background="@color/dark_blue"/>
+
+            <LinearLayout
+                android:id="@+id/dividerNativeAd6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#39434d"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:paddingTop="0.2dp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
             <TextView
