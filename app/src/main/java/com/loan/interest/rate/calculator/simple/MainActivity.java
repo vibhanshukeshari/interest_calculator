@@ -7,6 +7,7 @@ package com.loan.interest.rate.calculator.simple;
 // In App purchase billing library version 5 added successfully from 18-04-23 to 23-04-23(was messed up badly).
 // GitHud link is :- https://github.com/wicaodian/Google-In-App-Billing-Library-V5-Example.git
 
+
 import static com.loan.interest.rate.calculator.simple.CalculatorFragment.btnSimpleCompoundStatus;
 import static com.loan.interest.rate.calculator.simple.CalculatorFragment.numberFormatterWithSymbol;
 import static com.loan.interest.rate.calculator.simple.CalculatorFragment.spinnerCompoundingFrequency;
@@ -28,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,6 +49,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -109,6 +112,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     //India & Rest - 129 ₹  and USA - 4.49 $ (23-04-23)  //
     ///////////////////////////////////////////////////////
 
+    AlertDialog alertDialog;
+//    AdLoader adLoader3;
 
     Prefs prefs;
 
@@ -122,12 +127,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     Snackbar snackbar;
 
+//    TextView tvCancle;
+//    TextView tvExit;
     private InterstitialAd interstitial;
     Boolean adLoaded = false;
     Boolean adLoaded2nd = false;
+    Boolean adLoaded3rd = false;
     LinearLayout dividerNativeAd1,dividerNativeAd2,dividerNativeAd3;
     LinearLayout dividerNativeAd4,dividerNativeAd5,dividerNativeAd6;
-    TemplateView template,template2;
+    TemplateView template,template2,template3;
     LinearLayout textViewResultTopBar;
     LinearLayout linearLayoutTotalAmount;
     boolean isKeyboardShowing = false;
@@ -137,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     ImageView imageViewNotFound;
     static int compoundArrayListSize;
     static int simpleArrayListSize;
-    AlertDialog alertDialog;
+//    AlertDialog alertDialog;
     MaterialAlertDialogBuilder alertDialoBuider;
     private CountDownTimer countDownTimer;
     static boolean imOnCalculation = true;
@@ -185,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNavigationViewMain = findViewById(R.id.bottom_navigation);
         linearLayoutTotalAmount = findViewById(R.id.controller1);
         textViewResultTopBar = findViewById(R.id.textViewResultTopBar);
+//        tvCancle = findViewById(R.id.tv_cancel);
+//        tvExit = findViewById(R.id.tv_exit);
 
         isRecordVisible = false;
 
@@ -218,6 +228,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 //----------------------------Banner Ad------------------------------------------------
 
+
+    
 
 
         if(!prefs.isRemoveAd()){
@@ -260,7 +272,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.light_blue));
             ColorDrawable buttonBackground =  new ColorDrawable(getColor(R.color.highlight_blue));
-            AdLoader adLoader = new AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
+            AdLoader adLoader = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/4022832808")
                     .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
                         @Override
                         public void onNativeAdLoaded(NativeAd nativeAd) {
@@ -338,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             ColorDrawable colorDrawable2 = new ColorDrawable(getColor(R.color.light_blue));
             ColorDrawable buttonBackground2 =  new ColorDrawable(getColor(R.color.highlight_blue));
-            AdLoader adLoader2 = new AdLoader.Builder(this, "ca-app-pub-3940256099942544/2247696110")
+            AdLoader adLoader2 = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/2004874242")
                     .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
                         @Override
                         public void onNativeAdLoaded(NativeAd nativeAd2) {
@@ -405,11 +417,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //----------------------------End Native Ad 2st-----------------------------------------
 
 
+
+
+        //-----------------------------Native Ad 3 ------------------------------------------
+
+
+//        It is inside the onBackPressed();
+
+//----------------------------End Native Ad 3-----------------------------------------
+
+
 //----------------------------Interstitial-----------------------------------------
 
         if(!prefs.isRemoveAd()){
             AdRequest adRequestInterstitial = new AdRequest.Builder().build();
-            InterstitialAd.load(this,"ca-app-pub-3940256099942544/1033173712", adRequestInterstitial,
+            InterstitialAd.load(this,"ca-app-pub-2808567025402378/8425112246", adRequestInterstitial,
                     new InterstitialAdLoadCallback() {
                         @Override
                         public void onAdLoaded(@NonNull InterstitialAd interstitialAd) {
@@ -601,6 +623,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
+
     }
 
     @Override
@@ -612,6 +635,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }catch (NullPointerException ignored){}
 
 
+        // this is closed to find a problem that is Index out of bounds.
         // It is used for pending purchases;
         billingClient.queryPurchasesAsync(
                 QueryPurchasesParams.newBuilder().setProductType(BillingClient.ProductType.INAPP).build(),
@@ -639,7 +663,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         if(adLoaded2nd){
             nativeAdStyle2();
         }
-        
+
+        if(adLoaded3rd){
+            nativeAdStyle3();
+        }
         SharedPreferences SC = getSharedPreferences("SimpleCompoundStatus", MODE_PRIVATE);
 
         CalculatorFragment.btnSimpleCompoundStatus = SC.getBoolean("interestStatus", true);
@@ -687,20 +714,34 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             } else {
 
-                MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(MainActivity.this,R.style.alertDialog);
-                alertDialoBuider.setTitle("Confirm Exit !");
-                alertDialoBuider.setIcon(R.drawable.alert_24);
-                alertDialoBuider.setMessage("Are you sure you want to exit ?");
 
-                alertDialoBuider.setPositiveButton("Exit !", new DialogInterface.OnClickListener() {
+//
 
+                final MaterialAlertDialogBuilder dialogBuilder = new MaterialAlertDialogBuilder(MainActivity.this, R.style.alertDialogForExitAd);
+                dialogBuilder.setTitle("Confirm Exit !");
+                dialogBuilder.setIcon(R.drawable.alert_24);
+                dialogBuilder.setMessage("Are you sure you want to exit ?");
+
+
+                LayoutInflater inflater = this.getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.native_alert, null);
+                dialogBuilder.setView(dialogView);
+
+
+                TextView tvExit = (TextView) dialogView.findViewById(R.id.tv_exit);
+                TextView tvCancel = (TextView) dialogView.findViewById(R.id.tv_cancel);
+                template3 = (TemplateView) dialogView.findViewById(R.id.nativeAd3);
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.show();
+
+                tvExit.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                    public void onClick(View v) {
 
                         if (interstitial != null) {
                             interstitial.show(MainActivity.this);
 
-                            interstitial.setFullScreenContentCallback(new FullScreenContentCallback(){
+                            interstitial.setFullScreenContentCallback(new FullScreenContentCallback() {
                                 @Override
                                 public void onAdClicked() {
                                     // Called when a click is recorded for an ad.
@@ -737,30 +778,85 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         } else {
 
                             MainActivity.super.onBackPressed();
-                     
+
                         }
 
-                    }
 
+                    }
                 });
 
-                alertDialoBuider.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                tvCancel.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
-
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
                     }
                 });
 
-                AlertDialog alertDialog = alertDialoBuider.create();
-                alertDialog.show();
-                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.highlight_blue));
-                alertDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.light_white));
 
+
+                if(!prefs.isRemoveAd()) {
+                    ColorDrawable colorDrawable3 = new ColorDrawable(getColor(R.color.light_blue));
+                    ColorDrawable buttonBackground3 = new ColorDrawable(getColor(R.color.highlight_blue));
+                    AdLoader adLoader3 = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/4504567584")
+                            .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                                @Override
+                                public void onNativeAdLoaded(NativeAd nativeAd3) {
+
+                                    NativeTemplateStyle styles3 = new
+                                            NativeTemplateStyle.Builder().
+                                            withCallToActionBackgroundColor(buttonBackground3).
+                                            withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
+                                            withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
+                                            withMainBackgroundColor(colorDrawable3).build();
+
+                                    template3.setStyles(styles3);
+                                    template3.setNativeAd(nativeAd3);
+
+                                    try {
+                                        template3.setVisibility(View.VISIBLE);
+                                    } catch (NullPointerException ignored) {
+                                    }
+                                    ;
+
+
+                                    if (isDestroyed()) {
+                                        nativeAd3.destroy();
+                                        adLoaded3rd = false;
+                                        return;
+                                    }
+
+                                    adLoaded3rd = true;
+
+
+                                }
+                            })
+                            .withAdListener(new AdListener() {
+                                @Override
+                                public void onAdFailedToLoad(LoadAdError adError) {
+
+                                    try {
+                                template3.setVisibility(View.GONE);
+
+
+                                    } catch (NullPointerException ignored) {
+                                    }
+                                    ;
+
+
+                                    adLoaded3rd = false;
+                                }
+                            })
+                            .withNativeAdOptions(new NativeAdOptions.Builder()
+                                    .build())
+                            .build();
+                    adLoader3.loadAd(new AdRequest.Builder().build());
+                }
             }
         }
 
     }
+
+
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -849,8 +945,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 intent.putExtra(Intent.EXTRA_TEXT, (Serializable) forShareLink);
                 intent.setType("text/plain");
                 startActivity(intent);
-
-
 
                 break;
 
@@ -1476,6 +1570,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                 }
 
+                if(adLoaded3rd){
+                    nativeAdStyle3();
+                }
             }
 
         }
@@ -1516,9 +1613,37 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 template2.setStyles(styles2);
             }
 
-
-
         }
+
+
+
+    public void nativeAdStyle3(){
+        ColorDrawable buttonBackground3 =  new ColorDrawable(getColor(R.color.highlight_blue));
+        ColorDrawable colorDrawable3 = new ColorDrawable(getColor(R.color.light_blue));
+
+        NativeTemplateStyle styles3 = new
+                NativeTemplateStyle.Builder().
+                withCallToActionBackgroundColor(buttonBackground3).
+                withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
+                withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
+                withMainBackgroundColor(colorDrawable3).build();
+
+        if(adLoaded3rd){
+            template3.setStyles(styles3);
+        }
+
+
+
+    }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1573,8 +1698,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 //Calling this function here so that once products are verified we can start the purchase behavior.
                 //You can save this detail in separate variable or list to call them from any other location
                 //Create another function if you want to call this in establish connections' success state
-                LaunchPurchaseFlow(list.get(0));
 
+                if(list.size()>0){
+                    // Before I was not using above condition to check list so it was crashing in virtual deives.
+                    LaunchPurchaseFlow(list.get(0));
+                }
 
             }
         });
@@ -1755,6 +1883,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         context.startActivity(mainIntent);
         Runtime.getRuntime().exit(0);
     }
+
+
+
 
 }
 

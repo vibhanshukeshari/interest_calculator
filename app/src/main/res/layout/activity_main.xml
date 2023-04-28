@@ -249,8 +249,9 @@
                         android:id="@+id/adView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        ads:adSize="BANNER"
-                        ads:adUnitId="ca-app-pub-3940256099942544/6300978111\">
+                        android:layout_gravity="center"
+                        app:adSize="FULL_WIDTHx50"
+                        ads:adUnitId="ca-app-pub-2808567025402378/1206287142\">
                     </com.google.android.gms.ads.AdView>
                 </LinearLayout>
 
@@ -318,5 +319,7 @@
 <!--    ca-app-pub-2808567025402378/4022832808-->
 <!-- Native id 2-->
 <!--    ca-app-pub-2808567025402378/2004874242-->
+    <!-- Native id 3-->
+<!--    ca-app-pub-2808567025402378/4504567584-->
 <!--Interstitial id-->
 <!--    ca-app-pub-2808567025402378/8425112246-->

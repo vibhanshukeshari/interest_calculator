@@ -67,6 +67,13 @@
         <item name="android:textColorPrimary">#d9ffffff</item>
         <item name="android:textColorSecondary">@color/white</item>
     </style>
+    <style name="alertDialogForExitAd" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:dialogCornerRadius">10dp</item>
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:background">#15202b</item>
+        <item name="android:textColorPrimary">#d9ffffff</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
 
     <style name="NavigationItemNoRipple">
         <item name="android:colorControlHighlight">@android:color/transparent</item>

@@ -114,6 +114,8 @@ public class RecordAdapterSimple<important> extends RecyclerView.Adapter<RecordA
 
 
 
+
+
                     MaterialAlertDialogBuilder alertDialoBuider = new MaterialAlertDialogBuilder(view.getContext(),R.style.alertDialog);
                     alertDialoBuider.setTitle("Warning !");
                     alertDialoBuider.setIcon(R.drawable.alert_24);
