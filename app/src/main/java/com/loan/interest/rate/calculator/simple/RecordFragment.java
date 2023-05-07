@@ -163,6 +163,7 @@ public class RecordFragment extends Fragment {
 
         if(prefs.isRemoveAd()){
             menu.findItem(R.id.Remove_ad).setVisible(false);
+            menu.findItem(R.id.vip).setVisible(true);
         }
 
 

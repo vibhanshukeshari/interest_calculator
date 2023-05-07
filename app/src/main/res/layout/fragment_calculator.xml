@@ -658,6 +658,41 @@
                     android:orientation="horizontal"
                     android:paddingTop="0.2dp" />
 
+                <com.google.android.ads.nativetemplates.TemplateView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nativeAds0"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    app:gnt_template_type="@layout/gnt_medium_template_view"/>
+
+
+                <LinearLayout
+                    android:id="@+id/dividerNativeAd_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#39434d"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:paddingTop="0.2dp" />
+                <LinearLayout
+                    android:id="@+id/dividerNativeAd_1"
+                    android:layout_width="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_height="5dp"
+                    android:visibility="gone"
+                    android:background="@color/dark_blue"/>
+
+                <LinearLayout
+                    android:id="@+id/dividerNativeAd0"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#39434d"
+                    android:visibility="gone"
+                    android:orientation="horizontal"
+                    android:paddingTop="0.2dp" />
+
+
                 <LinearLayout
                     android:id="@+id/linear_layout_visualGraph"
                     android:layout_width="match_parent"

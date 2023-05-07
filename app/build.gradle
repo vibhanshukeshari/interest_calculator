@@ -11,14 +11,16 @@ android {
         applicationId "com.loan.interest.rate.calculator.simple"
         minSdk 21
         targetSdk 33
-        versionCode 13
-        versionName "27.04.23.13"
+        versionCode 16
+        versionName "05.05.23.16"
 
 //        07 = Ads were Implemented
 //        10 = In App purchase Implemented
 //        11 = Bug was fixed
 //        12 = AlertDialog Native ad Added
 //        13 = Banner ad Width problem Solve
+//        15 = one More Native ad Added and Calendar Days Logical error fixed and VIP tag icon used. (01-05-23)
+//        16 = Native Ad Crash Bug Fixed. (05-05-23)
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

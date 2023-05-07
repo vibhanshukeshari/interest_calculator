@@ -1634,12 +1634,28 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                 int days = Integer.parseInt("0" + editTextDay.getText().toString());
 
+
                 if (days > 29) {
                     // Before it was 31 but  1Y + 11M + 31D = was 3Y, but it should be 2Y
-                    // 30 is also wrong because 30 makes one complete month thats makes one  and 11 + 1 = 12 Y that means Year = +1;
-                    editTextDayLayout.setHelperText("> 29 is not Allowed.");
-                    editTextDayLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
-                    editTextDayLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+                    // 30 is also wrong because 30 makes one complete month that makes one  and 11 + 1 = 12 Y that means Year = +1;
+
+// This condition is used after finding a bug on 30/04/23 : if user inputs day from calendar for a month then calendar returns 30 days which was not allowed but now if day is 30 then month will increased by 1;
+                    if(days == 30){
+                        int incrementMonth = Integer.parseInt("0" + editTextMonth.getText().toString());
+                        editTextMonth.setText(String.valueOf(incrementMonth + 1));
+                        editTextDayLayout.setHelperText("<--- Month");
+                        editTextDayLayout.setBoxStrokeColor(Color.parseColor("#3bd16f"));
+                        editTextDayLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#3bd16f")));
+
+
+                    } else {
+                        editTextDayLayout.setHelperText("> 30 is not Allowed.");
+                        editTextDayLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                        editTextDayLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                    }
+
+
                     editTextDay.setText("");
 
                     final Handler handler = new Handler(Looper.getMainLooper());
@@ -1652,6 +1668,9 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
                         }
                     }, 1000);
+
+
+
 
                 }
 
@@ -1742,10 +1761,23 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
 
 
                 if (months > 11) {
-                    editTextMonthLayout.setHelperText("> 11 is not Allowed.");
-                    editTextMonthLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
-                    editTextMonthLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
-                    editTextMonth.setText("");
+
+
+// There was a bug found on 30/04/23 w.r.t to days;
+                    if(months == 12){
+                        int incrementYear = Integer.parseInt("0" + editTextYear.getText().toString());
+                        editTextYear.setText(String.valueOf(incrementYear + 1));
+                        editTextMonthLayout.setHelperText("<--- Year");
+                        editTextMonthLayout.setBoxStrokeColor(Color.parseColor("#3bd16f"));
+                        editTextMonthLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#3bd16f")));
+
+                    } else {
+                        editTextMonthLayout.setHelperText("> 12 is not Allowed.");
+                        editTextMonthLayout.setBoxStrokeColor(Color.parseColor("#ff0000"));
+                        editTextMonthLayout.setHintTextColor(ColorStateList.valueOf(Color.parseColor("#ff0000")));
+
+                    }
+                     editTextMonth.setText("");
 
                     final Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(new Runnable() {
@@ -3612,8 +3644,10 @@ public class CalculatorFragment extends Fragment implements AdapterView.OnItemSe
         menu.findItem(R.id.Share).setVisible(true);
         menu.findItem(R.id.Reset).setVisible(true);
 
+
         if (prefs.isRemoveAd()) {
             menu.findItem(R.id.Remove_ad).setVisible(false);
+            menu.findItem(R.id.vip).setVisible(true);
         }
 
         super.onPrepareOptionsMenu(menu);

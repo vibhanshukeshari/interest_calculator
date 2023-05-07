@@ -6,6 +6,7 @@ package com.loan.interest.rate.calculator.simple;
 //Ads were introduced from 20-04-23
 // In App purchase billing library version 5 added successfully from 18-04-23 to 23-04-23(was messed up badly).
 // GitHud link is :- https://github.com/wicaodian/Google-In-App-Billing-Library-V5-Example.git
+//Date picker bug fixed on 01/05/23 - When user selecting one month full, Calendar was returning 30 and editTextDays was not accepting > 29 so it is solved.
 
 
 import static com.loan.interest.rate.calculator.simple.CalculatorFragment.btnSimpleCompoundStatus;
@@ -130,12 +131,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 //    TextView tvCancle;
 //    TextView tvExit;
     private InterstitialAd interstitial;
+    Boolean adLoaded0 = false;
     Boolean adLoaded = false;
     Boolean adLoaded2nd = false;
     Boolean adLoaded3rd = false;
+    LinearLayout dividerNativeAd_2,dividerNativeAd_1,dividerNativeAd0;
     LinearLayout dividerNativeAd1,dividerNativeAd2,dividerNativeAd3;
     LinearLayout dividerNativeAd4,dividerNativeAd5,dividerNativeAd6;
-    TemplateView template,template2,template3;
+    TemplateView template0,template,template2,template3;
     LinearLayout textViewResultTopBar;
     LinearLayout linearLayoutTotalAmount;
     boolean isKeyboardShowing = false;
@@ -265,6 +268,85 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 //------------------------End Banner Ad ------------------------------------------------
 
+ //-----------------------------Native Ad 0------------------------------------------
+
+        if(!prefs.isRemoveAd()) {
+
+            ColorDrawable colorDrawable0 = new ColorDrawable(getColor(R.color.light_blue));
+            ColorDrawable buttonBackground0 =  new ColorDrawable(getColor(R.color.highlight_blue));
+            AdLoader adLoader0 = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/2577182325")
+                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+                        @Override
+                        public void onNativeAdLoaded(NativeAd nativeAd0) {
+
+                            NativeTemplateStyle styles0 = new
+                                    NativeTemplateStyle.Builder().
+                                    withCallToActionBackgroundColor(buttonBackground0).
+                                    withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
+                                    withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
+                                    withMainBackgroundColor(colorDrawable0).build();
+
+                            template0 = findViewById(R.id.nativeAds0);
+                            dividerNativeAd_2 = findViewById(R.id.dividerNativeAd_2);
+                            dividerNativeAd_1 = findViewById(R.id.dividerNativeAd_1);
+                            dividerNativeAd0 = findViewById(R.id.dividerNativeAd0);
+
+                            if(template0 != null){
+                                template0.setNativeAd(nativeAd0);
+                                template0.setStyles(styles0);
+                                template0.setVisibility(View.VISIBLE);
+                            }
+
+                            try {
+
+
+                                dividerNativeAd_2.setVisibility(View.VISIBLE);
+                                dividerNativeAd_1.setVisibility(View.VISIBLE);
+                                dividerNativeAd0.setVisibility(View.VISIBLE);
+
+                            }catch (NullPointerException ignored){};
+
+
+                            if (isDestroyed()) {
+                                nativeAd0.destroy();
+                                adLoaded0 = false;
+                                return;
+                            }
+
+
+
+                            adLoaded0 = true;
+
+
+                        }
+                    })
+                    .withAdListener(new AdListener() {
+                        @Override
+                        public void onAdFailedToLoad(LoadAdError adError) {
+
+                            try {
+                                template0.setVisibility(View.GONE);
+                                dividerNativeAd_2.setVisibility(View.GONE);
+                                dividerNativeAd_1.setVisibility(View.GONE);
+                                dividerNativeAd0.setVisibility(View.GONE);
+
+                            }catch (NullPointerException ignored) {}
+
+
+                            adLoaded0 = false;
+                        }
+                    })
+                    .withNativeAdOptions(new NativeAdOptions.Builder()
+                            .build())
+                    .build();
+            adLoader0.loadAd(new AdRequest.Builder().build());
+
+
+        }
+
+
+//----------------------------End Native Ad 0----------------------------------------
+
 
 //-----------------------------Native Ad 1 ------------------------------------------
 
@@ -288,12 +370,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                             dividerNativeAd1 = findViewById(R.id.dividerNativeAd1);
                             dividerNativeAd2 = findViewById(R.id.dividerNativeAd2);
                             dividerNativeAd3 = findViewById(R.id.dividerNativeAd3);
-                            template.setStyles(styles);
-                            template.setNativeAd(nativeAd);
+
+
+                            if(template != null){
+                                template.setNativeAd(nativeAd);
+                                template.setStyles(styles);
+                                template.setVisibility(View.VISIBLE);
+                            }
+
+
 
                             try {
 
-                                template.setVisibility(View.VISIBLE);
+
                                 dividerNativeAd1.setVisibility(View.VISIBLE);
                                 dividerNativeAd2.setVisibility(View.VISIBLE);
                                 dividerNativeAd3.setVisibility(View.VISIBLE);
@@ -366,11 +455,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                             dividerNativeAd4 = findViewById(R.id.dividerNativeAd4);
                             dividerNativeAd5 = findViewById(R.id.dividerNativeAd5);
                             dividerNativeAd6 = findViewById(R.id.dividerNativeAd6);
-                            template2.setStyles(styles2);
-                            template2.setNativeAd(nativeAd2);
 
-                            try {
+
+
+                            if(template2 != null){
+                                template2.setNativeAd(nativeAd2);
+                                template2.setStyles(styles2);
                                 template2.setVisibility(View.VISIBLE);
+                            }
+                            try {
+
                                 dividerNativeAd4.setVisibility(View.VISIBLE);
                                 dividerNativeAd5.setVisibility(View.VISIBLE);
                                 dividerNativeAd6.setVisibility(View.VISIBLE);
@@ -654,6 +748,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // This is used only for a big issue when any view is appearing over the native ad
 //                the background of the ad is misbehaving to resoleve this setting the style again from  keyboard down and
 //                 fromm onResume also it took 1 day to get this hack.(18/04/2023) Baragaon Room.
+
+        if(adLoaded0){
+            nativeAdStyle0();
+        }
+
         if(adLoaded){
 
             nativeAdStyle();
@@ -809,14 +908,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                             withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
                                             withMainBackgroundColor(colorDrawable3).build();
 
-                                    template3.setStyles(styles3);
-                                    template3.setNativeAd(nativeAd3);
 
-                                    try {
+                                    if(template3 != null) {
+                                        template3.setNativeAd(nativeAd3);
+                                        template3.setStyles(styles3);
                                         template3.setVisibility(View.VISIBLE);
-                                    } catch (NullPointerException ignored) {
+
                                     }
-                                    ;
+
+
 
 
                                     if (isDestroyed()) {
@@ -837,10 +937,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                                     try {
                                 template3.setVisibility(View.GONE);
 
-
                                     } catch (NullPointerException ignored) {
+
                                     }
-                                    ;
+
 
 
                                     adLoaded3rd = false;
@@ -1560,6 +1660,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     // This is used only for a big issue when any view is appearing over the native ad
 //                the background of the ad is misbehaving to resoleve this setting the style again from  keyboard down and
 //                 fromm onResume also it took 1 day to get this hack.(18/04/2023) Baragaon Room.
+                if(adLoaded0){
+                    nativeAdStyle0();
+
+                }
+
+
                 if(adLoaded){
                     nativeAdStyle();
 
@@ -1577,6 +1683,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         }
 
+    public void nativeAdStyle0(){
+        ColorDrawable buttonBackground0 =  new ColorDrawable(getColor(R.color.highlight_blue));
+        ColorDrawable colorDrawable0 = new ColorDrawable(getColor(R.color.light_blue));
+
+        NativeTemplateStyle styles0 = new
+                NativeTemplateStyle.Builder().
+                withCallToActionBackgroundColor(buttonBackground0).
+                withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
+                withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
+                withMainBackgroundColor(colorDrawable0).build();
+
+        if(adLoaded0){
+            if(template0 != null){
+                template0.setStyles(styles0);
+            }
+
+        }
+
+
+
+    }
+
+
+
         public void nativeAdStyle(){
 
 
@@ -1591,7 +1721,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     withMainBackgroundColor(colorDrawable).build();
 
             if(adLoaded){
-                template.setStyles(styles);
+                if(template != null){
+                    template.setStyles(styles);
+                }
+
 
             }
 
@@ -1610,7 +1743,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     withMainBackgroundColor(colorDrawable2).build();
 
             if(adLoaded2nd){
-                template2.setStyles(styles2);
+                if(template2 != null){
+                    template2.setStyles(styles2);
+                }
+
             }
 
         }
@@ -1629,7 +1765,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 withMainBackgroundColor(colorDrawable3).build();
 
         if(adLoaded3rd){
-            template3.setStyles(styles3);
+            if(template3 != null){
+                template3.setStyles(styles3);
+            }
+
         }
 
 
