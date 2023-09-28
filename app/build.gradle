@@ -11,8 +11,8 @@ android {
         applicationId "com.loan.interest.rate.calculator.simple"
         minSdk 21
         targetSdk 33
-        versionCode 16
-        versionName "05.05.23.16"
+        versionCode 17
+        versionName "20.09.23.17"
 
 //        07 = Ads were Implemented
 //        10 = In App purchase Implemented
@@ -46,7 +46,7 @@ android {
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 //    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.9.2'
     testImplementation 'junit:junit:4.13.2'
@@ -62,9 +62,10 @@ dependencies {
     implementation 'joda-time:joda-time:2.9.1'
     implementation 'com.github.f0ris.sweetalert:library:1.5.6'
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
-    implementation 'com.google.android.gms:play-services-ads:22.0.0'
+    implementation 'com.google.android.gms:play-services-ads:22.4.0'
     implementation project(':nativetemplates')
     def billing_version = "5.2.0"
+    //noinspection GradleDependency
     implementation "com.android.billingclient:billing:$billing_version"
 
 

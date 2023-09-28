@@ -350,82 +350,82 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 //-----------------------------Native Ad 1 ------------------------------------------
 
-        if(!prefs.isRemoveAd()) {
-
-            ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.light_blue));
-            ColorDrawable buttonBackground =  new ColorDrawable(getColor(R.color.highlight_blue));
-            AdLoader adLoader = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/4022832808")
-                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-                        @Override
-                        public void onNativeAdLoaded(NativeAd nativeAd) {
-
-                            NativeTemplateStyle styles = new
-                                    NativeTemplateStyle.Builder().
-                                    withCallToActionBackgroundColor(buttonBackground).
-                                    withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
-                                    withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
-                                    withMainBackgroundColor(colorDrawable).build();
-
-                            template = findViewById(R.id.nativeAds);
-                            dividerNativeAd1 = findViewById(R.id.dividerNativeAd1);
-                            dividerNativeAd2 = findViewById(R.id.dividerNativeAd2);
-                            dividerNativeAd3 = findViewById(R.id.dividerNativeAd3);
-
-
-                            if(template != null){
-                                template.setNativeAd(nativeAd);
-                                template.setStyles(styles);
-                                template.setVisibility(View.VISIBLE);
-                            }
-
-
-
-                            try {
-
-
-                                dividerNativeAd1.setVisibility(View.VISIBLE);
-                                dividerNativeAd2.setVisibility(View.VISIBLE);
-                                dividerNativeAd3.setVisibility(View.VISIBLE);
-
-                            }catch (NullPointerException ignored){};
-
-
-                            if (isDestroyed()) {
-                                nativeAd.destroy();
-                                adLoaded = false;
-                                return;
-                            }
-
-
-
-                            adLoaded = true;
-
-
-                        }
-                    })
-                    .withAdListener(new AdListener() {
-                        @Override
-                        public void onAdFailedToLoad(LoadAdError adError) {
-
-                            try {
-                                template.setVisibility(View.GONE);
-                                dividerNativeAd1.setVisibility(View.GONE);
-                                dividerNativeAd2.setVisibility(View.GONE);
-                                dividerNativeAd3.setVisibility(View.GONE);
-
-                            }catch (NullPointerException ignored) {}
-
-
-                            adLoaded = false;
-                        }
-                    })
-                    .withNativeAdOptions(new NativeAdOptions.Builder()
-                            .build())
-                    .build();
-            adLoader.loadAd(new AdRequest.Builder().build());
-
-
-        }
+//        if(!prefs.isRemoveAd()) {
+//
+//            ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.light_blue));
+//            ColorDrawable buttonBackground =  new ColorDrawable(getColor(R.color.highlight_blue));
+//            AdLoader adLoader = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/4022832808")
+//                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+//                        @Override
+//                        public void onNativeAdLoaded(NativeAd nativeAd) {
+//
+//                            NativeTemplateStyle styles = new
+//                                    NativeTemplateStyle.Builder().
+//                                    withCallToActionBackgroundColor(buttonBackground).
+//                                    withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
+//                                    withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
+//                                    withMainBackgroundColor(colorDrawable).build();
+//
+//                            template = findViewById(R.id.nativeAds);
+//                            dividerNativeAd1 = findViewById(R.id.dividerNativeAd1);
+//                            dividerNativeAd2 = findViewById(R.id.dividerNativeAd2);
+//                            dividerNativeAd3 = findViewById(R.id.dividerNativeAd3);
+//
+//
+//                            if(template != null){
+//                                template.setNativeAd(nativeAd);
+//                                template.setStyles(styles);
+//                                template.setVisibility(View.VISIBLE);
+//                            }
+//
+//
+//
+//                            try {
+//
+//
+//                                dividerNativeAd1.setVisibility(View.VISIBLE);
+//                                dividerNativeAd2.setVisibility(View.VISIBLE);
+//                                dividerNativeAd3.setVisibility(View.VISIBLE);
+//
+//                            }catch (NullPointerException ignored){};
+//
+//
+//                            if (isDestroyed()) {
+//                                nativeAd.destroy();
+//                                adLoaded = false;
+//                                return;
+//                            }
+//
+//
+//
+//                            adLoaded = true;
+//
+//
+//                        }
+//                    })
+//                    .withAdListener(new AdListener() {
+//                        @Override
+//                        public void onAdFailedToLoad(LoadAdError adError) {
+//
+//                            try {
+//                                template.setVisibility(View.GONE);
+//                                dividerNativeAd1.setVisibility(View.GONE);
+//                                dividerNativeAd2.setVisibility(View.GONE);
+//                                dividerNativeAd3.setVisibility(View.GONE);
+//
+//                            }catch (NullPointerException ignored) {}
+//
+//
+//                            adLoaded = false;
+//                        }
+//                    })
+//                    .withNativeAdOptions(new NativeAdOptions.Builder()
+//                            .build())
+//                    .build();
+//            adLoader.loadAd(new AdRequest.Builder().build());
+//
+//
+//        }
 
 
 //----------------------------End Native Ad 1st----------------------------------------
@@ -435,78 +435,78 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 //-----------------------------Native Ad 2 ------------------------------------------
 
-        if(!prefs.isRemoveAd()){
-
-            ColorDrawable colorDrawable2 = new ColorDrawable(getColor(R.color.light_blue));
-            ColorDrawable buttonBackground2 =  new ColorDrawable(getColor(R.color.highlight_blue));
-            AdLoader adLoader2 = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/2004874242")
-                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-                        @Override
-                        public void onNativeAdLoaded(NativeAd nativeAd2) {
-
-                            NativeTemplateStyle styles2 = new
-                                    NativeTemplateStyle.Builder().
-                                    withCallToActionBackgroundColor(buttonBackground2).
-                                    withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
-                                    withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
-                                    withMainBackgroundColor(colorDrawable2).build();
-
-                            template2 = findViewById(R.id.nativeAds2);
-                            dividerNativeAd4 = findViewById(R.id.dividerNativeAd4);
-                            dividerNativeAd5 = findViewById(R.id.dividerNativeAd5);
-                            dividerNativeAd6 = findViewById(R.id.dividerNativeAd6);
-
-
-
-                            if(template2 != null){
-                                template2.setNativeAd(nativeAd2);
-                                template2.setStyles(styles2);
-                                template2.setVisibility(View.VISIBLE);
-                            }
-                            try {
-
-                                dividerNativeAd4.setVisibility(View.VISIBLE);
-                                dividerNativeAd5.setVisibility(View.VISIBLE);
-                                dividerNativeAd6.setVisibility(View.VISIBLE);
-                            }catch (NullPointerException ignored){};
-
-
-
-                            if (isDestroyed()) {
-                                nativeAd2.destroy();
-                                adLoaded2nd = false;
-                                return;
-                            }
-
-                            adLoaded2nd = true;
-
-
-                        }
-                    })
-                    .withAdListener(new AdListener() {
-                        @Override
-                        public void onAdFailedToLoad(LoadAdError adError) {
-
-                            try {
-                                template2.setVisibility(View.GONE);
-                                dividerNativeAd4.setVisibility(View.GONE);
-                                dividerNativeAd5.setVisibility(View.GONE);
-                                dividerNativeAd6.setVisibility(View.GONE);
-
-                            }catch (NullPointerException ignored){};
-
-
-
-                            adLoaded2nd = false;
-                        }
-                    })
-                    .withNativeAdOptions(new NativeAdOptions.Builder()
-                            .build())
-                    .build();
-            adLoader2.loadAd(new AdRequest.Builder().build());
-
-
-        }
+//        if(!prefs.isRemoveAd()){
+//
+//            ColorDrawable colorDrawable2 = new ColorDrawable(getColor(R.color.light_blue));
+//            ColorDrawable buttonBackground2 =  new ColorDrawable(getColor(R.color.highlight_blue));
+//            AdLoader adLoader2 = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/2004874242")
+//                    .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+//                        @Override
+//                        public void onNativeAdLoaded(NativeAd nativeAd2) {
+//
+//                            NativeTemplateStyle styles2 = new
+//                                    NativeTemplateStyle.Builder().
+//                                    withCallToActionBackgroundColor(buttonBackground2).
+//                                    withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
+//                                    withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
+//                                    withMainBackgroundColor(colorDrawable2).build();
+//
+//                            template2 = findViewById(R.id.nativeAds2);
+//                            dividerNativeAd4 = findViewById(R.id.dividerNativeAd4);
+//                            dividerNativeAd5 = findViewById(R.id.dividerNativeAd5);
+//                            dividerNativeAd6 = findViewById(R.id.dividerNativeAd6);
+//
+//
+//
+//                            if(template2 != null){
+//                                template2.setNativeAd(nativeAd2);
+//                                template2.setStyles(styles2);
+//                                template2.setVisibility(View.VISIBLE);
+//                            }
+//                            try {
+//
+//                                dividerNativeAd4.setVisibility(View.VISIBLE);
+//                                dividerNativeAd5.setVisibility(View.VISIBLE);
+//                                dividerNativeAd6.setVisibility(View.VISIBLE);
+//                            }catch (NullPointerException ignored){};
+//
+//
+//
+//                            if (isDestroyed()) {
+//                                nativeAd2.destroy();
+//                                adLoaded2nd = false;
+//                                return;
+//                            }
+//
+//                            adLoaded2nd = true;
+//
+//
+//                        }
+//                    })
+//                    .withAdListener(new AdListener() {
+//                        @Override
+//                        public void onAdFailedToLoad(LoadAdError adError) {
+//
+//                            try {
+//                                template2.setVisibility(View.GONE);
+//                                dividerNativeAd4.setVisibility(View.GONE);
+//                                dividerNativeAd5.setVisibility(View.GONE);
+//                                dividerNativeAd6.setVisibility(View.GONE);
+//
+//                            }catch (NullPointerException ignored){};
+//
+//
+//
+//                            adLoaded2nd = false;
+//                        }
+//                    })
+//                    .withNativeAdOptions(new NativeAdOptions.Builder()
+//                            .build())
+//                    .build();
+//            adLoader2.loadAd(new AdRequest.Builder().build());
+//
+//
+//        }
 
 //----------------------------End Native Ad 2st-----------------------------------------
 
@@ -893,64 +893,64 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
 
-                if(!prefs.isRemoveAd()) {
-                    ColorDrawable colorDrawable3 = new ColorDrawable(getColor(R.color.light_blue));
-                    ColorDrawable buttonBackground3 = new ColorDrawable(getColor(R.color.highlight_blue));
-                    AdLoader adLoader3 = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/4504567584")
-                            .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
-                                @Override
-                                public void onNativeAdLoaded(NativeAd nativeAd3) {
-
-                                    NativeTemplateStyle styles3 = new
-                                            NativeTemplateStyle.Builder().
-                                            withCallToActionBackgroundColor(buttonBackground3).
-                                            withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
-                                            withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
-                                            withMainBackgroundColor(colorDrawable3).build();
-
-
-                                    if(template3 != null) {
-                                        template3.setNativeAd(nativeAd3);
-                                        template3.setStyles(styles3);
-                                        template3.setVisibility(View.VISIBLE);
-
-                                    }
-
-
-
-
-                                    if (isDestroyed()) {
-                                        nativeAd3.destroy();
-                                        adLoaded3rd = false;
-                                        return;
-                                    }
-
-                                    adLoaded3rd = true;
-
-
-                                }
-                            })
-                            .withAdListener(new AdListener() {
-                                @Override
-                                public void onAdFailedToLoad(LoadAdError adError) {
-
-                                    try {
-                                template3.setVisibility(View.GONE);
-
-                                    } catch (NullPointerException ignored) {
-
-                                    }
-
-
-
-                                    adLoaded3rd = false;
-                                }
-                            })
-                            .withNativeAdOptions(new NativeAdOptions.Builder()
-                                    .build())
-                            .build();
-                    adLoader3.loadAd(new AdRequest.Builder().build());
-                }
+//                if(!prefs.isRemoveAd()) {
+//                    ColorDrawable colorDrawable3 = new ColorDrawable(getColor(R.color.light_blue));
+//                    ColorDrawable buttonBackground3 = new ColorDrawable(getColor(R.color.highlight_blue));
+//                    AdLoader adLoader3 = new AdLoader.Builder(this, "ca-app-pub-2808567025402378/4504567584")
+//                            .forNativeAd(new NativeAd.OnNativeAdLoadedListener() {
+//                                @Override
+//                                public void onNativeAdLoaded(NativeAd nativeAd3) {
+//
+//                                    NativeTemplateStyle styles3 = new
+//                                            NativeTemplateStyle.Builder().
+//                                            withCallToActionBackgroundColor(buttonBackground3).
+//                                            withSecondaryTextTypefaceColor(getColor(R.color.light_white)).
+//                                            withPrimaryTextTypefaceColor(getColor(R.color.light_white)).
+//                                            withMainBackgroundColor(colorDrawable3).build();
+//
+//
+//                                    if(template3 != null) {
+//                                        template3.setNativeAd(nativeAd3);
+//                                        template3.setStyles(styles3);
+//                                        template3.setVisibility(View.VISIBLE);
+//
+//                                    }
+//
+//
+//
+//
+//                                    if (isDestroyed()) {
+//                                        nativeAd3.destroy();
+//                                        adLoaded3rd = false;
+//                                        return;
+//                                    }
+//
+//                                    adLoaded3rd = true;
+//
+//
+//                                }
+//                            })
+//                            .withAdListener(new AdListener() {
+//                                @Override
+//                                public void onAdFailedToLoad(LoadAdError adError) {
+//
+//                                    try {
+//                                template3.setVisibility(View.GONE);
+//
+//                                    } catch (NullPointerException ignored) {
+//
+//                                    }
+//
+//
+//
+//                                    adLoaded3rd = false;
+//                                }
+//                            })
+//                            .withNativeAdOptions(new NativeAdOptions.Builder()
+//                                    .build())
+//                            .build();
+//                    adLoader3.loadAd(new AdRequest.Builder().build());
+//                }
             }
         }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Loan Interest Calculator</string>
+    <string name="app_name">Interest Calculator</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="open">open</string>
     <string name="close">close</string>
